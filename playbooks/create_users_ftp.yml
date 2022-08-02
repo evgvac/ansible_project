@@ -1,0 +1,18 @@
+- hosts: linux
+  become: true
+
+  tasks:
+
+  - name: Add group tftp
+    group:
+      name: tftp
+      state: present
+#      gid: 115
+
+  - name: Add new user for group tftp
+    user:
+      name: netaud
+      group: tftp
+      shell: /bin/bash
+      password: "{{ 'zyOXeB9OtbJVLK>4' | password_hash('sha512') }}"
+      

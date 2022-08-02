@@ -1,0 +1,605 @@
+!Command: show running-config
+!Running configuration last done at: Mon Jul  4 13:44:46 2022
+!Time: Mon Jul  4 13:52:54 2022
+
+version 9.3(9) Bios:version 07.64 
+hostname DMZN-DC-N9k2
+vdc DMZN-DC-N9k2 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 248 maximum 248
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+cfs eth distribute
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
+feature vn-segment-vlan-based
+feature hsrp
+feature lacp
+feature vpc
+feature lldp
+feature bfd
+feature nv overlay
+
+role name priv-5
+  rule 6 permit command terminal width 511
+  rule 5 permit command terminal
+  rule 4 permit command terminal length 0
+  rule 3 permit command show startup-config
+  rule 2 permit command show running-config
+  rule 1 permit read  
+username admin password 5 $5$JEOFKF$ce9szJ7rarBi2r9aztm3vyo7RZTDhc8xpa6.HC/LnU6  role network-admin
+username netadmin password 5 $5$LHEIFE$tmDVEDNLXrkQMacS6GPvkEmQR3dvdehkksh2ZsTCdD5  role network-admin
+username netadmin sshkey ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAzX2+Zo5ZXOh6KOCAUiUFTwIqVbeeL7OGYKKkdmRCQ0xnvnUl4Z5aPRRcxcCD43rLOsbyOZksnAfzd6//MV+dPvyLrLI9cOuhWBnd3IBquR9khI7vO+4V+AGQ+EjK/MAab/gX1J2jG4WOlsxPpxw1gRyHOkY/iPr2NCIzdwdFyckKdNLG5/CDUOEsWDCZRyujMr1rr6lbyPA9w4cmrU+FKaFSast3WxXzBzHBUSgW8b0yFP8DfrUzy8efCNH794qqaI561L2Y2JIEps6t3yfzemY5A61Y88q2H98Oj9dOOjhsp1340LL+RsUwvpBCIwqVY16l0bj541FW3waQVW5CEw==
+username netadmin passphrase  lifetime 99999 warntime 14 gracetime 3
+username adminmiksel password 5 $5$IGAHEL$qE53t7ft8jTri6e20WKSP435afECMfibtYnth9fNWV.  role network-admin
+username adminmiksel passphrase  lifetime 99999 warntime 14 gracetime 3
+username netaud password 5 $5$KMKHBA$JRkHVJDHv4aEvMSmRD3xJifBzqo28yww2GZfQz1y.8B  role priv-5
+username netaud role network-admin
+username netaud sshkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsv6IPkrfTYJVJTgcIJu8n9ctTz93ZvKxWYtQpjmIH57TeZYk7SFf+zJdS4y63mB5YoLopYYO9Ayejqt0MDk/rboL8QX/6FUs0b8hIWNbG5jLnGikXCMh/z3QGqiHQHV6W97fyZu2lO/bgdH8SOoJZp8lTk4ZUBvlpNv3fMSA9e5vnzTzj90egRPE7mDEs5+D3p/bMyR4ksGOhsQrI1D6bonWruFTSsX5Ed2j546/DCoggEds0VGGY0Hv4xzpdgWgUeVoiZUZwVQD2NynNLL985F5CZHmU/Woi/SDqJbkfQVU2mudDjxhZyeJvqesTmJSrvETuHJSgJvCBpYb1DH2PUD54PukcQoUzMiHrutMdBbX+KSV4Z2TeSAyOSIeDEm7InL+MK7PpMdauO8jORhH/lesFQvikBMjO8qE/83ODbGTsNlAgfT1NCGVjnifZpXhA07gRWJ4C0YmdPG4n9UQ9bZlrnO+mJBRHmW9hiSLsGKxjp8Ifyq7ENCMrs31+hq8=
+username netaud passphrase  lifetime 99999 warntime 14 gracetime 3
+ssh key rsa 2048 
+no ip domain-lookup
+ip domain-name int.kronshtadt.ru
+feature password encryption aes
+spanning-tree mode mst
+system jumbomtu 9198
+copp profile strict
+bfd echo-interface loopback0
+bfd ipv4 interval 250 min_rx 250 multiplier 3
+snmp-server user admin network-admin auth md5 2165B56EC051442F668374100FC44ED202B7 priv 4953A2369601275602E346776A709B039196 localizedV2key
+snmp-server user netadmin network-admin auth md5 014771E9D5A3E3E13C317A73E0A8206D6075 priv 042A27EBB8A489D32C571C5FA0FE3163121C localizedV2key
+snmp-server user adminmiksel network-admin auth md5 207F130D88C6492AE4119A88E6C9C38D12D1 priv 166A7F238685404CD415F8F5F2D194D1079A localizedV2key
+rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
+rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
+rmon event 4 log trap public description WARNING(4) owner PMON@WARNING
+rmon event 5 log trap public description INFORMATION(5) owner PMON@INFO
+
+fabric forwarding anycast-gateway-mac 000a.000b.000c
+vlan 1,68-74,77,164,1100-1101,1200
+vlan 68
+  name AO_KT_ESXI-HOSTS
+vlan 69
+  name vMotion
+vlan 70
+  name ISCSI
+vlan 71
+  name CIFS_Storage
+vlan 72
+  name NFS_Storage
+vlan 73
+  name Backup
+vlan 74
+  name VMS_LOC
+vlan 77
+  name AO_KT_MGMT_ILO
+vlan 164
+  name VMS_DC_INFRA
+vlan 1100
+  name OAODMZ-L3VNI
+  vn-segment 11000
+vlan 1101
+  name L3VNI-AOKT
+  vn-segment 11010
+vlan 1200
+  name DC-L3VNI
+  vn-segment 12000
+
+spanning-tree mst 0-1 priority 4096
+spanning-tree mst configuration
+  name DMZN-DC
+  revision 1
+  instance 1 vlan 1-4094
+ip prefix-list ao-kt-srv-nets seq 5 permit 10.1.68.0/24 
+ip prefix-list ao-kt-srv-nets seq 10 permit 10.1.77.0/24 
+ip prefix-list ao-kt-srv-nets seq 15 permit 10.1.69.0/24 
+ip prefix-list ao-kt-srv-nets seq 20 permit 10.1.70.0/24 
+ip prefix-list ao-kt-srv-nets seq 25 permit 10.1.71.0/24 
+ip prefix-list ao-kt-srv-nets seq 30 permit 10.1.72.0/24 
+ip prefix-list ao-kt-srv-nets seq 35 permit 10.1.72.0/23 
+ip prefix-list ao-kt-srv-nets seq 40 permit 10.1.73.0/24 
+ip prefix-list ao-kt-srv-nets seq 45 permit 10.1.74.0/23 
+ip prefix-list oao-dmz-nets seq 5 permit 10.0.0.0/24 
+ip prefix-list rdc-nets seq 5 permit 10.33.64.0/22 
+route-map red2ao-kt permit 10
+  match ip address prefix-list ao-kt-srv-nets 
+route-map red2oao-dmz permit 10
+  match ip address prefix-list oao-dmz-nets 
+route-map red2rDC permit 10
+  match ip address prefix-list rdc-nets 
+vrf context DC
+  vni 12000
+  rd 10.1.124.241:1200
+  address-family ipv4 unicast
+    route-target import 65509:1200
+    route-target import 65509:1200 evpn
+    route-target export 65509:1200
+    route-target export 65509:1200 evpn
+vrf context ao-kt
+  vni 11010
+  ip route 0.0.0.0/0 10.1.125.255
+  rd 10.1.124.241:1101
+  address-family ipv4 unicast
+    route-target import 65509:1101
+    route-target import 65509:1101 evpn
+    route-target export 65509:1101
+    route-target export 65509:1101 evpn
+vrf context management
+  ip route 0.0.0.0/0 10.1.255.1
+vrf context oao-dmz
+  vni 11000
+  rd 10.1.124.241:1100
+  address-family ipv4 unicast
+    route-target import 65509:1100
+    route-target import 65509:1100 evpn
+    route-target export 65509:1100
+    route-target export 65509:1100 evpn
+vrf context vpc
+  address-family ipv4 unicast
+hardware profile portmode 48x25G+4x100G
+
+vpc domain 10
+  peer-switch
+  role priority 20
+  system-priority 20
+  peer-keepalive destination 10.1.255.1 source 10.1.255.2 vrf vpc
+  peer-gateway
+  auto-recovery
+
+
+interface Vlan1
+  no ip redirects
+  no ipv6 redirects
+
+interface Vlan68
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.68.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 68 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.68.1
+
+interface Vlan69
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.69.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 69 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.69.1
+
+interface Vlan70
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.70.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 70 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.70.1
+
+interface Vlan71
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.71.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 71 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.71.1
+
+interface Vlan72
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.72.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 72 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.72.1
+
+interface Vlan73
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.73.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 73 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.73.1
+
+interface Vlan74
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.74.2/23
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 74 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.74.1
+
+interface Vlan77
+  no shutdown
+  mtu 9198
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip address 10.1.77.2/24
+  no ipv6 redirects
+  hsrp version 2
+  hsrp 77 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.77.1
+
+interface Vlan164
+  no shutdown
+  no autostate
+  vrf member DC
+  no ip redirects
+  ip address 10.1.67.254/22
+  no ipv6 redirects
+  fabric forwarding mode anycast-gateway
+  hsrp version 2
+  hsrp 164 
+    authentication md5 key-string 7 0814425A4A09030D4A5E
+    preempt 
+    ip 10.1.64.1
+
+interface Vlan1100
+  no shutdown
+  no autostate
+  vrf member oao-dmz
+  no ip redirects
+  ip forward
+  no ipv6 redirects
+
+interface Vlan1101
+  no shutdown
+  no autostate
+  vrf member ao-kt
+  no ip redirects
+  ip forward
+  no ipv6 redirects
+
+interface Vlan1200
+  no shutdown
+  no autostate
+  vrf member DC
+  no ip redirects
+  ip forward
+  no ipv6 redirects
+
+interface port-channel3
+  description DM5000H_Node_A_e0c_e0d_LACP_1_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  vpc 3
+
+interface port-channel5
+  description DM5000H_Node_B_e0c_e0d_LACP_3_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  vpc 5
+
+interface port-channel11
+  description SR530_S4CSZ175_Client_LACP 5_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  vpc 11
+
+interface port-channel41
+  mtu 9198
+  ip address 10.1.126.242/30
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+
+interface port-channel43
+  mtu 9198
+  ip address 10.1.126.246/30
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 1 area 0.0.0.0
+
+interface port-channel100
+  vrf member vpc
+  ip address 10.1.255.2/30
+
+interface port-channel101
+  description VPC_PEER_LINK
+  switchport
+  switchport mode trunk
+  spanning-tree port type network
+  vpc peer-link
+
+interface nve1
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  global ingress-replication protocol bgp
+  member vni 11000 associate-vrf
+  member vni 11010 associate-vrf
+  member vni 12000 associate-vrf
+
+interface Ethernet1/1
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/2
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/3
+  description DM5000H_Node_A_e0c_e0d_LACP_1_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  channel-group 3 mode active
+  no shutdown
+
+interface Ethernet1/4
+  description DM5000H_Node_A_e0e_e0f_LACP_2_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/5
+  description DM5000H_Node_B_e0c_e0d_LACP_3_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  channel-group 5 mode active
+  no shutdown
+
+interface Ethernet1/6
+  description DM5000H_Node_B_e0e_e0f_LACP_4_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/7
+  description SR530_S4CSU486_Client_ISCSI_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/8
+  description SR530_S4CSU487_Client_ISCSI_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/9
+  description DELL_FX2_Client_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/10
+  description DELL_FX2_Management_ISCSI_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/11
+  description SR530_S4CSZ175_Client_LACP 5_TRUNK
+  switchport
+  switchport mode trunk
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/12
+
+interface Ethernet1/13
+
+interface Ethernet1/14
+
+interface Ethernet1/15
+
+interface Ethernet1/16
+
+interface Ethernet1/17
+
+interface Ethernet1/18
+
+interface Ethernet1/19
+
+interface Ethernet1/20
+
+interface Ethernet1/21
+
+interface Ethernet1/22
+
+interface Ethernet1/23
+
+interface Ethernet1/24
+
+interface Ethernet1/25
+
+interface Ethernet1/26
+
+interface Ethernet1/27
+
+interface Ethernet1/28
+
+interface Ethernet1/29
+
+interface Ethernet1/30
+
+interface Ethernet1/31
+
+interface Ethernet1/32
+
+interface Ethernet1/33
+
+interface Ethernet1/34
+
+interface Ethernet1/35
+
+interface Ethernet1/36
+
+interface Ethernet1/37
+
+interface Ethernet1/38
+  description DM3000H_BMC_Management
+  switchport
+  switchport access vlan 77
+  no shutdown
+
+interface Ethernet1/39
+  description SR530_S4CSU486_Management
+  switchport
+  switchport access vlan 68
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/40
+  description SR530_S4CSU487_Management
+  switchport
+  switchport access vlan 68
+  mtu 9198
+  no shutdown
+
+interface Ethernet1/41
+  mtu 9198
+  channel-group 41 mode active
+  no shutdown
+
+interface Ethernet1/42
+  mtu 9198
+  channel-group 41 mode active
+  no shutdown
+
+interface Ethernet1/43
+  mtu 9198
+  channel-group 43 mode active
+  no shutdown
+
+interface Ethernet1/44
+  mtu 9198
+  channel-group 43 mode active
+  no shutdown
+
+interface Ethernet1/45
+  description VPC_KEEPALIVE
+  channel-group 100 mode active
+  no shutdown
+
+interface Ethernet1/46
+  description VPC_KEEPALIVE
+  channel-group 100 mode active
+  no shutdown
+
+interface Ethernet1/47
+  description VPC_PEER_LINK
+  switchport
+  switchport mode trunk
+  channel-group 101 mode active
+  no shutdown
+
+interface Ethernet1/48
+  description VPC_PEER_LINK
+  switchport
+  switchport mode trunk
+  channel-group 101 mode active
+  no shutdown
+
+interface Ethernet1/49
+  speed 40000
+  no negotiate auto
+  no shutdown
+
+interface Ethernet1/50
+
+interface Ethernet1/51
+
+interface Ethernet1/52
+
+interface mgmt0
+  vrf member management
+  ip address 10.1.255.21/24
+
+interface loopback0
+  ip address 10.1.124.242/32
+  ip router ospf 1 area 0.0.0.0
+
+interface loopback1
+  ip address 10.1.125.242/32
+  ip address 10.1.125.240/32 secondary
+  ip router ospf 1 area 0.0.0.0
+icam monitor scale
+
+line console
+  exec-timeout 10
+line vty
+  session-limit 10
+  exec-timeout 5
+boot nxos bootflash:/nxos.9.3.9.bin 
+router ospf 1
+  router-id 10.1.124.242
+  passive-interface default
+router bgp 65509
+  router-id 10.1.124.242
+  address-family l2vpn evpn
+  template peer iBGP
+    bfd multihop
+    bfd multihop interval 250 min_rx 250 multiplier 3
+    remote-as 65509
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+  neighbor 10.1.124.253
+    inherit peer iBGP
+  neighbor 10.1.124.254
+    inherit peer iBGP
+  vrf DC
+    address-family ipv4 unicast
+      redistribute direct route-map red2rDC
+  vrf ao-kt
+    address-family ipv4 unicast
+      redistribute direct route-map red2ao-kt
+  vrf oao-dmz
+    address-family ipv4 unicast
+      redistribute direct route-map red2oao-dmz
+evpn

@@ -1,0 +1,12 @@
+- hosts: astra
+  become: true
+
+  tasks:
+
+  - name: Update
+    apt: 
+      update_cache: yes
+
+  - name: Upgrade
+    apt: 
+      upgrade: yes

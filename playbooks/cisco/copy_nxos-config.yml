@@ -1,0 +1,36 @@
+- name: Backup Cisco NXOS configuration
+  hosts: nxos
+  gather_facts: no
+  ignore_errors: yes
+
+  tasks:
+
+    - name: Get current date
+      local_action: command date +%d-%b-%Y
+      register: date
+
+    - nxos_config:
+        backup: yes
+        backup_options:
+          filename: "{{ inventory_hostname }}_{{ ansible_host }}_running-config"
+          dir_path: /etc/ansible/backups/{{ date.stdout }}/{{ inventory_hostname }}
+              
+    - name: Get running-config show
+      nxos_command:
+        commands: show running-config
+      register: show_run_nxos
+    
+    - name: copy startup-config to backup folder
+      copy:
+        content: "{{ show_run_nxos.stdout[0] }}"
+        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ inventory_hostname }}/{{ inventory_hostname }}_{{ ansible_host }}_running-config"
+
+    - name: Get show startup-config
+      nxos_command:
+        commands: show startup-config
+      register: show_start_nxos
+    
+    - name: copy startup-config to backup folder
+      copy:
+        content: "{{ show_start_nxos.stdout[0] }}"
+        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ inventory_hostname }}/{{ inventory_hostname }}_{{ ansible_host }}_startup-config"

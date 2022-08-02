@@ -1,0 +1,14 @@
+- hosts: linux
+  become: true
+
+  tasks:
+
+  - name: Disable repo CD-ROM
+    replace:
+      path: /etc/apt/sources.list
+      regexp: "^(.*)deb cdrom(.*)$"
+      replace: '#deb cdrom:[Debian GNU/Linux 11.0.0 _Bullseye_ - Official amd64 DVD Binary-1 20210814-10:04]/ bullseye contrib main'
+
+  - name: Remove dependencies that are no longer required
+    apt:
+      autoremove: yes

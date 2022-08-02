@@ -1,0 +1,196 @@
+# ------------------------------------
+[linux:children]
+asterisk
+ansible
+test
+nextcloud
+#repo
+sftp
+elkstack
+#astra
+gitlab
+
+[samba:children]
+sftp
+
+[apache:children]
+sftp
+
+[asterisk]
+dcksv-asterisk-beeline
+
+[ansible]
+dcksv-ansible
+
+[test]
+dcksv-evgvac-test
+
+[nextcloud]
+dcksv-nextcloud2
+
+[repo]
+dcksv-linux-repo
+
+[sftp]
+dcksv-sftp
+
+[elkstack]
+dcksv-elkstack
+
+[gitlab]
+dcksv-gitlab
+# ------------------------------------
+[astra:children]
+idp
+tdp
+build
+
+[idp]
+dcksv-astra-idp
+
+[tdp]
+dcksv-astra-tdp
+
+[build]
+vorsv-astra16-build
+# ------------------------------------
+[jenkis:children]
+build
+
+# ------------------------------------
+[cisco:children]
+cisco_switches
+
+[nxos:children]
+cisco_nxos
+
+[monitor:children]
+cisco_monitor
+
+[fabric:children]
+cisco_fabric
+
+[cisco_switches]
+#
+# TEST
+MSK			ansible_ssh_host=10.71.255.21
+#
+MSKDIA-9300-48T-CORE	ansible_ssh_host=10.71.255.3
+MSKDIA-3850-48P-1-1	ansible_ssh_host=10.71.255.8
+MSKDIA-2960X-48P-1-2	ansible_ssh_host=10.71.255.10
+MSKDIA-2960X-GD-FL1	ansible_ssh_host=10.71.255.15
+MSKDIA-3850-48P-2FLR	ansible_ssh_host=10.71.255.11
+MSKDIA-3850-2-1		ansible_ssh_host=10.71.255.12
+MSKDIA-3850-2-2		ansible_ssh_host=10.71.255.13
+MSKDIA-9200-48P-3FLR	ansible_ssh_host=10.71.255.9
+MSKDIA-9200-48P-4-1	ansible_ssh_host=10.71.255.6
+MSKDIA-9200-48P-4-2	ansible_ssh_host=10.71.255.7
+MSKDIA-3850-48T-4-1-2	ansible_ssh_host=10.71.255.20
+MSKDIA-2960L-reseption	ansible_ssh_host=10.71.255.19
+MSKDIA-9200-48P-5-1	ansible_ssh_host=10.71.255.5
+MSKDIA-9200-48P-5-2	ansible_ssh_host=10.71.255.4
+MSKDIA-3850-5-1-2	ansible_ssh_host=10.71.255.21
+#
+MSK-LA-ECA93.1		ansible_ssh_host=10.33.255.3
+MSK-LA-ECA93.2		ansible_ssh_host=10.33.255.9
+#
+MSKLEN-3850-CORE	ansible_ssh_host=10.76.255.3
+#
+SPB-BP-9300-CORE        ansible_ssh_host=10.75.255.3
+SPB-BP-3850-STACK-2     ansible_ssh_host=10.75.255.4
+SPB-BP-2960-5FL         ansible_ssh_host=10.75.255.5
+SPB-BP-3850-STACK-6     ansible_ssh_host=10.75.255.6
+SPB-BP-2960-1FL         ansible_ssh_host=10.75.255.7
+VOITN-3850-48T-2FL      ansible_ssh_host=10.75.255.9
+#
+MV128-C3850-CORE        ansible_ssh_host=10.68.255.1
+MV128-2960X-48          ansible_ssh_host=10.68.255.4
+MV128-C3750G-48PS       ansible_ssh_host=10.68.255.5
+#
+MV20-C9500-CORE         ansible_ssh_host=10.67.255.1
+MV20-C2960X-48P-A1      ansible_ssh_host=10.67.255.2
+MV20-3850-48T-V         ansible_ssh_host=10.67.255.6
+MV20-C2960X-48B2        ansible_ssh_host=10.67.255.8
+MV20-9200-48P-G3        ansible_ssh_host=10.67.255.10
+MV20-C3850-48T-G2       ansible_ssh_host=10.67.255.23
+MV20-C3850-STACK-B      ansible_ssh_host=10.67.255.30
+MV20-C3850-STACK-A      ansible_ssh_host=10.67.255.31
+MV20-C3850-STACK-OTK    ansible_ssh_host=10.67.255.32
+#
+MV11-C3850-48T-FL1      ansible_ssh_host=10.67.255.21
+#
+MV21-C9200-48P-FL4      ansible_ssh_host=10.67.255.22
+MV21-9200-48P-FL1       ansible_ssh_host=10.67.255.24
+MV21-9200-48P-FL1-2     ansible_ssh_host=10.67.255.25
+MV21-9200-48P-FL1-3     ansible_ssh_host=10.67.255.26
+#
+MV25-C2960-48P		ansible_ssh_host=10.67.255.9
+#
+ZELITN-c3850		ansible_ssh_host=10.64.255.1
+#
+RYBITN-C3850		ansible_ssh_host=10.65.255.1
+RYBITN-2960L-Prod-Ceh	ansible_ssh_host=10.65.255.2
+RYBITN-C2960-34		ansible_ssh_host=10.65.255.3
+#RYBITN-C2950-2FL	ansible_ssh_host=10.65.255.4
+#
+RLITN-C3850-CORE	ansible_ssh_host=10.69.255.1
+RLITN-C2960X-CORE	ansible_ssh_host=10.69.255.2
+RLITN-2960X-ANGAR	ansible_ssh_host=10.69.255.3
+RLITN-2960X-KDP2	ansible_ssh_host=10.69.255.4
+RLITN-2960X-KDP3	ansible_ssh_host=10.69.255.5
+RLITN-2960X-TECH	ansible_ssh_host=10.69.255.12
+RLITN-2960X-TECH2	ansible_ssh_host=10.69.255.13
+#
+KDITN-C3750		ansible_ssh_host=10.0.0.70
+#
+DMZ-C95k-ATC-STACK	ansible_ssh_host=10.1.255.11
+DMZ-C95k-SRV1-STACK	ansible_ssh_host=10.1.255.12
+DMZ-C95k-SRV2-STACK	ansible_ssh_host=10.1.255.13
+#
+DMZN-C95k-WAN		ansible_ssh_host=10.1.255.23
+DMZN-C95k-AGGR		ansible_ssh_host=10.1.255.22
+DMZN-C95k-CORE1		ansible_ssh_host=10.1.255.30
+DMZN-C95k-CORE2		ansible_ssh_host=10.1.255.31
+DMZN-C9200-STACK-CSO	ansible_ssh_host=10.1.255.15
+DMZN-C9200-48P-LC13	ansible_ssh_host=10.1.255.19
+DMZN-C9200-48P-LC15	ansible_ssh_host=10.1.255.16
+DMZN-C9200-STACK-LC31	ansible_ssh_host=10.1.255.18
+DMZN-C9200-STACK-LC32	ansible_ssh_host=10.1.255.14
+DMZN-C3560CX-12P-LC11	ansible_ssh_host=10.1.255.56
+DMZN-C3560CX-12P-LC14	ansible_ssh_host=10.1.255.55
+
+#
+FEAK-C9200-48P-CORE	ansible_ssh_host=10.73.255.1
+#
+FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
+#
+[cisco_nxos]
+DMZN-DC-N9k1		ansible_ssh_host=10.1.255.20
+DMZN-DC-N9k2		ansible_ssh_host=10.1.255.21
+
+[cisco_fabric]
+MSK-LA-DC1-BL-101       ansible_ssh_host=10.33.255.31
+MSK-LA-DC1-BL-102       ansible_ssh_host=10.33.255.32
+
+[cisco_monitor]
+MSKDIA-9300-48T-CORE    ansible_ssh_host=10.71.255.3
+MSKLEN-3850-CORE        ansible_ssh_host=10.76.255.3
+MV128-C3850-CORE        ansible_ssh_host=10.68.255.1
+MV20-C9500-CORE         ansible_ssh_host=10.67.255.1
+ZELITN-c3850            ansible_ssh_host=10.64.255.1
+RYBITN-C3850            ansible_ssh_host=10.65.255.1
+RLITN-C3850-CORE        ansible_ssh_host=10.69.255.1
+KDITN-C3750             ansible_ssh_host=10.0.0.70
+MSK-LA-ECA93.1          ansible_ssh_host=10.33.255.3
+MSK-LA-ECA93.2          ansible_ssh_host=10.33.255.9
+SPB-BP-9300-CORE        ansible_ssh_host=10.75.255.3
+MV25-C2960-48P          ansible_ssh_host=10.67.255.9
+DMZ-C95k-ATC-STACK      ansible_ssh_host=10.1.255.11
+DMZ-C95k-SRV1-STACK     ansible_ssh_host=10.1.255.12
+DMZ-C95k-SRV2-STACK     ansible_ssh_host=10.1.255.13
+DMZN-C95k-WAN           ansible_ssh_host=10.1.255.23
+DMZN-C95k-AGGR          ansible_ssh_host=10.1.255.22
+FEAK-C9200-48P-CORE	ansible_ssh_host=10.73.255.1 
+FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
+DMZN-DC-N9k1            ansible_ssh_host=10.1.255.20
+DMZN-DC-N9k2            ansible_ssh_host=10.1.255.21

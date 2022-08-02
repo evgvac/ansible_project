@@ -1,0 +1,14 @@
+- name: Run show commands on routers
+  hosts: cisco
+  gather_facts: false
+
+  tasks:
+
+    - name: Show version
+      ios_command:
+        commands: show running-config view full | include hostname
+      register: output
+
+    - name: Print output
+      debug:
+        var: output.stdout_lines
