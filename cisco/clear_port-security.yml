@@ -1,9 +1,0 @@
-- name: Port-security
-  hosts: cisco
-  gather_facts: false
-  
-  tasks:
-
-    - name: Command clear port security
-      ios_command:
-        commands: "clear port-security all"
