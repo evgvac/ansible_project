@@ -1,0 +1,94 @@
+- hosts: linux
+  become: true
+
+  tasks:
+
+  - name: Disable repo CD-ROM
+    replace:
+      path: /etc/apt/sources.list
+      regexp: "^(.*)deb cdrom(.*)$"
+      replace: '#deb cdrom:[Debian GNU/Linux 11.0.0 _Bullseye_ - Official amd64 DVD Binary-1 20210814-10:04]/ bullseye contrib main'
+
+  - name: Add proxy server-repo
+    copy:
+      src: /etc/ansible/debian_tuning/apt.conf
+      dest: /etc/apt/apt.conf
+      mode: 0644
+  
+  - name: Update
+    apt: 
+      update_cache: yes
+
+  - name: Установка программ для оптимизации системы
+    ansible.builtin.package:
+      name:
+        - htop
+        - zabbix-agent
+        - sudo
+        - tree
+      state: latest
+
+  - name: Copy SSH config
+    copy:
+      src: /etc/ansible/debian_tuning/sshd_config
+      dest: /etc/ssh/sshd_config
+      mode: 0644
+  
+  - name: Copy .bashrc config
+    copy:
+      src: /etc/ansible/debian_tuning/.bashrc
+      dest: /root/.bashrc
+      mode: 0644
+
+  - name: Copy inputrc config
+    copy:
+      src: /etc/ansible/debian_tuning/inputrc
+      dest: /etc/inputrc
+      mode: 0644
+  
+  - name: Copy bash.bashrc config
+    copy:
+      src: /etc/ansible/debian_tuning/bash.bashrc
+      dest: /etc/bash.bashrc
+      mode: 0644
+
+  - name: Copy inputrc config
+    copy:
+      src: /etc/ansible/debian_tuning/sysctl.conf
+      dest: /etc/sysctl.conf
+      mode: 0644
+
+  - name: Copy timesyncd.conf config
+    copy:
+      src: /etc/ansible/debian_tuning/timesyncd.conf
+      dest: /etc/systemd/timesyncd.conf
+      mode: 0644
+
+  - name: Restart service systemd-timesyncd
+    ansible.builtin.service:
+      name: systemd-timesyncd
+      state: restarted
+  
+  - name: Copy zabbix_agent.conf config
+    copy:
+      src: /etc/ansible/debian_tuning/zabbix_agentd.conf
+      dest: /etc/zabbix/zabbix_agentd.conf
+      mode: 0644
+
+  - name: Set hostname on conf file
+    lineinfile:
+      dest: /etc/zabbix/zabbix_agentd.conf
+      regexp: ^Hostname=.*
+      insertafter: ^# Hostname=
+      line: Hostname=Server Linux {{ ansible_hostname }}
+
+  - name: insert line in file
+    lineinfile: 
+      dest=/etc/zabbix/zabbix_agentd.conf
+      insertafter="^ListenPort=10050" 
+      line="ListenIP={{ ansible_default_ipv4.address }}"
+  
+  - name: Restart service zabbix-agent, in all cases
+    service:
+      name: zabbix-agent
+      state: restarted

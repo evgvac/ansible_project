@@ -1,0 +1,22 @@
+- hosts: linux
+  become: true
+
+  tasks:
+
+  - name: Disable repo CD-ROM
+    replace:
+      path: /etc/apt/sources.list
+      regexp: "^(.*)deb cdrom(.*)$"
+      replace: '#deb cdrom:[Debian GNU/Linux 11.0.0 _Bullseye_ - Official amd64 DVD Binary-1 20210814-10:04]/ bullseye contrib main'
+
+  - name: Update
+    apt: 
+      update_cache: yes
+
+  - name: Установка программ для оптимизации системы
+    ansible.builtin.package:
+      name:
+        - htop
+        - zabbix-agent
+        - sudo
+      state: latest

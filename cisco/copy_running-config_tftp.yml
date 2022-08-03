@@ -1,0 +1,29 @@
+- name: Cisco copy
+  hosts: cisco
+  gather_facts: false
+
+  tasks:
+
+    - name: Copy running-config
+      ansible.netcommon.cli_command:
+        command: "copy running-config tftp://10.33.64.230/running-config"
+        check_all: True
+        prompt:
+          - '[10.33.64.230]'
+          - 'Destination filename'
+        answer:
+          - "\r"
+          - "\r"
+
+    - name: Copy startup-config
+      ansible.netcommon.cli_command:
+        command: "copy startup-config tftp://10.33.64.230/startup-config"
+        check_all: True
+        prompt:
+          - 'Source filename'
+          - '[10.33.64.230]'
+          - 'Destination filename'
+        answer:
+          - "\r"
+          - "\r"
+          - "\r"

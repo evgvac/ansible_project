@@ -1,0 +1,84 @@
+[General]
+ConfigVersion=2.4
+ConsoleTTYs=tty1,tty2,tty3,tty4,tty5,tty6
+GreeterUID=fly-dm
+PidFile=/var/run/fly-dm.pid
+ReserveServers=:1,:2,:3
+ServerVTs=-7
+StaticServers=:0
+
+[Shutdown]
+BootManager=None
+HaltCmd=/bin/systemctl poweroff
+RebootCmd=/bin/systemctl reboot
+
+[X-*-Core]
+AllowNullPasswd=false
+AllowRootLogin=true
+AllowShutdown=All
+AutoReLogin=true
+ClientLogFile=.xsession-errors-%d
+Reset=/etc/X11/fly-dm/Xreset
+Session=/etc/X11/fly-dm/Xsession
+SessionsDirs=/etc/X11/fly-dm/sessions,/usr/share/fly-dm/sessions,/etc/X11/sessions,/usr/share/xsessions
+Setup=/etc/X11/fly-dm/Xsetup
+Startup=/etc/X11/fly-dm/Xstartup
+
+[X-*-Greeter]
+AntiAliasing=true
+FaceDir=/usr/share/fly-dm/faces
+FaceSource=AdminOnly
+FailFont=Noto Sans,10,-1,5,75,0,0,0,0,0,Bold
+FocusPasswd=true
+ForgingSeed=1657548127
+GreetFont=Noto Sans,12,-1,5,75,0,0,0,0,0,Bold
+GreetString=Добро пожаловать в %n
+GreeterPos=50,50
+HiddenUsers=root
+LogoArea=Logo
+LogoPixmap=/usr/share/fly-dm/pics/logo.gif
+MaxShowUID=29999
+MinShowUID=1000
+NumLock=Keep
+Preloader=setxkbmap -model pc104 -layout us,ru -variant ,
+PreselectUser=None
+SelectedUsers=
+ShowUsers=NotHidden
+ShowVkbd=auto
+SortUsers=true
+StdFont=Noto Sans,10,-1,5,50,0,0,0,0,0,Regular
+Theme=/usr/share/fly-dm/themes/fly-flat
+UseTheme=true
+UserCompletion=false
+UserList=false
+VkbdCmd=/usr/bin/fly-vkbd --strut-bottom -s black_flat
+
+[X-:*-Core]
+AllowNullPasswd=true
+AllowShutdown=All
+NoPassEnable=false
+NoPassUsers=
+ServerArgsLocal=-nolisten tcp
+ServerCmd=/usr/lib/xorg/Xorg -br -novtswitch -quiet -keeptty
+
+[X-:*-Greeter]
+AllowClose=true
+DefaultUser=srvadmin
+FocusPasswd=true
+LoginMode=DefaultLocal
+PreselectUser=None
+
+[X-:0-Core]
+AutoLoginEnable=false
+AutoLoginLocked=false
+AutoLoginUser=
+ClientLogFile=.xsession-errors
+
+[X-:0-Greeter]
+DefaultUser=srvadmin
+FocusPasswd=true
+PreselectUser=None
+
+[Xdmcp]
+Enable=true
+Willing=/etc/X11/fly-dm/Xwilling

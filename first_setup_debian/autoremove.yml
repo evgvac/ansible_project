@@ -1,0 +1,13 @@
+- hosts: cisco
+  gather_facts: false
+
+  vars:
+  - hosts_file: "~/.SSH/known_hosts"
+
+  tasks:
+
+    - name: create know hosts file
+      file:
+      path: "{{ hosts_file }}"
+      state: file
+      changed_when: false
