@@ -1,4 +1,4 @@
-- hosts: apache
+- hosts: apache2
   become: true
 
   tasks:
