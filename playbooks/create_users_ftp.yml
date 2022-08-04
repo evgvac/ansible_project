@@ -15,4 +15,4 @@
       group: tftp
       shell: /bin/bash
       password: "{{ 'zyOXeB9OtbJVLK>4' | password_hash('sha512') }}"
-      
+
