@@ -1,0 +1,46 @@
+- hosts: linux
+  become: true
+
+  tasks:
+
+  - name: Update
+    apt: 
+      update_cache: yes
+
+  - name: Установка програмы для разметки диска
+    ansible.builtin.package:
+      name:
+        - parted
+
+  - name: Create a new primary partition for LVM
+    community.general.parted:
+      device: /dev/sdb
+      number: 2
+      flags: [ lvm ]
+      state: present
+      part_start: "0%"
+
+  - name: Create a volume group on top of /dev/sda1 with physical extent size = 32MB
+    community.general.lvg:
+      vg: data-vg
+      pvs: /dev/sdb1
+      pesize: 32
+
+  - name: Create a logical volume the size of all remaining space in the volume group
+    community.general.lvol:
+      vg: data-vg
+      lv: data
+      size: 100%FREE
+
+  - name: Create a ext4 filesystem on /dev/sdb1
+    community.general.filesystem:
+      fstype: ext4
+      dev: /dev/data-vg/data
+  
+  - name: Mount up device by /mnt
+    ansible.posix.mount:
+      path: /mnt
+      src: /dev/data-vg/data
+      fstype: ext4
+      state: mounted
+
