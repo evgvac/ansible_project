@@ -7,7 +7,7 @@
                 Имя устройства: <input name="ipaddr" type="text" size="50" />
                 <input name="submit" type="submit" value="Exec" />
         </form>
-        <table border="2" width="45%" cellpadding="3">
+        <table border="2" width="55%" cellpadding="3">
         <tr>
             <th>Имя устройства</th>
             <th>Местоположение</th>
