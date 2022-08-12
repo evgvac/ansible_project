@@ -1,10 +1,10 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
-  authorize: no
-  host: "{{ ansible_host}}"
-  username: ansible
-  ssh_keyfile: /root/.ssh/id_rsa2
+#  authorize: no
+#  host: "{{ ansible_host}}"
+#  username: ansible
+#  ssh_keyfile: /root/.ssh/id_rsa2
 
   tasks:
 
