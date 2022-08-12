@@ -2,8 +2,8 @@
   hosts: cisco
   gather_facts: false
 
-  vars:
-    ansible_ssh_common_args: '-o ProxyCommand="ssh -i /var/www/.ssh/id_rsa -W %h:%p -q -p 2022 -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"'
+#  vars:
+#    ansible_ssh_common_args: '-o ProxyCommand="ssh -i /var/www/.ssh/id_rsa -W %h:%p -q -p 2022 -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"'
 #    ansible_become: yes
 #    ansible_become_method: disable
 #    ansible_user: portsec
