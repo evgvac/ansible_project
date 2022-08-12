@@ -1,10 +1,15 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
-#  authorize: no
-#  host: "{{ ansible_host}}"
-#  username: ansible
-#  ssh_keyfile: /root/.ssh/id_rsa2
+
+  vars:
+    ansible_become: yes
+    ansible_become_method: disable
+    ansible_user: portsec
+#    ansible_password: ansible
+    ssh_keyfile: /root/.ssh/id_rsa2
+    ansible_network_os: ios
+    ansible_connection: network_cli
 
   tasks:
 
