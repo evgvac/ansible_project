@@ -1,13 +1,14 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
+  authorize: no
+  host: "{{ ansible_host}}"
+  username: ansible
+  ssh_keyfile: /root/.ssh/id_rsa2
 
   tasks:
 
     - name: Command clear port security
       ios_command:
         commands: "clear port-security all"
-        authorize: no
-        host: "{{ ansible_host}}"
-        username: ansible
-        ssh_keyfile: /root/.ssh/id_rsa2
+        
