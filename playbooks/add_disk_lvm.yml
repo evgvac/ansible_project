@@ -24,7 +24,7 @@
     community.general.lvg:
       vg: data-vg
       pvs: /dev/sdb1
-#      pesize: 32
+      pesize: 32M
 
   - name: Create a logical volume the size of all remaining space in the volume group
     community.general.lvol:
