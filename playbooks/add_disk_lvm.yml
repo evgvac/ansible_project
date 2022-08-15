@@ -19,13 +19,13 @@
       number: 2
       flags: [ lvm ]
       state: present
-      part_start: "0%"
+#      part_start: "0%"
 
   - name: Create a volume group on top of /dev/sda1 with physical extent size = 32MB
     community.general.lvg:
       vg: data-vg
       pvs: /dev/sdb1
-      pesize: 32M
+      pesize: 32
 
   - name: Create a logical volume the size of all remaining space in the volume group
     community.general.lvol:
