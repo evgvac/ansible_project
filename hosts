@@ -9,6 +9,7 @@ sftp
 elkstack
 #astra
 gitlab
+zabbix
 
 [samba:children]
 sftp
