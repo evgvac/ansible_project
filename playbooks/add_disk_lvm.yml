@@ -11,6 +11,7 @@
     ansible.builtin.package:
       name:
         - parted
+        - lvm2
 
   - name: Create a new primary partition for LVM
     community.general.parted:
