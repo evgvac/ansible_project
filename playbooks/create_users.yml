@@ -8,13 +8,13 @@
       name: adminevgvac
       group: sudo
       shell: /bin/bash
-      password: "{{ 'IK>3d!yn3hy3n@dm' | password_hash('sha512') }}"
+      password: "{{ 'test' | password_hash('sha512') }}"
       
   - name: Add new user
     user:
       name: admingeofai
       group: sudo
       shell: /bin/bash
-      password: "{{ 'Uos4YPdNJ1RB))Lz' | password_hash('sha512') }}"
+      password: "{{ 'test' | password_hash('sha512') }}"
 
 
