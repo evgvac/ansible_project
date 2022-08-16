@@ -19,4 +19,4 @@
 #        commands: "clear port-security all"
         commands: show version
         username: portsec
-        ssh_keyfile: /var/www/.ssh/id_rsa.pub 
+        private_key_file: /var/www/.ssh/id_rsa
