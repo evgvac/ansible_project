@@ -2,12 +2,12 @@
 [linux:children]
 asterisk
 ansible
-test
+#test
 nextcloud
-#repo
+repo
 sftp
 elkstack
-#astra
+astra
 gitlab
 zabbix
 
