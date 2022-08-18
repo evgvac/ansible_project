@@ -10,6 +10,7 @@ elkstack
 astra
 gitlab
 zabbix
+zabbix-proxy
 
 [samba:children]
 sftp
@@ -43,6 +44,9 @@ dcksv-gitlab
 
 [zabbix]
 dcksv-zabbix
+
+[zabbix-proxy]
+dbksv-zabbix-proxy
 
 # ------------------------------------
 [astra:children]
