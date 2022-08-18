@@ -18,5 +18,5 @@
       ios_command:
 #        commands: "clear port-security all"
         commands: show version
-        username: portsec
+#        username: portsec
 #        ssh_keyfile: /var/www/.ssh/id_rsa
