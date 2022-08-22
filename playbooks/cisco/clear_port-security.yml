@@ -1,6 +1,6 @@
 - name: Port-security
   hosts: cisco
-  gather_facts: yes
+  gather_facts: false
 #  connection: network_cli
 
   tasks:
