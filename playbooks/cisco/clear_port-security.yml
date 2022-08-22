@@ -1,23 +1,12 @@
 - name: Port-security
   hosts: cisco
-  gather_facts: false
-
-#  vars:
-#    ansible_ssh_common_args: '-o ProxyCommand="ssh -i /var/www/.ssh/id_rsa -W %h:%p -q -p 2022 -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null"'
-#    ansible_become: yes
-#    ansible_become_method: disable
-#    ansible_user: portsec
-#    ansible_password: ansible
-#    ssh_keyfile: /root/.ssh/id_rsa2
-#    ansible_network_os: ios
-#    ansible_connection: network_cli
-#
+  connection: network_cli
 
   tasks:
 
     - name: Command clear port security
       ios_command:
         commands: "clear port-security all"
-#        commands: show version
-#        username: portsec
+        username: portsec
+        password: cisco
 #        ssh_keyfile: /var/www/.ssh/id_rsa
