@@ -5,7 +5,7 @@
 <body>
 <pre>
 <?php
-	$CMD = 'ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml -vvv';
+	$CMD = 'ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml';
 	if (! array_key_exists('ipaddr', $_POST)) {
 		echo 'IP-address for using in command is not received';
 		exit;
@@ -14,7 +14,7 @@
 
 	$exe = str_replace('{IPADDR}', $ipaddr, $CMD);
 
-	print('Executing command: \'' . $exe . '\'');
+	print('Executing command: \'' . command . '\'');
 	$result = 0;
 	$out = '';
 	exec($exe, $out, $result);
