@@ -1,7 +1,7 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
-#  connection: network_cli
+  connection: network_cli
 
   tasks:
 
@@ -10,7 +10,7 @@
         commands: show version
 #
 #        commands: "clear port-security all"
-        username: portsec
+#        username: portsec
 #        ssh_keyfile: /var/www/.ssh/id_rsa
 #        register: ios_out
 
