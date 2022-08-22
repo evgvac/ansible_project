@@ -14,7 +14,7 @@
 
 	$exe = str_replace('{IPADDR}', $ipaddr, $CMD);
 
-	print('Executing command: \'' . command . '\'');
+	print('Executing command: \'' . $out . '\'');
 	$result = 0;
 	$out = '';
 	exec($exe, $out, $result);
