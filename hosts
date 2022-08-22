@@ -68,18 +68,18 @@ build
 
 # ------------------------------------
 [cisco:children]
-cisco_switches
+cisco-switches
 
 [nxos:children]
-cisco_nxos
+cisco-nxos
 
 [monitor:children]
-cisco_monitor
+cisco-monitor
 
 [fabric:children]
-cisco_fabric
+cisco-fabric
 
-[cisco_switches]
+[cisco-switches]
 #
 # TEST
 MSK			ansible_ssh_host=10.71.255.21
@@ -173,15 +173,15 @@ FEAK-C9200-48P-CORE	ansible_ssh_host=10.73.255.1
 #
 FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
 #
-[cisco_nxos]
+[cisco-nxos]
 DMZN-DC-N9k1		ansible_ssh_host=10.1.255.20
 DMZN-DC-N9k2		ansible_ssh_host=10.1.255.21
 
-[cisco_fabric]
+[cisco-fabric]
 MSK-LA-DC1-BL-101       ansible_ssh_host=10.33.255.31
 MSK-LA-DC1-BL-102       ansible_ssh_host=10.33.255.32
 
-[cisco_monitor]
+[cisco-monitor]
 MSKDIA-9300-48T-CORE    ansible_ssh_host=10.71.255.3
 MSKLEN-3850-CORE        ansible_ssh_host=10.76.255.3
 MV128-C3850-CORE        ansible_ssh_host=10.68.255.1
