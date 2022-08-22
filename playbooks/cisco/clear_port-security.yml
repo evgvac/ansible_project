@@ -9,8 +9,8 @@
       ios_command:
         commands: 
           - "clear port-security all"
-        username: portsec
-        ssh_keyfile: /var/www/.ssh/id_rsa
-        register: ios_out
+#        username: portsec
+#        ssh_keyfile: /var/www/.ssh/id_rsa
+#        register: ios_out
 
-    - debug: msg="{{ ios_out.stdout }}"
+#    - debug: msg="{{ ios_out.stdout }}"
