@@ -7,8 +7,7 @@
 
     - name: Command clear port security
       ios_command:
-        commands: 
-          - "clear port-security all"
+        commands: "clear port-security all"
 #        username: portsec
 #        ssh_keyfile: /var/www/.ssh/id_rsa
 #        register: ios_out
