@@ -9,4 +9,4 @@
         commands: "clear port-security all"
         username: portsec
 #        password: cisco
-#        ssh_keyfile: /var/www/.ssh/id_rsa
+        ssh_keyfile: /var/www/.ssh/id_rsa
