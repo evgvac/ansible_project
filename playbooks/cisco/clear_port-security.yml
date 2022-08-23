@@ -1,17 +1,11 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
-  connection: network_cli
+  ansible_become_method: false
+  ansible_become: false
 
   tasks:
 
     - name: Command clear port security
       cisco.ios.ios_command:
-#        username: portsec
-#        password: cisco
         commands: "clear port-security all"
-#        username: portsec
-#        ssh_keyfile: /var/www/.ssh/id_rsa
-#        register: ios_out
-
-#    - debug: msg="{{ ios_out.stdout }}"
