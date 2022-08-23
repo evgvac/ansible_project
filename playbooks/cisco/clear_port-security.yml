@@ -1,8 +1,8 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
-  ansible_become_method: false
-#  ansible_become: false
+#  ansible_become_method: false
+  ansible_become: false
 
   tasks:
 
