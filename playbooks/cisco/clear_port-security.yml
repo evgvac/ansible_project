@@ -7,8 +7,8 @@
 
     - name: Command clear port security
       cisco.ios.ios_command:
-        username: portsec
-        password: cisco
+#        username: portsec
+#        password: cisco
         commands: "clear port-security all"
 #        username: portsec
 #        ssh_keyfile: /var/www/.ssh/id_rsa
