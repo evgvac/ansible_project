@@ -1,6 +1,7 @@
 - name: Port-security
   hosts: cisco
   gather_facts: false
+  remote_user: portsec
 
   tasks:
 
