@@ -20,4 +20,5 @@
         - zabbix-agent
         - sudo
         - tree
+        - snmp
       state: latest
