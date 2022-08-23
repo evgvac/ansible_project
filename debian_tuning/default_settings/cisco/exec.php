@@ -5,7 +5,7 @@
 <body>
 <pre>
 <?php
-	$CMD = 'echo "/usr/bin/ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml" > /var/www/run_playbook ';
+	$CMD = '/usr/bin/ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml';
 	if (! array_key_exists('ipaddr', $_POST)) {
 		echo 'IP-address for using in command is not received';
 		exit;
