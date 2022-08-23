@@ -5,16 +5,16 @@
 
   - name: Add new user
     user:
-      name: adminevgvac
+      name: portsec
       group: sudo
       shell: /bin/bash
       password: "{{ 'test' | password_hash('sha512') }}"
       
-  - name: Add new user
-    user:
-      name: admingeofai
-      group: sudo
-      shell: /bin/bash
-      password: "{{ 'test' | password_hash('sha512') }}"
+#  - name: Add new user
+#    user:
+#      name: admingeofai
+#      group: sudo
+#      shell: /bin/bash
+#      password: "{{ 'test' | password_hash('sha512') }}"
 
 
