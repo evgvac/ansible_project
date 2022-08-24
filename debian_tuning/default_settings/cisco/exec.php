@@ -5,7 +5,7 @@
 <body>
 <pre>
 <?php
-        $CMD = '/usr/bin/ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml --user portsec --key-file "/etc/ansible/.ssh/private.key"';
+        $CMD = '/usr/bin/ansible-playbook -l {IPADDR} /etc/ansible/playbooks/cisco/clear_port-security.yml --key-file "/etc/ansible/.ssh/private.key"';
         if (! array_key_exists('ipaddr', $_POST)) {
                 echo 'IP-address for using in command is not received';
                 exit;
