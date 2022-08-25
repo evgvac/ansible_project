@@ -30,7 +30,6 @@
     ansible.builtin.package:
       name:
         - htop
-        - zabbix-agent
         - sudo
         - apt-transport-https
         - ca-certificates
@@ -94,44 +93,4 @@
   - name: Restart service systemd-timesyncd
     ansible.builtin.service:
       name: systemd-timesyncd
-      state: restarted
-
-  - name: сreate directory
-    file:
-      path=/var/log/zabbix
-      mode=0755
-      owner=zabbix
-      group=zabbix
-      state=directory
-
-  - name: сreate directory
-    file:
-      path=/var/run/zabbix
-      mode=0755
-      owner=zabbix
-      group=zabbix
-      state=directory
-
-  - name: Copy zabbix_agent.conf config
-    copy:
-      src: /etc/ansible/debian_tuning/zabbix_agentd.conf
-      dest: /etc/zabbix/zabbix_agentd.conf
-      mode: 0644
-
-  - name: Set hostname on conf file
-    lineinfile:
-      dest: /etc/zabbix/zabbix_agentd.conf
-      regexp: ^Hostname=.*
-      insertafter: ^# Hostname=
-      line: Hostname=Server Linux {{ ansible_hostname }}
-
-  - name: insert line in file
-    lineinfile: 
-      dest=/etc/zabbix/zabbix_agentd.conf
-      insertafter="^ListenPort=10050" 
-      line="ListenIP={{ ansible_default_ipv4.address }}"
-  
-  - name: Restart service zabbix-agent, in all cases
-    service:
-      name: zabbix-agent
       state: restarted
