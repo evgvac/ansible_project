@@ -8,8 +8,8 @@
       path: /home/adminevgvac/sudoers
       state: present
       firstmatch: yes
-      regexp: ' '
-      line: 'Defaults:adminevgvac      !authenticate'
+      regexp: 'Defaults'
+      line: 'n/Defaults:adminevgvac      !authenticate'
       validate: /usr/sbin/visudo -cf %s
 
 #  - name: Set hostname on conf file
