@@ -9,7 +9,7 @@
       state: present
       firstmatch: yes
       regexp: 'Defaults'
-      line: 'n/Defaults:adminevgvac      !authenticate'
+      line: '\nDefaults:adminevgvac      !authenticate'
       validate: /usr/sbin/visudo -cf %s
 
 #  - name: Set hostname on conf file
