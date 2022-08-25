@@ -7,25 +7,31 @@
     user:
       name: root
       update_password: always
-      password: "{{ 'test' | password_hash('sha512') }}"
+      password: "{{ 'u(<ZuxYCUwWxghk3' | password_hash('sha512') }}"
       
   - name: Change password srvadmin
     user:
       name: srvadmin
       update_password: always
-      password: "{{ 'test' | password_hash('sha512') }}"
+      password: "{{ '9faKyf[Udz4{0jY1' | password_hash('sha512') }}"
 
   - name: Add new user
     user:
       name: adminevgvac
       group: sudo
       shell: /bin/bash
-      password: "{{ 'test' | password_hash('sha512') }}"
+      password: "{{ 'ik.3d!yn3hy3n@dmin' | password_hash('sha512') }}"
       
   - name: Add new user
     user:
       name: admingeofai
       group: sudo
       shell: /bin/bash
-      password: "{{ 'test' | password_hash('sha512') }}"
+      password: "{{ 'Uos4YPdNJ1RB))Lz' | password_hash('sha512') }}"
 
+  - name: Add new user
+    user:
+      name: adminss1
+      group: sudo
+      shell: /bin/bash
+      password: "{{ 'ewme<OFV[99ndlIF' | password_hash('sha512') }}"
