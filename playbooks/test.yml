@@ -1,13 +1,12 @@
-- hosts: cisco
-  gather_facts: false
-
-  vars:
-    - hosts_file: "~/.SSH/known_hosts"
+- hosts: linux
+  become: true
 
   tasks:
 
-    - name: create know hosts file
-      file:
-      path: "{{ hosts_file }}"
-      state: file
-      changed_when: false
+  - name: Validate the sudoers file before saving
+    ansible.builtin.lineinfile:
+      path: /home/adminevgvac/sudoers
+      state: present
+      regexp: '^%ADMIN ALL='
+      line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
+      validate: /usr/sbin/visudo -cf %s
