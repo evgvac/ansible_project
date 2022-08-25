@@ -57,7 +57,7 @@ dcksv-haproxy-kwts
 idp
 tdp
 build
-stand-008
+stand-007
 
 [idp]
 dcksv-astra-idp
@@ -68,8 +68,8 @@ dcksv-astra-tdp
 [build]
 vorsv-astra16-build
 
-[msk-astra-008]
-stand-008
+[msk-astra-007]
+stand-007
 # ------------------------------------
 [jenkis:children]
 build
