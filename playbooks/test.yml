@@ -7,13 +7,13 @@
     ansible.builtin.lineinfile:
       path: /home/adminevgvac/sudoers
       state: present
-      regexp: ^secure_path=*
-      line: '^ADMIN ALL=(ALL) NOPASSWD: ALL'
+      regexp: '^secure_path='
+      line: 'Defaults:adminevgvac      !authenticate'
       validate: /usr/sbin/visudo -cf %s
 
-  - name: Set hostname on conf file
-    lineinfile:
-      dest: /etc/zabbix/zabbix_agentd.conf
-      regexp: ^Hostname=.*
-      insertafter: ^# Hostname=
-      line: Hostname=Server Linux {{ ansible_hostname }}
+#  - name: Set hostname on conf file
+#    lineinfile:
+#      dest: /etc/zabbix/zabbix_agentd.conf
+#      regexp: ^Hostname=.*
+#      insertafter: ^# Hostname=
+#      line: Hostname=Server Linux {{ ansible_hostname }}
