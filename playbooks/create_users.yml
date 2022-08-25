@@ -10,20 +10,6 @@
       shell: /bin/bash
       password: "{{ 'test' | password_hash('sha512') }}"
 
-  - name: Copy .bashrc config
-    copy:
-      src: /etc/ansible/debian_tuning/.bashrc
-      dest: /home/adminevgvac/.bashrc
-      mode: 0644
-
-  - name: Validate the sudoers file before saving
-    ansible.builtin.lineinfile:
-      path: /etc/sudoers
-      state: present
-      insertafter: 'Defaults'
-      line: 'Defaults:adminevgvac      !authenticate'
-      validate: /usr/sbin/visudo -cf %s
-
   - name: Add new user
     user:
       name: admingeofai
