@@ -36,7 +36,6 @@
         - ca-certificates
         - python-apt
         - open-vm-tools
-        - haproxy
       state: latest
 
   - name: Copy Repo file

@@ -26,6 +26,7 @@
         - zabbix-agent
         - sudo
         - tree
+        - haproxy
       state: latest
 
   - name: Copy SSH config
