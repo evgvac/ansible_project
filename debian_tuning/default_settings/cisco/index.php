@@ -4,7 +4,7 @@
 </head>
 <body>
         <form method="POST" action="./exec.php" name="exec">
-                Имя устройства: <input name="ipaddr" type="text" size="50" />
+                Имя коммутатора: <input name="ipaddr" type="text" size="50" />
                 <input name="submit" type="submit" value="Exec" />
         </form>
         <table border="2" width="55%" cellpadding="3">
