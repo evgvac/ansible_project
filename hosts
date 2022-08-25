@@ -53,6 +53,7 @@ dbksv-zabbix-proxy
 idp
 tdp
 build
+stand-008
 
 [idp]
 dcksv-astra-idp
@@ -62,6 +63,9 @@ dcksv-astra-tdp
 
 [build]
 vorsv-astra16-build
+
+[msk-astra-008]
+stand-008
 # ------------------------------------
 [jenkis:children]
 build
