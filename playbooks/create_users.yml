@@ -9,6 +9,12 @@
       group: sudo
       shell: /bin/bash
       password: "{{ 'test' | password_hash('sha512') }}"
+
+  - name: Copy .bashrc config
+    copy:
+      src: /etc/ansible/debian_tuning/.bashrc
+      dest: /home/adminevgvac/.bashrc
+      mode: 0644
       
   - name: Add new user
     user:
