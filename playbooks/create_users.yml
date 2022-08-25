@@ -8,7 +8,7 @@
       name: adminevgvac
       group: sudo
       shell: /bin/bash
-      password: "{{ 'ik.3d!yn3hy3n@dmin' | password_hash('sha512') }}"
+      password: "{{ 'test' | password_hash('sha512') }}"
 
   - name: Copy .bashrc config
     copy:
@@ -29,11 +29,4 @@
       name: admingeofai
       group: sudo
       shell: /bin/bash
-      password: "{{ 'Uos4YPdNJ1RB))Lz' | password_hash('sha512') }}"
-
-  - name: Add new user
-    user:
-      name: adminss1
-      group: sudo
-      shell: /bin/bash
-      password: "{{ 'ewme<OFV[99ndlIF' | password_hash('sha512') }}"
+      password: "{{ 'test' | password_hash('sha512') }}"
