@@ -7,7 +7,8 @@
     ansible.builtin.lineinfile:
       path: /home/adminevgvac/sudoers
       state: present
-      regexp: 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+      firstmatch: yes
+      regexp: 'Defaults'
       line: 'Defaults:adminevgvac      !authenticate'
       validate: /usr/sbin/visudo -cf %s
 
