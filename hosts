@@ -68,8 +68,8 @@ dcksv-astra-tdp
 [build]
 vorsv-astra16-build
 
-[msk-astra-007]
-stand-007
+[stand-007]
+msk-astra-007
 # ------------------------------------
 [jenkis:children]
 build
