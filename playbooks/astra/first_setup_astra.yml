@@ -37,12 +37,6 @@
         - open-vm-tools
       state: latest
 
-  - name: Copy Repo file
-    copy:
-      src: /etc/ansible/debian_tuning/astra_linux/sours_astra_https.list
-      dest: /etc/apt/sources.list.d/sours_astra.list
-      mode: 0644
-
   - name: Удаление программ для оптимизации системы
     ansible.builtin.package:
       name:
