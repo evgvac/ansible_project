@@ -7,7 +7,7 @@ nextcloud
 repo
 sftp
 elkstack
-#astra
+astra
 gitlab
 zabbix
 zabbix-proxy
@@ -56,7 +56,7 @@ dcksv-haproxy-kwts
 [astra:children]
 idp
 tdp
-#build
+build
 stand-007
 
 [idp]
