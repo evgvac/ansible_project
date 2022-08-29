@@ -26,7 +26,7 @@
           filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}ios_ip_arp_vrf_ao_kt"
           dir_path: /etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}
 
-    - name: Get BGP teble
+    - name: Get arp vrf ao-kt teble
       ios_command:
         commands: show ip arp vrf ao-kt
       register: ios_ip_arp_vrf_ao_kt
@@ -36,7 +36,7 @@
         content: "{{ ios_ip_arp_vrf_ao_kt.stdout[0] }}"
         dest: "/etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}_ip_arp_vrf_ao_kt"
 
-    - name: Get BGP teble
+    - name: Get arp vrf asutp teble
       ios_command:
         commands: show ip arp vrf asutp
       register: ios_ip_arp_vrf_asutp
@@ -46,7 +46,7 @@
         content: "{{ ios_ip_arp_vrf_asutp.stdout[0] }}"
         dest: "/etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}_ip_arp_vrf_asutp"
 
-    - name: Get BGP teble
+    - name: Get vrf kt-cpu teble
       ios_command:
         commands: show ip arp vrf kt-cpu
       register: ios_ip_arp_vrf_kt_cpu
