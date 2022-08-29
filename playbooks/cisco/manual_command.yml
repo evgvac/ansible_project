@@ -5,9 +5,13 @@
 
   tasks:
 
-    - name: Enable logging to ELKStack
+    - name: Enable Cisco logging to ELKStack
       cisco.ios.ios_command:
         commands:
           - logging trap debugging
           - logging origin-id hostname
           - logging host 10.33.64.231 transport udp port 5514
+      vars:
+        ansible_terminal_stderr_re:
+          - pattern: 'connection timed out'
+            flags: 're.I'
