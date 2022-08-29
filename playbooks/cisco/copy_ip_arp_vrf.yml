@@ -23,7 +23,7 @@
       ios_config:
         backup: yes
         backup_options:
-          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}ios_ip_arp_vrf_ao_kt"
+          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}_ip_arp_vrf_ao_kt"
           dir_path: /etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}
 
     - name: Get arp vrf ao-kt teble
