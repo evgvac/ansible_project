@@ -5,7 +5,7 @@
 
   tasks:
 
-    - name: Accespt ansible net hostname
+    - name: Accept ansible get hostname
       ios_facts:
         gather_subset: all
       vars:
