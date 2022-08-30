@@ -3,25 +3,25 @@
 
   tasks:
 
-  - name: Update
-    apt:
-      update_cache: yes
+#  - name: Update
+#    apt:
+#      update_cache: yes
+#
+#  - name: Install Samba
+#    ansible.builtin.package:
+#      name:
+#        - samba
+#      state: latest
 
-  - name: Install Samba
-    ansible.builtin.package:
-      name:
-        - samba
-      state: latest
-
-  - name: Backup defaul config and copy new config
-    copy:
-      src: /etc/samba/smb.conf
-      remote_src: yes
-      dest: /etc/samba/smb.conf.default
+#  - name: Backup defaul config and copy new config
+#    copy:
+#      src: /etc/samba/smb.conf
+#      remote_src: yes
+#      dest: /etc/samba/smb.conf.default
 
   - name: Copy new config
     copy:
-      src: /etc/ansible/debian_tuning/smb.conf
+      src: /home/adminevgvac/ansible_project/debian_tuning/smb.conf
       dest: /etc/samba/smb.conf
       mode: 0640
 
