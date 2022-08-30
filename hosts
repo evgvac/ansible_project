@@ -87,6 +87,9 @@ cisco-monitor
 [fabric:children]
 cisco-fabric
 
+[cisco-msk:children]
+cisco-MSKDIA
+
 [cisco-switches]
 #
 # TEST
@@ -211,3 +214,19 @@ FEAK-C9200-48P-CORE	ansible_ssh_host=10.73.255.1
 FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
 DMZN-DC-N9k1            ansible_ssh_host=10.1.255.20
 DMZN-DC-N9k2            ansible_ssh_host=10.1.255.21
+
+[cisco-MSKDIA]
+MSKDIA-3850-48P-1-1	ansible_ssh_host=10.71.255.8
+MSKDIA-2960X-48P-1-2	ansible_ssh_host=10.71.255.10
+MSKDIA-2960X-GD-FL1	ansible_ssh_host=10.71.255.15
+MSKDIA-3850-48P-2FLR	ansible_ssh_host=10.71.255.11
+MSKDIA-3850-2-1		ansible_ssh_host=10.71.255.12
+MSKDIA-3850-2-2		ansible_ssh_host=10.71.255.13
+MSKDIA-9200-48P-3FLR	ansible_ssh_host=10.71.255.9
+MSKDIA-9200-48P-4-1	ansible_ssh_host=10.71.255.6
+MSKDIA-9200-48P-4-2	ansible_ssh_host=10.71.255.7
+MSKDIA-3850-48T-4-1-2	ansible_ssh_host=10.71.255.20
+MSKDIA-2960L-reseption	ansible_ssh_host=10.71.255.19
+MSKDIA-9200-48P-5-1	ansible_ssh_host=10.71.255.5
+MSKDIA-9200-48P-5-2	ansible_ssh_host=10.71.255.4
+MSKDIA-3850-5-1-2	ansible_ssh_host=10.71.255.21
