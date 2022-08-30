@@ -87,8 +87,8 @@ cisco-monitor
 [fabric:children]
 cisco-fabric
 
-[cisco-MSKDIA:children]
-cisco-msk
+[cisco_msk:children]
+cisco-MSKDIA
 
 [cisco-switches]
 #
