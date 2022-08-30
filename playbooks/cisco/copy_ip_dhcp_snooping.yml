@@ -19,7 +19,7 @@
       ios_config:
         backup: yes
         backup_options:
-          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}"
+          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}"
           dir_path: /etc/ansible/telefon/{{ date.stdout }}/{{ ansible_net_hostname }}
 
     - name: Get BGP teble
@@ -30,4 +30,4 @@
     - name: copy ip dhcp snooping to result folder
       copy:
         content: "{{ ios_ip_dhcp.stdout[0] }}"
-        dest: "/etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_{{ time.stdout }}_ip_dhcp"
+        dest: "/etc/ansible/result/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_ip_dhcp"
