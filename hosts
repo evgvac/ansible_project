@@ -87,8 +87,8 @@ cisco-monitor
 [fabric:children]
 cisco-fabric
 
-[moscow:children]
-cisco-moscow
+[mskdia:children]
+cisco-mskdia
 
 [cisco-switches]
 #
@@ -215,7 +215,7 @@ FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
 DMZN-DC-N9k1            ansible_ssh_host=10.1.255.20
 DMZN-DC-N9k2            ansible_ssh_host=10.1.255.21
 
-[moscow]
+[cisco-mskdia]
 MSKDIA-3850-48P-1-1	ansible_ssh_host=10.71.255.8
 MSKDIA-2960X-48P-1-2	ansible_ssh_host=10.71.255.10
 MSKDIA-2960X-GD-FL1	ansible_ssh_host=10.71.255.15
