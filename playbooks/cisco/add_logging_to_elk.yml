@@ -17,8 +17,7 @@
           - logging trap debugging
           - logging origin-id hostname
           - logging host 10.33.64.231 transport udp port 5514
-        register: output
-      
-    - name: print output
-      debug:
-        var: output
+        replace: block
+        backup: yes
+        provider: "{{ cli }}"
+      register: cfg
