@@ -21,7 +21,7 @@
 
   - name: Copy new config
     copy:
-      src: /home/adminevgvac/ansible_project/debian_tuning/smb.conf
+      src: /etc/ansible/debian_tuning/smb.conf
       dest: /etc/samba/smb.conf
       mode: 0640
 
