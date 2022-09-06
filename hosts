@@ -137,9 +137,9 @@ MV20-C3850-STACK-B      ansible_ssh_host=10.67.255.30
 MV20-C3850-STACK-A      ansible_ssh_host=10.67.255.31
 MV20-C3850-STACK-OTK    ansible_ssh_host=10.67.255.32
 #
-MV11-C3850-48T-FL1      ansible_ssh_host=10.67.255.21
+MV21-C9200-48P-FL4      ansible_ssh_host=10.67.255.21
 #
-MV21-C9200-48P-FL4      ansible_ssh_host=10.67.255.22
+MV11-C3850-48T-FL1      ansible_ssh_host=10.67.255.22
 MV21-9200-48P-FL1       ansible_ssh_host=10.67.255.24
 MV21-9200-48P-FL1-2     ansible_ssh_host=10.67.255.25
 MV21-9200-48P-FL1-3     ansible_ssh_host=10.67.255.26
