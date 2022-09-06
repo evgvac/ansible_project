@@ -30,7 +30,7 @@
           - write
       when: cfg.changed
 
-    - name: show ntp
+    - name: show run logging
       ios_command:
         commands:
                 - show run | incl logging
