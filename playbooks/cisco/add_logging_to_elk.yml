@@ -8,7 +8,7 @@
       ios_facts:
         gather_subset: all
       vars:
-        ansible_command_timeout: 60
+        ansible_command_timeout: 120
 
     - name: Enable Cisco logging to ELKStack
       cisco.ios.ios_config:
@@ -30,7 +30,7 @@
           - write
       when: cfg.changed
 
-    - name: show ntp
+    - name: show run logging
       ios_command:
         commands:
                 - show run | incl logging
