@@ -21,3 +21,24 @@
         backup: yes
         provider: "{{ cli }}"
       register: cfg
+
+    - name: Show config updates
+      debug: var=cfg.updates
+      when: cfg.changed
+
+    - name: Save config
+      ios_command:
+        commands:
+          - write
+        provider: "{{ cli }}"
+      when: cfg.changed
+
+    - name: show ntp
+      ios_command:
+        commands:
+                - show run | incl logging
+        provider: "{{ cli }}"
+      register: out
+
+    - name: Debug registered var
+      debug: var=out.stdout_lines
