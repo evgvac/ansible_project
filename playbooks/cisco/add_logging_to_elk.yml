@@ -4,11 +4,11 @@
   
   tasks:
 
-    - name: Accept ansible get hostname
-      ios_facts:
-        gather_subset: all
-      vars:
-        ansible_command_timeout: 60
+#    - name: Accept ansible get hostname
+#      ios_facts:
+#        gather_subset: all
+#      vars:
+#        ansible_command_timeout: 60
 
     - name: Enable Cisco logging to ELKStack
       cisco.ios.ios_config:
