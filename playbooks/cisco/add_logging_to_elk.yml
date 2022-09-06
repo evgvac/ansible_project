@@ -1,15 +1,14 @@
 - name: Enable logging
   hosts: cisco
   gather_facts: false
-#  ignore_errors: yes
   
   tasks:
 
-#    - name: Accept ansible get hostname
-#      ios_facts:
-#        gather_subset: all
-#      vars:
-#        ansible_command_timeout: 60
+    - name: Accept ansible get hostname
+      ios_facts:
+        gather_subset: all
+      vars:
+        ansible_command_timeout: 60
 
     - name: Enable Cisco logging to ELKStack
       cisco.ios.ios_config:
@@ -19,7 +18,6 @@
           - logging host 10.33.64.231 transport udp port 5514
         replace: block
         backup: yes
-#        provider: "{{ cli }}"
       register: cfg
 
     - name: Show config updates
@@ -30,14 +28,12 @@
       ios_command:
         commands:
           - write
-#        provider: "{{ cli }}"
       when: cfg.changed
 
     - name: show ntp
       ios_command:
         commands:
                 - show run | incl logging
-#        provider: "{{ cli }}"
       register: out
 
     - name: Debug registered var
