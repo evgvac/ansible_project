@@ -1,7 +1,7 @@
 MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
 ------------------  ---------------  ----------  -------------  ----  --------------------
-00:15:65:F2:C7:AA   10.71.80.18      683772      dhcp-snooping   80    GigabitEthernet0/2
-C4:0A:CB:BC:AD:E2   10.71.104.67     468070      dhcp-snooping   104   GigabitEthernet0/7
-98:EE:CB:4D:FA:A5   10.71.68.16      534709      dhcp-snooping   64    GigabitEthernet0/2
-80:E8:2C:A6:91:45   10.71.68.44      423929      dhcp-snooping   64    GigabitEthernet0/2
+00:15:65:F2:C7:AA   10.71.80.18      679333      dhcp-snooping   80    GigabitEthernet0/2
+C4:0A:CB:BC:AD:E2   10.71.104.67     463632      dhcp-snooping   104   GigabitEthernet0/7
+98:EE:CB:4D:FA:A5   10.71.68.16      530271      dhcp-snooping   64    GigabitEthernet0/2
+80:E8:2C:A6:91:45   10.71.68.44      419491      dhcp-snooping   64    GigabitEthernet0/2
 Total number of bindings: 4
