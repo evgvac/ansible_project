@@ -1,0 +1,362 @@
+Building configuration...
+
+Current configuration : 9619 bytes
+!
+! Last configuration change at 12:24:47 MSK Tue Sep 6 2022 by adminmiksel
+! NVRAM config last updated at 12:27:12 MSK Tue Sep 6 2022 by adminmiksel
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime localtime
+no service password-encryption
+!
+hostname DMZN-C3560X-12P-LC11
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered informational
+logging console emergencies
+!
+username netadmin privilege 15 secret 9 $9$SJgIZwrXrxvSlu$..Jp4jwdMBFqf8nNtlelAVJ8hyDTjpmF9qGdhHLDnEI
+username netaud privilege 15 secret 9 $9$3DhvwWnX9dlgyk$ohP86mZqcaWjJHpXCfda7Ziummh3ejvygOWNgGDAfOE
+username adminmiksel privilege 15 secret 9 $9$xhnPP3cEQ.jJzE$lKuAqHJezbwlA3Dkh1qYwAkmxvaPBmOl8T4VAcRG0ms
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+switch 1 provision ws-c3560cx-12pd-s
+system mtu routing 1500
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name int.kronshtadt.ru
+!
+!
+!
+!
+!
+!
+!
+!
+file prompt noisy
+!
+spanning-tree mode mst
+spanning-tree portfast edge default
+spanning-tree portfast edge bpduguard default
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name dmzn
+ instance 1 vlan 1-4094
+!
+errdisable recovery cause udld
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause channel-misconfig
+errdisable recovery cause pagp-flap
+errdisable recovery cause dtp-flap
+errdisable recovery cause link-flap
+errdisable recovery cause sfp-config-mismatch
+errdisable recovery cause gbic-invalid
+errdisable recovery cause l2ptguard
+errdisable recovery cause psecure-violation
+errdisable recovery cause port-mode-failure
+errdisable recovery cause dhcp-rate-limit
+errdisable recovery cause pppoe-ia-rate-limit
+errdisable recovery cause mac-limit
+errdisable recovery cause vmps
+errdisable recovery cause storm-control
+errdisable recovery cause inline-power
+errdisable recovery cause arp-inspection
+errdisable recovery cause loopback
+errdisable recovery cause small-frame
+errdisable recovery cause psp
+errdisable recovery cause loopdetect
+errdisable recovery cause mrp-miscabling
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d8bb.c116.6dd3
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d8bb.c116.6de3
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d355.6207
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky f02f.7453.7f9f
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0897.9876.161f
+ switchport port-security mac-address sticky 805e.0c5f.9aa6 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d35e.865c
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/7
+ description CAM_AS.11.1
+ switchport access vlan 136
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b8a4.4f32.db7d
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/8
+ description CAM_AS.11.3
+ switchport access vlan 136
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b8a4.4f32.6eda
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/9
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/11
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/12
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ spanning-tree portfast edge
+ spanning-tree bpduguard disable
+ spanning-tree guard loop
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan503
+ ip address 10.1.255.56 255.255.255.0
+!
+ip default-gateway 10.1.255.1
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+ip scp server enable
+!
+ip access-list standard acl-mgmt
+ permit 10.71.64.10
+ permit 10.71.64.7
+ permit 10.71.68.121
+ permit 10.71.64.133
+ permit 10.33.64.228
+ permit 10.71.255.0 0.0.0.255
+ permit 10.64.255.0 0.0.0.255
+ permit 10.65.255.0 0.0.0.255
+ permit 10.67.255.0 0.0.0.255
+ permit 10.68.255.0 0.0.0.255
+ permit 10.33.255.0 0.0.0.255
+ permit 10.73.255.0 0.0.0.255
+ permit 10.74.255.0 0.0.0.255
+ permit 10.75.255.0 0.0.0.255
+ permit 10.76.255.0 0.0.0.255
+ permit 10.1.255.0 0.0.0.255
+!
+!
+logging trap debugging
+logging origin-id hostname
+logging host 10.33.64.231 transport udp port 5514
+!
+!
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+snmp mib flash cache
+!
+!
+privilege exec level 5 copy
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show startup-config
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ access-class acl-mgmt in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class acl-mgmt in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+!
+ntp server 10.33.64.200 minpoll 9
+!
+end

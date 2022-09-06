@@ -1,0 +1,248 @@
+Building configuration...
+
+Current configuration : 5884 bytes
+!
+! Last configuration change at 13:00:55 MSK Tue Sep 6 2022 by adminmiksel
+! NVRAM config last updated at 12:59:30 MSK Tue Sep 6 2022 by adminmiksel
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec localtime show-timezone year
+service timestamps log datetime localtime show-timezone
+no service password-encryption
+!
+hostname RLITN-2960X-ANGAR
+!
+boot-start-marker
+boot-end-marker
+!
+!
+logging buffered 65536
+logging console critical
+enable secret 5 $1$1BQR$7i.Yi4q03.hmbubNbSpqF/
+enable password cisco
+!
+username netadmin privilege 15 secret 9 $9$SJgIZwrXrxvSlu$..Jp4jwdMBFqf8nNtlelAVJ8hyDTjpmF9qGdhHLDnEI
+username netaud privilege 5 secret 5 $1$5IWf$2QaaICyVUqPBywXbUDVAE.
+username adminmiksel privilege 15 secret 9 $9$xhnPP3cEQ.jJzE$lKuAqHJezbwlA3Dkh1qYwAkmxvaPBmOl8T4VAcRG0ms
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name int.kronshtadt.ru
+login on-failure log
+login on-success log
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2499968128
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2499968128
+ revocation-check none
+ rsakeypair TP-self-signed-2499968128
+!
+!
+crypto pki certificate chain TP-self-signed-2499968128
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32343939 39363831 3238301E 170D3138 31313139 31313438 
+  31355A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 34393939 
+  36383132 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100B4A7 C958441A 51B3AF72 E5721A89 2C076F54 484FFB8A 2186EF2A DEB79529 
+  3066207C 4BBE7B4B BF433006 050B2F12 B2319F92 FFA580D9 6E75FCED 36DFAC16 
+  40BE5805 ECE050EB 6CC899DF F16E0682 ED84A792 6EB1364E 0EA81025 3C3B3927 
+  F03314DD 705C6243 CD37113E 6E9E9410 4D6A9E98 8215AF7F B61A3C25 919FB98C 
+  0B290203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1434B343 FE28E50E C9E43059 49BC134C A357ADE8 9D301D06 
+  03551D0E 04160414 34B343FE 28E50EC9 E4305949 BC134CA3 57ADE89D 300D0609 
+  2A864886 F70D0101 05050003 8181002D 82ABF041 8719300D C7D5BC47 96054CD3 
+  08875D4B E54DAB88 C2D46318 310E179B C0B5B866 9C1085EC E852CA58 D9D638BB 
+  89CD75EE 7C909876 1F58CEC3 D2D158E4 20532D06 495B313A 5DBC92C8 0C072AA7 
+  E718B1A4 2B4CC5DD 7D44295B 9A268466 0A4A2293 D60540DE 7C32F439 99ED1C16 
+  60BD9D04 5038EB0E BF9B998A 0216F8
+  	quit
+archive
+ log config
+  logging enable
+  logging size 200
+  notify syslog contenttype plaintext
+  hidekeys
+ path tftp://10.120.2.169/ryazan/$h
+ write-memory
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+spanning-tree portfast edge bpduguard default
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/1
+ description cam_124.11_angar_1
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/2
+!
+interface GigabitEthernet0/3
+ description cam_124.17_angar_1
+ switchport access vlan 124
+!
+interface GigabitEthernet0/4
+!
+interface GigabitEthernet0/5
+ description cam_124.13
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/6
+!
+interface GigabitEthernet0/7
+ description cam_124.12_angar_2
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/8
+ description Wi-Fi_62dc
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet0/9
+ description AP_RLIK-ANGAR
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet0/10
+!
+interface GigabitEthernet0/11
+!
+interface GigabitEthernet0/12
+ description Tupik_Angar3_cam_124.13
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/13
+!
+interface GigabitEthernet0/14
+!
+interface GigabitEthernet0/15
+!
+interface GigabitEthernet0/16
+!
+interface GigabitEthernet0/17
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/18
+!
+interface GigabitEthernet0/19
+!
+interface GigabitEthernet0/20
+!
+interface GigabitEthernet0/21
+ description cam_124.10_angar_2
+ switchport access vlan 124
+ switchport mode access
+!
+interface GigabitEthernet0/22
+!
+interface GigabitEthernet0/23
+!
+interface GigabitEthernet0/24
+!
+interface GigabitEthernet0/25
+ description To_RLITN-C2960X-CORE
+ switchport mode trunk
+!
+interface GigabitEthernet0/26
+ description DLINK_39.241
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.66.39.244 255.255.255.0
+ shutdown
+!
+interface Vlan255
+ description Management
+ ip address 10.69.255.3 255.255.255.0
+!
+ip default-gateway 10.69.255.1
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+!
+logging trap debugging
+logging origin-id hostname
+logging host 10.10.110.154
+logging host 10.10.88.183
+logging host 10.33.64.231 transport udp port 5514
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+snmp-server community public RO
+!
+!
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show startup-config
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show
+!
+line con 0
+ exec-timeout 0 0
+line vty 5 15
+ exec-timeout 0 0
+ transport input telnet ssh
+!
+ntp server 10.33.64.200
+end

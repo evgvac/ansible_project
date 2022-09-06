@@ -1,0 +1,2536 @@
+Building configuration...
+
+Current configuration : 81731 bytes
+!
+! Last configuration change at 10:11:24 MSK Mon Sep 5 2022 by adminmiksel
+! NVRAM config last updated at 17:20:42 MSK Thu Aug 11 2022 by netadmin
+!
+version 16.3
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime localtime show-timezone
+service password-encryption
+no platform punt-keepalive disable-kernel-core
+!
+hostname MSKDIA-3850-2-1
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 65536
+enable secret 5 $1$Qp7I$Eb776swulW49utj/v1FSE0
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+switch 1 provision ws-c3850-48p
+switch 2 provision ws-c3850-48p
+switch 3 provision ws-c3850-48p
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name int.kronshtadt.ru
+!
+!
+!
+ip dhcp snooping vlan 64,72-74,80,104,136,254-255
+no ip dhcp snooping information option
+ip dhcp snooping
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4206654907
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4206654907
+ revocation-check none
+ rsakeypair TP-self-signed-4206654907
+!
+!
+crypto pki certificate chain TP-self-signed-4206654907
+!
+errdisable recovery cause udld
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause channel-misconfig
+errdisable recovery cause pagp-flap
+errdisable recovery cause dtp-flap
+errdisable recovery cause link-flap
+errdisable recovery cause sfp-config-mismatch
+errdisable recovery cause gbic-invalid
+errdisable recovery cause l2ptguard
+errdisable recovery cause psecure-violation
+errdisable recovery cause port-mode-failure
+errdisable recovery cause dhcp-rate-limit
+errdisable recovery cause pppoe-ia-rate-limit
+errdisable recovery cause mac-limit
+errdisable recovery cause vmps
+errdisable recovery cause storm-control
+errdisable recovery cause inline-power
+errdisable recovery cause arp-inspection
+errdisable recovery cause link-monitor-failure
+errdisable recovery cause oam-remote-failure
+errdisable recovery cause loopback
+errdisable recovery cause psp
+license boot level lanbasek9
+diagnostic bootup level minimal
+!
+spanning-tree mode mst
+spanning-tree portfast default
+spanning-tree portfast bpduguard default
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name MSKDIA
+ revision 1
+ instance 1 vlan 1-4094
+!
+!
+!
+username adminandrom privilege 15 secret 9 $9$6lX9Jj4Bpd9.TE$PRnJn.aHHHK3CxojXz9kvZwvAgFgGTV2Ae1NR5hVyWE
+username netaud privilege 5 secret 5 $1$5IWf$2QaaICyVUqPBywXbUDVAE.
+username netadmin privilege 15 secret 9 $9$SJgIZwrXrxvSlu$..Jp4jwdMBFqf8nNtlelAVJ8hyDTjpmF9qGdhHLDnEI
+username adminmiksel privilege 15 secret 9 $9$xhnPP3cEQ.jJzE$lKuAqHJezbwlA3Dkh1qYwAkmxvaPBmOl8T4VAcRG0ms
+username portsec privilege 2 secret 5 $1$572n$5laz1bF8gAk7W8pUcnFew1
+!
+redundancy
+ mode sso
+!
+!
+transceiver type all
+ monitoring
+!
+!
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, SGT Cache Full, LOGGING
+class-map match-any system-cpp-default
+  description DHCP snooping, show forward and rest of traffic
+class-map match-any system-cpp-police-sys-data
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL SAMPLED DATA, Gold Pkt, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-multicast
+  description Transit Traffic and MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-control-low-priority
+  description ICMP redirect and general punt
+class-map match-any system-cpp-police-wireless-priority1
+  description Wireless priority 1
+class-map match-any system-cpp-police-wireless-priority2
+  description Wireless priority 2
+class-map match-any system-cpp-police-wireless-priority3-4-5
+  description Wireless priority 3,4 and 5
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+!
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+policy-map system-cpp-policy
+ class system-cpp-police-data
+  police rate 200 pps
+ class system-cpp-police-sys-data
+  police rate 100 pps
+ class system-cpp-police-sw-forward
+  police rate 1000 pps
+ class system-cpp-police-multicast
+  police rate 500 pps
+ class system-cpp-police-multicast-end-station
+  police rate 2000 pps
+ class system-cpp-police-punt-webauth
+ class system-cpp-police-l2-control
+ class system-cpp-police-routing-control
+  police rate 1800 pps
+ class system-cpp-police-control-low-priority
+ class system-cpp-police-wireless-priority1
+ class system-cpp-police-wireless-priority2
+ class system-cpp-police-wireless-priority3-4-5
+ class system-cpp-police-topology-control
+ class system-cpp-police-dot1x-auth
+ class system-cpp-police-protocol-snooping
+ class system-cpp-police-forus
+ class system-cpp-default
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ description 493-ap-2-1
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99f5.ee71
+ switchport port-security mac-address sticky 0015.65f2.cd0f vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3c7c.3fc2.91e0
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.990d.e1da
+ switchport port-security mac-address sticky 805e.c03b.0f5b vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1860.24ca.239c
+ switchport port-security mac-address sticky 9c7b.ef86.7637
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky fcaa.1492.8afb
+ switchport port-security mac-address sticky 0015.65f2.c79f vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e01.4de0
+ switchport port-security mac-address sticky 0015.65f2.c81f vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d6f.25e6
+ switchport port-security mac-address sticky 805e.c079.3368 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/18
+ description 530.print
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky ec8e.b520.22a0
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 98ee.cbdc.40ad
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99cf.7e55
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 4439.c454.9044
+ switchport port-security mac-address sticky 0015.65f2.c782 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 40b0.349e.ffb5
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d8bb.c116.6e47
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/25
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3860.779b.ca13
+ switchport port-security mac-address sticky 0015.65f2.c8f7 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.998e.7466
+ switchport port-security mac-address sticky 805e.c03b.1061 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky a8a1.5964.3d52
+ switchport port-security mac-address sticky 805e.c0ef.4944 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99ae.5762
+ switchport port-security mac-address sticky 805e.c073.827d vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1831.bfaf.f685
+ switchport port-security mac-address sticky 0015.65f2.c747 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.9980.934c
+ switchport port-security mac-address sticky 805e.c03b.0ea4 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky f02f.744d.9959
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3c7c.3ff5.1a73
+ switchport port-security mac-address sticky 805e.c0ef.4e96 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99cf.8701
+ switchport port-security mac-address sticky 0015.65f2.c8ce vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.998b.d2b7
+ switchport port-security mac-address sticky 805e.c073.81ed vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e1f.cbba
+ switchport port-security mac-address sticky 0015.65f2.c752 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0df5.9847
+ switchport port-security mac-address sticky 805e.0c13.1aaa vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky a8a1.5967.e8fa
+ switchport port-security mac-address sticky 805e.c07a.da5e vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d3c.e985
+ switchport port-security mac-address sticky 805e.0c10.cf37 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99ae.5278
+ switchport port-security mac-address sticky 805e.c092.695b vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3c7c.3fc2.9255
+ switchport port-security mac-address sticky 805e.c0ef.5042 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d355.6204
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d352.702e
+ switchport port-security mac-address sticky 805e.c096.9e23 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d4a.dfd2
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/44
+ description 93-ap-2-3
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/45
+ description 214-ap-2-5
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/46
+ description 252-ap-2-4
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/47
+ description 345-ap-2-2
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/48
+ description 367-ap-2-6
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/1
+ switchport mode trunk
+ spanning-tree bpduguard disable
+ spanning-tree guard loop
+!
+interface TenGigabitEthernet1/1/2
+ switchport mode trunk
+ spanning-tree bpduguard disable
+ spanning-tree guard loop
+!
+interface TenGigabitEthernet1/1/3
+ description DownLink To_MSKDIA-2960X-48P-1-2
+ switchport mode trunk
+ spanning-tree bpduguard disable
+ spanning-tree guard loop
+!
+interface TenGigabitEthernet1/1/4
+ description UpLink To_MSKDIA-3850-12XS-CORE
+ switchport mode trunk
+ spanning-tree bpduguard disable
+ spanning-tree guard loop
+ ip dhcp snooping trust
+!
+interface GigabitEthernet2/0/1
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 9ceb.e8f9.3a8b
+ switchport port-security mac-address sticky 0015.65f2.c8dc vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 5405.dbea.fe37
+ switchport port-security mac-address sticky 805e.0c10.cf2b vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d3c.e4f6
+ switchport port-security mac-address sticky 805e.0c10.cf61 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e57.7362
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 6c0b.843f.9768
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0df5.9817
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/7
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/8
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3ce1.a126.91e5
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/9
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d3c.e9d1
+ switchport port-security mac-address sticky 805e.c0db.0c0c vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/10
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/11
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d5e.aa4c
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/12
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0015.65f2.c86b vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/14
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d5e.a7d8
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/15
+ switchport access vlan 140
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d45d.64ba.5046
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/16
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d317.f190
+ switchport port-security mac-address sticky 805e.0c10.cf0b vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/17
+ switchport access vlan 140
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d45d.64ba.4fe4
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/18
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/19
+ description Stend
+ switchport access vlan 140
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/20
+ description 2-1.272 Scanner
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky ace2.d3d7.b604
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/21
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.998b.d240
+ switchport port-security mac-address sticky 805e.c096.9d49 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/22
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e57.cc2a
+ switchport port-security mac-address sticky 0015.65f2.c777 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/23
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/24
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/25
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 805e.0c10.cf2d vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/26
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.994e.e883
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/27
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99d0.ed97
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/28
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0015.65f2.c768 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/29
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/30
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 7824.af41.991c
+ switchport port-security mac-address sticky 0015.65f2.c770 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/31
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/32
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99f5.f64b
+ switchport port-security mac-address sticky 805e.c0ef.4de7 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/33
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d317.e6ef
+ switchport port-security mac-address sticky 0015.65f2.c7f5 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/34
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/35
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d352.27fc
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/36
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4da0.8f2c
+ switchport port-security mac-address sticky 805e.c0ef.4e7e vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/37
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.9980.9290
+ switchport port-security mac-address sticky 0015.65f2.c90c vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/38
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99cf.7c90
+ switchport port-security mac-address sticky 805e.c092.6a13 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/39
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d4e.8918
+ switchport port-security mac-address sticky 0015.65f2.c84e vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/40
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/41
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 54f6.c5f6.5038
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/42
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky f02f.744d.98b5
+ switchport port-security mac-address sticky 805e.c0ef.4dd8 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/43
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d352.da95
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/44
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d4e.89aa
+ switchport port-security mac-address sticky 0015.65f2.c89e vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/45
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 04d9.f588.593d
+ switchport port-security mac-address sticky 0015.65f2.c819 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/46
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 04d9.f58a.218e
+ switchport port-security mac-address sticky 0015.65f2.c744 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/47
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99ae.5584
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/0/48
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e1f.e1b6
+ switchport port-security mac-address sticky 0015.65f2.c8e2 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet2/1/1
+!
+interface GigabitEthernet2/1/2
+!
+interface GigabitEthernet2/1/3
+!
+interface GigabitEthernet2/1/4
+!
+interface TenGigabitEthernet2/1/1
+!
+interface TenGigabitEthernet2/1/2
+!
+interface TenGigabitEthernet2/1/3
+!
+interface TenGigabitEthernet2/1/4
+!
+interface GigabitEthernet3/0/1
+ description TO_SCUD
+ switchport access vlan 136
+ switchport mode access
+ switchport voice vlan 80
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard disable
+!
+interface GigabitEthernet3/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d8bb.c116.6e4b
+ switchport port-security mac-address sticky 0015.65f2.c7a3 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d2e.c69f
+ switchport port-security mac-address sticky 0015.65f2.c72a vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/7
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d32c.bed7
+ switchport port-security mac-address sticky 805e.c096.9d36 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/8
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d8bb.c116.6db7
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/9
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/10
+ description UPS
+ switchport access vlan 254
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 00c0.b7b7.bdba
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/11
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.994e.e87c
+ switchport port-security mac-address sticky 805e.c096.9d25 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/12
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/14
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/15
+ description print 2-1.242
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 40b0.3423.771f
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/16
+ description 005-ap-Archive
+ switchport trunk native vlan 254
+ switchport mode trunk
+!
+interface GigabitEthernet3/0/17
+ switchport access vlan 140
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/18
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 3c7c.3fc2.9463
+ switchport port-security mac-address sticky 805e.c0ef.4eac vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/19
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 5046.5d58.06ab
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/20
+ description print.90
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0017.c866.3c3d
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/21
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 7824.af04.80f1
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/22
+ switchport access vlan 73
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d2e.c40a
+ switchport port-security mac-address sticky 0015.65f2.c812 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/23
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0df5.88f0
+ switchport port-security mac-address sticky 0015.65f2.c8a8 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/24
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0df5.9833
+ switchport port-security mac-address sticky 0015.65f2.c7ae vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/25
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/26
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky a8a1.5967.e7c8
+ switchport port-security mac-address sticky 805e.c07a.d969 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/27
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e1f.e1a7
+ switchport port-security mac-address sticky 0015.65f2.c8d5 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/28
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 80ce.625d.8d02
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/29
+ description 368.print
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 7438.b7c9.4e89
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/30
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d85e.d35e.7f28
+ switchport port-security mac-address sticky 805e.c073.8358 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/31
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0df5.9822
+ switchport port-security mac-address sticky 0015.65f2.c8d2 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/32
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d5e.a7ef
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/33
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99ae.527a
+ switchport port-security mac-address sticky 805e.c073.8258 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/34
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/35
+ description print 91
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0017.c8b0.c2f8
+ switchport port-security mac-address sticky 10e7.c661.4c7b
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/36
+ switchport access vlan 73
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky f02f.74de.0098
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/37
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99f5.f59b
+ switchport port-security mac-address sticky 0015.65f2.c876 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/38
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 40b0.3423.7773
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/39
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 001e.8fd1.e19f
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/40
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0017.c8ac.2244
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/41
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 54ee.75e6.2899
+ switchport port-security mac-address sticky e0d5.5e1f.cbbb
+ switchport port-security mac-address sticky 0015.65f2.c7eb vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/42
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e04f.438c.2549
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/43
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 30e1.713d.625b
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/44
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e91.5f15
+ switchport port-security mac-address sticky 0015.65f2.c785 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/45
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky b42e.99ae.5873
+ switchport port-security mac-address sticky 0015.65f2.c822 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/46
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 18c0.4d5d.9f3f
+ switchport port-security mac-address sticky 0015.65f2.c871 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/47
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 40b0.349e.ffba
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/0/48
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ switchport port-security maximum 3
+ switchport port-security violation protect
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e0d5.5e1f.e1c7
+ switchport port-security mac-address sticky 0015.65f2.c7e6 vlan voice
+ switchport port-security
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ storm-control action shutdown
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet3/1/1
+!
+interface GigabitEthernet3/1/2
+!
+interface GigabitEthernet3/1/3
+!
+interface GigabitEthernet3/1/4
+!
+interface TenGigabitEthernet3/1/1
+!
+interface TenGigabitEthernet3/1/2
+!
+interface TenGigabitEthernet3/1/3
+!
+interface TenGigabitEthernet3/1/4
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan255
+ ip address 10.71.255.12 255.255.255.0
+!
+ip default-gateway 10.71.255.1
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip ssh version 2
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+  username portsec
+   key-hash ssh-rsa C4F3905119D7FAA14A43DC32357BA97E 
+!
+ip access-list standard acl-mgmt
+ permit 10.71.64.9
+ permit 10.71.64.10
+ permit 10.71.64.7
+ permit 10.33.64.37
+ permit 10.10.1.100
+ permit 10.120.72.70
+ permit 10.71.64.133
+ permit 10.33.64.228
+ permit 10.120.2.150
+ permit 10.71.255.0 0.0.0.255
+ permit 10.120.255.0 0.0.0.255
+ permit 10.64.255.0 0.0.0.255
+ permit 10.65.255.0 0.0.0.255
+ permit 10.67.255.0 0.0.0.255
+ permit 10.68.255.0 0.0.0.255
+!
+ip access-list extended AutoQos-4.0-wlan-Acl-Bulk-Data
+ permit tcp any any eq 22
+ permit tcp any any eq 465
+ permit tcp any any eq 143
+ permit tcp any any eq 993
+ permit tcp any any eq 995
+ permit tcp any any eq 1914
+ permit tcp any any eq ftp
+ permit tcp any any eq ftp-data
+ permit tcp any any eq smtp
+ permit tcp any any eq pop3
+ip access-list extended AutoQos-4.0-wlan-Acl-MultiEnhanced-Conf
+ permit udp any any range 16384 32767
+ permit tcp any any range 50000 59999
+ip access-list extended AutoQos-4.0-wlan-Acl-Scavanger
+ permit tcp any any range 2300 2400
+ permit udp any any range 2300 2400
+ permit tcp any any range 6881 6999
+ permit tcp any any range 28800 29100
+ permit tcp any any eq 1214
+ permit udp any any eq 1214
+ permit tcp any any eq 3689
+ permit udp any any eq 3689
+ permit tcp any any eq 11999
+ip access-list extended AutoQos-4.0-wlan-Acl-Signaling
+ permit tcp any any range 2000 2002
+ permit tcp any any range 5060 5061
+ permit udp any any range 5060 5061
+ip access-list extended AutoQos-4.0-wlan-Acl-Transactional-Data
+ permit tcp any any eq 443
+ permit tcp any any eq 1521
+ permit udp any any eq 1521
+ permit tcp any any eq 1526
+ permit udp any any eq 1526
+ permit tcp any any eq 1575
+ permit udp any any eq 1575
+ permit tcp any any eq 1630
+ permit udp any any eq 1630
+ permit tcp any any eq 1527
+ permit tcp any any eq 6200
+ permit tcp any any eq 3389
+ permit tcp any any eq 5985
+ permit tcp any any eq 8080
+!
+logging origin-id hostname
+!
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+!
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+privilege exec level 5 copy
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show startup-config
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show
+privilege exec level 2 clear port-security all
+privilege exec level 2 clear port-security
+privilege exec level 2 clear
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ access-class acl-mgmt in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class acl-mgmt in
+ privilege level 15
+ logging synchronous
+ transport input ssh
+!
+ntp server 10.33.64.200 minpoll 10
+!
+!
+!
+!
+!
+!
+ap dot11 airtime-fairness policy-name Default 0
+ap group default-group
+ap hyperlocation ble-beacon 0
+ap hyperlocation ble-beacon 1
+ap hyperlocation ble-beacon 2
+ap hyperlocation ble-beacon 3
+ap hyperlocation ble-beacon 4
+end

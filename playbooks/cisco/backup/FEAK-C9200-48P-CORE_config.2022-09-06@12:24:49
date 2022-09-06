@@ -1,0 +1,1050 @@
+Building configuration...
+
+Current configuration : 26647 bytes
+!
+! Last configuration change at 09:31:09 UTC Wed Aug 10 2022 by netadmin
+!
+version 17.3
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service call-home
+platform punt-keepalive disable-kernel-core
+!
+hostname FEAK-9300-48P-CORE
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 409600000 informational
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+switch 1 provision c9300-48p
+switch 2 provision c9300-48p
+!
+!
+!
+!
+ip routing
+!
+no ip domain lookup
+ip domain name int.kronshtadt.ru
+!
+ip dhcp pool Users
+ network 10.73.64.0 255.255.254.0
+ default-router 10.73.64.1 
+ dns-server 10.33.64.11 10.33.64.12 
+ domain-name int.kronshtadt.ru
+ remember
+!
+ip dhcp pool Printers
+ network 10.73.104.0 255.255.255.0
+ default-router 10.73.104.1 
+ dns-server 10.33.64.11 10.33.64.12 
+ remember
+!
+ip dhcp pool Storage
+ network 10.73.66.0 255.255.255.0
+ default-router 10.73.66.1 
+ dns-server 10.33.64.11 10.33.64.12 
+ remember
+!
+ip dhcp pool Phones
+ network 10.73.80.0 255.255.255.0
+ default-router 10.73.80.1 
+ dns-server 10.33.64.11 10.33.64.12 
+ remember
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+no device-tracking logging theft
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+!
+crypto pki trustpoint TP-self-signed-1500021492
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1500021492
+ revocation-check none
+ rsakeypair TP-self-signed-1500021492
+!
+!
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363 
+  6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934 
+  3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305 
+  43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720 
+  526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 
+  82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D 
+  CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520 
+  1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE 
+  4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC 
+  7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188 
+  68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7 
+  C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191 
+  C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44 
+  DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201 
+  06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85 
+  4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500 
+  03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905 
+  604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B 
+  D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8 
+  467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C 
+  7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B 
+  5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678 
+  80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB 
+  418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0 
+  D697DF7F 28
+  	quit
+crypto pki certificate chain TP-self-signed-1500021492
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31353030 30323134 3932301E 170D3232 30363230 31333139 
+  35315A17 0D333230 36313931 33313935 315A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 35303030 
+  32313439 32308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100BDED A19C01EA 0AB622E1 D5916E3A 50A58D0B 3571C1B9 375306E3 
+  31BB4C66 014773CA 15CEBB18 8B6CCD32 C493BFF3 0ED7C07A 5CE42602 F8DB6662 
+  C25078EE 76CC5AE7 C69313CC 6F427927 98C17767 F5FB277F 1EE2E81C A8FB4E17 
+  CA768B7B 19F8B553 6605C3DB 18E70A70 05491461 AE960BD6 F2540EC4 FA612B2E 
+  D253BBC1 FBCEFF75 B13279E9 368517E6 D921BEB2 8A5E778C 7DE6C545 9FAE5A5C 
+  19A8A0A8 09055B16 E5E42DFE 3CFC6812 74287E62 E02A530F 4A93602C 1E04442B 
+  9F7540CA 171227D7 6E87C012 7F406DFC 7FF0D818 463AA216 292740D8 DBCF3C14 
+  01E0D3BB 8008C09D 4A5E1C3A BEC4E834 7701685D 28366A71 9E91C5EF 157FDF1D 
+  647D2301 F8630203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 14A179FD 462BB9D9 EF7AF7CB 1696E13A B46CB559 
+  19301D06 03551D0E 04160414 A179FD46 2BB9D9EF 7AF7CB16 96E13AB4 6CB55919 
+  300D0609 2A864886 F70D0101 05050003 82010100 14ADF1E1 3479889E E48BFC2B 
+  64AE4325 CA5C2C54 4E57F231 90D5BDCE BFD95F98 F2D6E133 5B7EA7A2 F527AE85 
+  05E915C5 B7EB74CF E930EE4B 1CAD0889 3EBCF508 D74AA0AB 7F75E615 8CA52EBD 
+  3AE63790 0644F76E 6C1DA466 8135954D 1A28A7B6 F71B008D F9631F01 87785698 
+  E4250B0B 9424EF48 AC3CF7D5 2F2426ED DF8F20CE D31285D0 1E8964BF F4E63961 
+  D4C278A3 225847C6 73E0E598 E7EC356E 775943C4 605D1BB3 0DF3C40E D80201DD 
+  B69AB691 C27A2C63 633B6305 2EC2251F CBBFB7B7 2BDB8D41 F7CDD129 16046770 
+  692B412E 38BE9488 CC5294E6 BF1FA313 935A39A8 A96A71C9 83CF8D20 93742EB0 
+  F06C3D83 1C06E818 D738B769 4F8F16AF AB43AA6C
+  	quit
+!
+license boot level network-essentials addon dna-essentials
+!
+!
+diagnostic bootup level minimal
+!
+spanning-tree mode mst
+spanning-tree portfast default
+spanning-tree portfast bpduguard default
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name FEAK
+ instance 1 vlan 1-4094
+!
+spanning-tree mst 0-1 priority 4096
+memory free low-watermark processor 133114
+!
+username netadmin privilege 15 secret 9 $14$9upt$u3clKXrFpa05M.$dCNNgHoGvUw/6.s9MBxfb6zpw7CJ/jQm4CGRxp6BrNE
+username netaud privilege 5 secret 9 $14$5IWf$Q0jUhxSn/MGlik$U4zWysYr02lcE.suca.tBzf0qY48QrhpWe.URh/LdvQ
+username adminmiksel privilege 15 secret 9 $14$E7rC$qQVxQchwKzsSDE$NsV3PCjwHHZpYVJkEzHZmSJa3A0JS8xkIdTAauk/R.g
+!
+redundancy
+ mode sso
+!
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+!
+!
+class-map match-any system-cpp-police-ewlc-control
+  description EWLC Control 
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data packets, LOGGING, Transit Traffic
+class-map match-any system-cpp-default
+  description EWLC Data, Inter FED Traffic 
+class-map match-any system-cpp-police-sys-data
+  description Openflow, Exception, EGR Exception, NFL Sampled Data, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-high-rate-app
+  description High Rate Applications 
+class-map match-any system-cpp-police-multicast
+  description MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual OOB
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control and Low Latency
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-dhcp-snooping
+  description DHCP snooping
+class-map match-any system-cpp-police-ios-routing
+  description L2 control, Topology control, Routing control, Low Latency
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold Pkt
+class-map match-any system-cpp-police-ios-feature
+  description ICMPGEN,BROADCAST,ICMP,L2LVXCntrl,ProtoSnoop,PuntWebauth,MCASTData,Transit,DOT1XAuth,Swfwd,LOGGING,L2LVXData,ForusTraffic,ForusARP,McastEndStn,Openflow,Exception,EGRExcption,NflSampled,RpfFailed
+!
+policy-map system-cpp-policy
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ description TO_ANGAR1
+ switchport mode trunk
+ spanning-tree bpduguard disable
+!
+interface Port-channel2
+ description TO_ANGAR2
+ switchport mode trunk
+ spanning-tree bpduguard disable
+!
+interface Port-channel3
+ switchport mode trunk
+ spanning-tree bpduguard disable
+!
+interface Port-channel8
+ description Uplink_to_ISR
+ no switchport
+ ip address 10.73.10.6 255.255.255.252
+ spanning-tree bpduguard disable
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/25
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/46
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/47
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/48
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/1
+ description TO_ANGAR1
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface TenGigabitEthernet1/1/2
+ description TO_ANGAR2
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface TenGigabitEthernet1/1/3
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface TenGigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/5
+!
+interface TenGigabitEthernet1/1/6
+!
+interface TenGigabitEthernet1/1/7
+!
+interface TenGigabitEthernet1/1/8
+ description Uplink_to_ISR
+ no switchport
+ no ip address
+ channel-group 8 mode on
+!
+interface FortyGigabitEthernet1/1/1
+!
+interface FortyGigabitEthernet1/1/2
+!
+interface TwentyFiveGigE1/1/1
+!
+interface TwentyFiveGigE1/1/2
+!
+interface AppGigabitEthernet1/0/1
+!
+interface GigabitEthernet2/0/1
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/2
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/3
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/4
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/5
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/6
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/7
+ switchport access vlan 104
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/8
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/9
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/10
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/11
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/12
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/13
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/14
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/15
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/16
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/17
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/18
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/19
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/20
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/21
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/22
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/23
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/24
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/25
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/26
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/27
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/28
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/29
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/30
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/31
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/32
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/33
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/34
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/35
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/36
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/37
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/38
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/39
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/40
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/41
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/42
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/43
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/44
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/45
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/46
+ switchport access vlan 64
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/47
+ switchport access vlan 738
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/48
+ description TO_STORAGE
+ switchport access vlan 66
+ switchport mode access
+ switchport voice vlan 80
+ spanning-tree portfast
+!
+interface GigabitEthernet2/1/1
+!
+interface GigabitEthernet2/1/2
+!
+interface GigabitEthernet2/1/3
+!
+interface GigabitEthernet2/1/4
+!
+interface TenGigabitEthernet2/1/1
+ description TO_ANGAR1
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface TenGigabitEthernet2/1/2
+ description TO_ANGAR2
+ switchport mode trunk
+ channel-group 2 mode active
+!
+interface TenGigabitEthernet2/1/3
+ description TO_9200-24_KPP
+ switchport mode trunk
+ channel-group 3 mode active
+!
+interface TenGigabitEthernet2/1/4
+!
+interface TenGigabitEthernet2/1/5
+!
+interface TenGigabitEthernet2/1/6
+!
+interface TenGigabitEthernet2/1/7
+!
+interface TenGigabitEthernet2/1/8
+ description Uplink_to_ISR
+ no switchport
+ no ip address
+ channel-group 8 mode on
+!
+interface FortyGigabitEthernet2/1/1
+!
+interface FortyGigabitEthernet2/1/2
+!
+interface TwentyFiveGigE2/1/1
+!
+interface TwentyFiveGigE2/1/2
+!
+interface AppGigabitEthernet2/0/1
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan64
+ ip address 10.73.64.1 255.255.254.0
+!
+interface Vlan66
+ ip address 10.73.66.1 255.255.255.0
+!
+interface Vlan80
+ ip address 10.73.80.1 255.255.255.0
+!
+interface Vlan104
+ ip address 10.73.104.1 255.255.255.0
+!
+interface Vlan136
+ ip address 10.73.136.1 255.255.255.0
+!
+interface Vlan254
+ ip address 10.73.254.1 255.255.255.0
+!
+interface Vlan255
+ ip address 10.73.255.1 255.255.255.0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.73.10.5
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+!
+ip access-list standard acl-mgmt
+ 10 permit 10.71.64.9
+ 20 permit 10.71.64.10
+ 30 permit 10.71.64.7
+ 140 permit 10.73.10.5
+ 40 permit 10.33.64.37
+ 50 permit 10.10.1.100
+ 60 permit 10.120.72.70
+ 150 permit 10.33.64.228
+ 70 permit 10.120.2.150
+ 80 permit 10.71.255.0 0.0.0.255
+ 90 permit 10.67.255.0 0.0.0.255
+ 100 permit 10.68.255.0 0.0.0.255
+ 110 permit 10.69.255.0 0.0.0.255
+ 120 permit 10.65.255.0 0.0.0.255
+ 130 permit 10.64.255.0 0.0.0.255
+!
+!
+logging trap debugging
+logging origin-id hostname
+logging host 10.33.64.231 transport udp port 5514
+!
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+!
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+privilege exec level 5 copy
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show platform software fed switch active ip adj
+privilege exec level 5 show platform software fed switch active ip
+privilege exec level 5 show platform software fed switch active
+privilege exec level 5 show platform software fed switch
+privilege exec level 5 show platform software fed
+privilege exec level 5 show startup-config
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show platform software
+privilege exec level 5 show platform
+privilege exec level 5 show
+!
+line con 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ access-class acl-mgmt in
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class acl-mgmt in
+ logging synchronous
+ transport input ssh
+line vty 16 31
+ transport input ssh
+!
+call-home
+ ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+ ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+ contact-email-addr sch-smart-licensing@cisco.com
+ profile "CiscoTAC-1"
+  active
+  destination transport-method http
+!
+!
+!
+!
+!
+!
+end

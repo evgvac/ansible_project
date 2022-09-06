@@ -1,0 +1,313 @@
+Building configuration...
+
+Current configuration : 7075 bytes
+!
+! Last configuration change at 01:13:49 MSK Tue Sep 6 2022
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec localtime show-timezone year
+service timestamps log datetime msec localtime
+no service password-encryption
+!
+hostname RLITN-2960X-TECH2
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 100000 informational
+logging console critical
+enable secret 5 $1$1BQR$7i.Yi4q03.hmbubNbSpqF/
+enable password cisco
+!
+username netadmin privilege 15 secret 9 $9$SJgIZwrXrxvSlu$..Jp4jwdMBFqf8nNtlelAVJ8hyDTjpmF9qGdhHLDnEI
+username adminmiksel privilege 15 secret 9 $9$xhnPP3cEQ.jJzE$lKuAqHJezbwlA3Dkh1qYwAkmxvaPBmOl8T4VAcRG0ms
+username netaud privilege 5 secret 5 $1$5IWf$2QaaICyVUqPBywXbUDVAE.
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+switch 1 provision ws-c2960x-24ts-l
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip domain-name int.kronshtadt.ru
+login on-failure log
+login on-success log
+vtp domain RLITN
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-2499968128
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2499968128
+ revocation-check none
+ rsakeypair TP-self-signed-2499968128
+!
+!
+crypto pki certificate chain TP-self-signed-2499968128
+ certificate self-signed 01
+  	quit
+archive
+ log config
+  logging enable
+  logging size 200
+  notify syslog contenttype plaintext
+  hidekeys
+ path tftp://10.120.2.169/ryazan/$h
+ write-memory
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+spanning-tree extend system-id
+spanning-tree vlan 1-4094 priority 61440
+power inline logging global
+errdisable recovery cause udld
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause channel-misconfig
+errdisable recovery cause pagp-flap
+errdisable recovery cause dtp-flap
+errdisable recovery cause link-flap
+errdisable recovery cause sfp-config-mismatch
+errdisable recovery cause gbic-invalid
+errdisable recovery cause l2ptguard
+errdisable recovery cause psecure-violation
+errdisable recovery cause port-mode-failure
+errdisable recovery cause dhcp-rate-limit
+errdisable recovery cause pppoe-ia-rate-limit
+errdisable recovery cause mac-limit
+errdisable recovery cause vmps
+errdisable recovery cause storm-control
+errdisable recovery cause inline-power
+errdisable recovery cause arp-inspection
+errdisable recovery cause loopback
+errdisable recovery cause small-frame
+errdisable recovery cause psp
+errdisable recovery cause loopdetect
+errdisable recovery cause mrp-miscabling
+!
+!
+!
+!
+!
+vlan 64
+ name Users
+!
+vlan 80
+ name Phones
+!
+vlan 124
+ name Cameras
+!
+vlan 125
+ name Printers
+!
+vlan 254 
+!
+vlan 255
+ name Management
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/2
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/3
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/4
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/5
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/6
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/7
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/8
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/9
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/10
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/11
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/12
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/13
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/14
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/15
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/16
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/17
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/18
+ description TO_DIONIS
+ switchport access vlan 254
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/19
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/20
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 125
+ switchport mode access
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 124
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/23
+ description SIP-Gate
+ switchport access vlan 125
+ switchport mode access
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/24
+ storm-control broadcast level 40.00
+ storm-control multicast level 50.00
+!
+interface GigabitEthernet1/0/25
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/26
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/27
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/28
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.66.39.244 255.255.255.0
+ shutdown
+!
+interface Vlan255
+ description Management
+ ip address 10.69.255.13 255.255.255.0
+!
+ip default-gateway 10.69.255.1
+!
+no ip http server
+no ip http secure-server
+ip ssh version 2
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+!
+logging trap debugging
+logging origin-id hostname
+logging host 10.10.110.154
+logging host 10.120.2.25 transport udp port 5514
+!
+!
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+snmp-server community public RO
+snmp mib flash cache
+!
+!
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show startup-config
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show
+!
+line con 0
+ exec-timeout 0 0
+ logging synchronous
+line vty 0 4
+ logging synchronous
+line vty 5 15
+ exec-timeout 0 0
+ logging synchronous
+ transport input telnet ssh
+!
+ntp server 10.33.64.200
+!
+end

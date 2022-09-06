@@ -1,0 +1,1024 @@
+Building configuration...
+
+Current configuration : 27590 bytes
+!
+! Last configuration change at 12:24:39 MSK Tue Sep 6 2022 by adminmiksel
+! NVRAM config last updated at 12:26:42 MSK Tue Sep 6 2022 by adminmiksel
+!
+version 17.3
+service timestamps debug datetime msec
+service timestamps log datetime localtime
+service call-home
+service unsupported-transceiver
+platform punt-keepalive disable-kernel-core
+!
+hostname DMZ-C95k-ATC-STACK
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition ao-kt
+ rd 10.1.125.101:1101
+ !
+ address-family ipv4
+  route-target export 65509:1101
+  route-target import 65509:1101
+  route-target export 65509:1101 stitching
+  route-target import 65509:1101 stitching
+ exit-address-family
+!
+vrf definition oao-dmz
+ rd 10.0.127.1:1100
+ !
+ address-family ipv4
+  route-target export 65509:1100
+  route-target import 65509:1100
+  route-target export 65509:1100 stitching
+  route-target import 65509:1100 stitching
+ exit-address-family
+!
+logging buffered 40960000 informational
+no logging console
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+switch 1 provision c9500-24y4c
+switch 2 provision c9500-24y4c
+boot system bootflash:packages.conf
+stackwise-virtual
+ domain 10
+!
+ip multicast-routing 
+ip domain name int.kronshtadt.ru
+ip dhcp relay information option vpn
+ip dhcp relay information option
+ip dhcp relay override giaddr link-selection
+ip dhcp compatibility suboption link-selection standard
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+vtp domain DMZDUB
+vtp mode transparent
+no device-tracking logging theft
+l2vpn evpn
+ replication-type ingress
+ ip duplication limit 20 time 10
+ mac duplication limit 20 time 10
+ router-id Loopback0
+ default-gateway advertise
+!
+l2vpn evpn instance 3 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 30 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 33 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 101 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 102 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 104 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 127 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 200 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 250 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 500 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 501 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 502 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 503 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+l2vpn evpn instance 504 vlan-based
+ encapsulation vxlan
+ replication-type ingress
+!
+!
+crypto pki trustpoint TP-self-signed-594804073
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-594804073
+ revocation-check none
+ rsakeypair TP-self-signed-594804073
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment terminal
+ revocation-check crl
+!
+!
+crypto pki certificate chain TP-self-signed-594804073
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 35393438 30343037 33301E17 0D323131 30323731 30343535 
+  325A170D 33313130 32373130 34353532 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3539 34383034 
+  30373330 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 B8D6CD6E 65410C48 551C3E25 73AFB2E9 761B6EE5 CDAECE46 4C2C36F6 
+  49F202D2 77E3CF08 33F3FC8B C89982E5 06E7BC68 BDBEB73C A3B24959 B3CFFF7E 
+  96CA19B4 D750BE40 43B17647 BBF0EEF6 A5CCC740 D0AB42D3 C7A01AB2 B5B641C4 
+  5379F8EB 7B98C219 C3741E77 54148467 68F8E85B C2E899C2 62065B2B 6199ADB1 
+  919316D3 219F3209 986FED28 D9D45852 CBEFF4A1 7BB76F15 B63A1132 3CD802B8 
+  37000140 0B09AA56 CC09B3B2 7676770B 2706D944 982C7DBB CF006ED1 818F2DA1 
+  4EE236B5 3FCDD7F5 F4BB00D3 89F09439 C9C79E95 FA69BF78 8C66DAB1 696D1A4F 
+  CB9BA7B9 7834C46C 2EDAE9EA EF7CEC15 31E96812 8D89FB64 F36039C3 1136D812 
+  65336521 02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 
+  0603551D 23041830 168014D1 6A632B75 B3279CD9 242D59B9 28FF9C79 08791B30 
+  1D060355 1D0E0416 0414D16A 632B75B3 279CD924 2D59B928 FF9C7908 791B300D 
+  06092A86 4886F70D 01010505 00038201 0100A1A3 D0226ECB 0D83ADE9 12DB5C98 
+  653A2310 004D1F6E 3D6CECF3 90FB8C23 DC36FADC 69E8E016 15A696A1 AE7A8681 
+  7507E752 DD35BF9B FC8FB17F 3F26E7AA 0E3B6589 DDF62C53 87F8ECA0 D1F91B2F 
+  F10A87E0 FDF1A49C FCA74983 8A6A92E6 439F11CF 3015FF1E 2ECD065D A8B915D2 
+  468AF203 41293B52 209F827F 576A5352 832B6720 E709B2F5 60BBDD6D 6C075489 
+  2D0E7713 4781AA0B F4F859F2 93513E3A 4397A517 595FD016 36CC8EB6 BC8C0BB1 
+  918D0078 BC2A5302 45A35348 429B8B22 0E450536 25D73856 64B410EA 74DDF94E 
+  C905DBF6 89041F93 15A22173 66D0CCCE E833D91C 8E122F7A 5D38A96A 1583A605 
+  0D80E1D5 35204DF9 C68B19B9 AC8AE934 792B
+  	quit
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363 
+  6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934 
+  3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305 
+  43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720 
+  526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 
+  82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D 
+  CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520 
+  1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE 
+  4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC 
+  7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188 
+  68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7 
+  C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191 
+  C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44 
+  DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201 
+  06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85 
+  4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500 
+  03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905 
+  604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B 
+  D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8 
+  467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C 
+  7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B 
+  5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678 
+  80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB 
+  418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0 
+  D697DF7F 28
+  	quit
+!
+!
+system mtu 9198
+license boot level network-advantage addon dna-advantage
+!
+!
+diagnostic bootup level complete
+!
+spanning-tree mode mst
+spanning-tree logging
+spanning-tree extend system-id
+!
+spanning-tree mst configuration
+ name DMZ
+ instance 1 vlan 1-4094
+!
+spanning-tree mst 0-1 priority 4096
+memory free low-watermark processor 291093
+file privilege 5
+!
+username netadmin privilege 15 secret 9 $9$vL/AZ4cir2nyh.$6ja4OyR56m8hrlpk1Z6dg9hD1wzUG9L3Ej8KSafDunc
+username adminmiksel privilege 15 secret 9 $14$E7rC$dTqqYZsrOgxroE$qTxELxy9KI6lnsuVshZSAkryC0R61WXashT/Ee993Uw
+username adminponant privilege 5 secret 9 $9$2lED3VIL3VQH4.$ou18/LCgXCMIB/ll5IGM54I9zBksE5eqsJ9fRAFCgPg
+username netaud privilege 5 secret 9 $9$8YRXuzPXs/6zfk$aUB6o8yOBAmasDFIV.Hx4sI6bfV5AhYByVZtoxPrTUk
+!
+redundancy
+ mode sso
+bfd map ipv4  10.1.124.253/32  10.1.124.1/32 mbfd-dmzn-core
+bfd map ipv4  10.1.124.254/32  10.1.124.1/32 mbfd-dmzn-core
+bfd-template multi-hop mbfd-dmzn-core
+ interval min-tx 250 min-rx 250 multiplier 3
+!
+!
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+!
+vlan configuration 3
+ member evpn-instance 3 vni 100003
+vlan configuration 30
+ member evpn-instance 30 vni 100030
+vlan configuration 33
+ member evpn-instance 33 vni 100033
+vlan configuration 101
+ member evpn-instance 101 vni 100101
+vlan configuration 102
+ member evpn-instance 102 vni 100102
+vlan configuration 104
+ member evpn-instance 104 vni 100104
+vlan configuration 127
+ member evpn-instance 127 vni 100127
+vlan configuration 200
+ member evpn-instance 200 vni 100200
+vlan configuration 250
+ member evpn-instance 250 vni 100250
+vlan configuration 500
+ member evpn-instance 500 vni 5000
+vlan configuration 501
+ member evpn-instance 501 vni 5010
+vlan configuration 502
+ member evpn-instance 502 vni 5020
+vlan configuration 503
+ member evpn-instance 503 vni 5030
+vlan configuration 504
+ member evpn-instance 504 vni 5040
+vlan configuration 1100
+ member vni 11000
+vlan configuration 1101
+ member vni 11010
+!
+vlan 3
+ name Security
+!
+vlan 7
+ name OGE
+!
+vlan 10
+ name OMTO
+!
+vlan 29
+ name ATS
+!
+vlan 30
+ name PDO
+!
+vlan 33
+ name Bolid
+!
+vlan 38
+ name Photo
+!
+vlan 101
+ name VPN
+!
+vlan 102
+ name VPN17_dubna_conf
+!
+vlan 104
+ name Video
+!
+vlan 109
+ name ATSu
+!
+vlan 127
+ name Vlan1-old-GW
+!
+vlan 200
+ name Exchange
+!
+vlan 248
+ name Svyaz_Electro
+!
+vlan 250
+ name Internet
+!
+vlan 500
+ name Users-KT
+!
+vlan 501
+ name Phones-KT
+!
+vlan 502
+ name Static_Serv
+!
+vlan 503
+ name Net-MGMT-KT
+!
+vlan 504
+ name Printers
+!
+vlan 505
+ name Routing_to_Ditun
+!
+vlan 506
+ name To_SDW_VPN10
+!
+vlan 997
+ name ATM_PSB
+!
+vlan 998
+ name ATM_VTB
+!
+vlan 999
+ name ATM_SBB
+!
+vlan 1100
+ name L3VXLAN-OAODMZ
+!
+vlan 1101
+ name L3VXLAN-AOKT
+!
+!
+class-map match-any system-cpp-police-ewlc-control
+  description EWLC Control 
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data packets, LOGGING, Transit Traffic
+class-map match-any system-cpp-default
+  description EWLC Data, Inter FED Traffic 
+class-map match-any system-cpp-police-sys-data
+  description Openflow, Exception, EGR Exception, NFL Sampled Data, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-high-rate-app
+  description High Rate Applications 
+class-map match-any system-cpp-police-multicast
+  description MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual OOB
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control and Low Latency
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-dhcp-snooping
+  description DHCP snooping
+class-map match-any system-cpp-police-ios-routing
+  description L2 control, Topology control, Routing control, Low Latency
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold Pkt
+class-map match-any system-cpp-police-ios-feature
+  description ICMPGEN,BROADCAST,ICMP,L2LVXCntrl,ProtoSnoop,PuntWebauth,MCASTData,Transit,DOT1XAuth,Swfwd,LOGGING,L2LVXData,ForusTraffic,ForusARP,McastEndStn,Openflow,Exception,EGRExcption,NflSampled,RpfFailed
+!
+policy-map system-cpp-policy
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.124.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback1
+ ip address 10.1.125.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback100
+ vrf forwarding oao-dmz
+ ip address 10.0.127.1 255.255.255.255
+!
+interface Loopback101
+ vrf forwarding ao-kt
+ ip address 10.1.125.101 255.255.255.255
+!
+interface Port-channel1
+ description TO_C95k_SRV1
+ no switchport
+ ip address 10.1.126.1 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 1 area 0
+ bfd interval 250 min_rx 250 multiplier 3
+!
+interface Port-channel2
+ description TO_C95k_SRV2
+ no switchport
+ ip address 10.1.126.5 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf bfd
+ ip ospf 1 area 0
+ bfd interval 250 min_rx 250 multiplier 3
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ ip address 10.1.255.11 255.255.255.0
+ negotiation auto
+!
+interface TwentyFiveGigE1/0/1
+ description TO_Fortigate_Port3_wIP
+ switchport access vlan 250
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/2
+ description TO_Fortigate_Port13_wIP
+ switchport access vlan 250
+ switchport mode access
+ mac-address 0000.1000.0010
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/3
+ description TO_Fortigate_L2ISP_wIP
+ switchport access vlan 250
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/4
+ description TO_Fortigate_Port4_GW
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/5
+ description TO_Fortigate_Port5_Trunk
+ switchport trunk allowed vlan 29,101,102,997
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/6
+ description TO_Fortigate_Port6_ATM_SBB
+ switchport access vlan 999
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/7
+ description TO_Fortigate_Port7_ATM_VTB
+ switchport access vlan 998
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/8
+ description TO_Zyxel_IES1000
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+ spanning-tree bpdufilter enable
+!
+interface TwentyFiveGigE1/0/9
+ description TO_Zyxel_IES1000
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/10
+ description TO_Dionis
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/11
+ description TO_Dionis_DITUN
+ switchport access vlan 505
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/12
+ description TO_MGMT_C95kATC
+ switchport access vlan 503
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/13
+ description TO_Fortigate_M2_MGMT
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/14
+ description TO_Fortigate_Port14_Exchange
+ switchport trunk allowed vlan 200
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/15
+ description TO_ISR_4321_Trunk
+ switchport trunk allowed vlan 102,505,506
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/16
+ description TO_ADMIN_ATS
+ switchport trunk native vlan 127
+ switchport trunk allowed vlan 29,109,127
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/17
+ description TO_Conferenc
+ switchport access vlan 127
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/18
+ description TO_DES_Prohodnaya2
+ switchport trunk native vlan 127
+ switchport trunk allowed vlan 3,10,30,33,127,500,501,504
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/19
+ description TO_DGS-40_Prohodnaya1
+ switchport trunk native vlan 127
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/20
+ description TO_SWElectro
+ switchport access vlan 248
+ switchport mode access
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/21
+ description TO_DGS-47
+ switchport trunk native vlan 127
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/22
+ description TO_3850-Apex
+ switchport mode trunk
+ storm-control broadcast level 40.00 20.00
+ storm-control multicast level 40.00 20.00
+!
+interface TwentyFiveGigE1/0/23
+ description TO_C95k_SRV2
+ no switchport
+ no ip address
+ channel-group 2 mode active
+!
+interface TwentyFiveGigE1/0/24
+ no switchport
+ no ip address
+ channel-group 1 mode active
+!
+interface HundredGigE1/0/25
+!
+interface HundredGigE1/0/26
+!
+interface HundredGigE1/0/27
+ stackwise-virtual link 1
+ description TO_Virtual_Link
+!
+interface HundredGigE1/0/28
+ stackwise-virtual dual-active-detection
+ description TO_Dual-Active-Detection
+!
+interface TwentyFiveGigE2/0/1
+ description TO_Fortigate_Port3_wIP
+ switchport access vlan 250
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/2
+ description TO_Fortigate_Port13_wIP
+ switchport access vlan 250
+ switchport mode access
+ mac-address 0000.1000.0010
+!
+interface TwentyFiveGigE2/0/3
+ description TO_Fortigate_L2ISP_wIP
+ switchport access vlan 250
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/4
+ description TO_Fortigate_Port4_GW
+ switchport access vlan 127
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/5
+ description TO_Fortigate_Port5_Trunk
+ switchport trunk allowed vlan 29,102,997
+ switchport mode trunk
+!
+interface TwentyFiveGigE2/0/6
+ description TO_Fortigate_Port6_ATM_SBB
+ switchport access vlan 999
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/7
+ description TO_Fortigate_Port7_ATM_VTB
+ switchport access vlan 998
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/8
+!
+interface TwentyFiveGigE2/0/9
+!
+interface TwentyFiveGigE2/0/10
+!
+interface TwentyFiveGigE2/0/11
+ description TO_Fortigate_Port11_Router_GW97
+ switchport access vlan 127
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/12
+ description TO_Fortigate_Port12_RouterMail
+ switchport access vlan 200
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/13
+ description TO_Fortigate_M2_MGMT
+ switchport access vlan 127
+ switchport mode access
+!
+interface TwentyFiveGigE2/0/14
+ description TO_Fortigate_Port14_Exchange
+ switchport trunk allowed vlan 200
+ switchport mode trunk
+!
+interface TwentyFiveGigE2/0/15
+!
+interface TwentyFiveGigE2/0/16
+!
+interface TwentyFiveGigE2/0/17
+!
+interface TwentyFiveGigE2/0/18
+!
+interface TwentyFiveGigE2/0/19
+!
+interface TwentyFiveGigE2/0/20
+!
+interface TwentyFiveGigE2/0/21
+!
+interface TwentyFiveGigE2/0/22
+!
+interface TwentyFiveGigE2/0/23
+ description TO_C95k_SRV2
+ no switchport
+ no ip address
+ channel-group 2 mode active
+!
+interface TwentyFiveGigE2/0/24
+ no switchport
+ no ip address
+ channel-group 1 mode active
+!
+interface HundredGigE2/0/25
+!
+interface HundredGigE2/0/26
+!
+interface HundredGigE2/0/27
+ stackwise-virtual link 1
+ description TO_Virtual_Link
+!
+interface HundredGigE2/0/28
+ stackwise-virtual dual-active-detection
+ description TO_Dual-Active-Detection
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan3
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.3.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan7
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.7.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan10
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.10.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan30
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.30.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan33
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.33.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan38
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.38.1 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan104
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.112.1 255.255.255.0
+!
+interface Vlan127
+ vrf forwarding oao-dmz
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback100
+ ip address 10.0.2.31 255.255.255.0
+ ip helper-address 10.0.90.2
+!
+interface Vlan200
+ vrf forwarding oao-dmz
+ ip address 10.0.200.2 255.255.255.0
+!
+interface Vlan500
+ mac-address 0000.0000.0500
+ vrf forwarding ao-kt
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback101
+ ip address 10.1.10.1 255.255.254.0
+ ip helper-address 10.1.30.17
+ ip helper-address 10.1.74.11
+ ip helper-address 10.33.64.11
+!
+interface Vlan501
+ mac-address 0000.0000.0501
+ vrf forwarding ao-kt
+ ip dhcp relay information option vpn-id 
+ ip dhcp relay source-interface Loopback101
+ ip address 10.1.20.1 255.255.254.0
+ ip helper-address 10.1.30.17
+ ip helper-address 10.1.74.11
+ ip helper-address 10.33.64.11
+!
+interface Vlan502
+ mac-address 0000.0000.0502
+ vrf forwarding ao-kt
+ ip address 10.1.30.1 255.255.255.0
+!
+interface Vlan503
+ vrf forwarding ao-kt
+ ip address 10.1.255.101 255.255.255.0 secondary
+ ip address 10.1.255.1 255.255.255.0
+!
+interface Vlan504
+ vrf forwarding ao-kt
+ ip address 10.1.50.1 255.255.255.0
+!
+interface Vlan505
+ vrf forwarding ao-kt
+ ip address 192.168.250.51 255.255.255.248
+!
+interface Vlan1100
+ vrf forwarding oao-dmz
+ ip unnumbered Loopback100
+ no autostate
+!
+interface Vlan1101
+ vrf forwarding ao-kt
+ ip unnumbered Loopback101
+ no autostate
+!
+interface nve1
+ no ip address
+ source-interface Loopback1
+ host-reachability protocol bgp
+ member vni 11010 vrf ao-kt
+ member vni 5000 ingress-replication
+ member vni 5010 ingress-replication
+ member vni 5020 ingress-replication
+ member vni 5030 ingress-replication
+ member vni 5040 ingress-replication
+ member vni 11000 vrf oao-dmz
+ member vni 100003 ingress-replication
+ member vni 100033 ingress-replication
+ member vni 100102 ingress-replication
+ member vni 100104 ingress-replication
+ member vni 100127 ingress-replication
+ member vni 100250 ingress-replication
+ member vni 100200 ingress-replication
+ member vni 100030 ingress-replication
+ member vni 100101 ingress-replication
+!
+router ospf 1
+ router-id 10.1.124.1
+ passive-interface default
+ no passive-interface Port-channel1
+ no passive-interface Port-channel2
+!
+router bgp 65509
+ bgp router-id 10.1.124.1
+ bgp asnotation dot
+ bgp log-neighbor-changes
+ bgp graceful-restart
+ no bgp default ipv4-unicast
+ neighbor iBGP peer-group
+ neighbor iBGP remote-as 65509
+ neighbor iBGP update-source Loopback0
+ neighbor iBGP fall-over bfd
+ neighbor 10.1.124.253 peer-group iBGP
+ neighbor 10.1.124.254 peer-group iBGP
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  neighbor iBGP send-community both
+  neighbor 10.1.124.253 activate
+  neighbor 10.1.124.254 activate
+ exit-address-family
+ !
+ address-family ipv4 vrf ao-kt
+  advertise l2vpn evpn
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf oao-dmz
+  advertise l2vpn evpn
+  redistribute connected
+  redistribute static
+  default-information originate
+ exit-address-family
+!
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip route vrf Mgmt-vrf 0.0.0.0 0.0.0.0 10.1.255.1
+ip route vrf oao-dmz 0.0.0.0 0.0.0.0 10.0.2.76
+ip route vrf oao-dmz 10.0.11.0 255.255.255.0 10.0.2.11
+ip route vrf oao-dmz 10.0.12.0 255.255.255.0 10.0.2.12
+ip route vrf oao-dmz 10.0.13.0 255.255.255.0 10.0.2.13
+ip route vrf oao-dmz 10.0.14.0 255.255.255.0 10.0.2.14
+ip route vrf oao-dmz 10.0.15.0 255.255.255.0 10.0.2.15
+ip route vrf oao-dmz 10.0.16.0 255.255.255.0 10.0.2.16
+ip route vrf oao-dmz 10.0.17.0 255.255.255.0 10.0.2.17
+ip route vrf oao-dmz 10.0.18.0 255.255.255.0 10.0.2.18
+ip route vrf oao-dmz 10.0.20.0 255.255.255.0 10.0.2.20
+ip route vrf oao-dmz 10.0.21.0 255.255.255.0 10.0.2.21
+ip route vrf oao-dmz 10.0.23.0 255.255.255.0 10.0.2.23
+ip ssh version 2
+ip ssh pubkey-chain
+  username netadmin
+   key-hash ssh-rsa EF32D810E5FB36D9BADEAF109EF20CED 
+  username adminmiksel
+   key-hash ssh-rsa 25F7C0BC491886906ED0F8CB101E43CB 
+  username netaud
+   key-hash ssh-rsa CFB25008B0872216FF7D45D1576D115C 
+!
+!
+ip access-list standard acl-mgmt
+ 10 permit 10.71.64.10
+ 20 permit 10.71.64.7
+ 170 permit 10.33.64.228
+ 30 permit 10.1.124.0 0.0.0.255
+ 40 permit 10.1.125.0 0.0.0.255
+ 50 permit 10.1.126.0 0.0.0.255
+ 60 permit 10.1.127.0 0.0.0.255
+ 70 permit 10.33.255.0 0.0.0.255
+ 80 permit 10.64.255.0 0.0.0.255
+ 90 permit 10.65.255.0 0.0.0.255
+ 100 permit 10.67.255.0 0.0.0.255
+ 110 permit 10.68.255.0 0.0.0.255
+ 120 permit 10.71.255.0 0.0.0.255
+ 130 permit 10.73.255.0 0.0.0.255
+ 140 permit 10.74.255.0 0.0.0.255
+ 150 permit 10.75.255.0 0.0.0.255
+ 160 permit 10.76.255.0 0.0.0.255
+!
+!
+logging trap debugging
+logging origin-id hostname
+logging host 10.33.64.231 transport udp port 5514
+!
+!
+snmp-server group netaud v3 priv read ALL 
+snmp-server view ALL iso included
+!
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+privilege exec level 5 copy
+privilege exec level 5 terminal length
+privilege exec level 5 terminal
+privilege exec level 5 show startup-config
+privilege exec level 15 show running-config full
+privilege exec level 5 show running-config view full
+privilege exec level 5 show running-config view
+privilege exec level 5 show running-config
+privilege exec level 5 show
+!
+line con 0
+ exec-timeout 0 0
+ timeout login response 300
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ access-class acl-mgmt in vrf-also
+ transport input ssh
+line vty 5 15
+ access-class acl-mgmt in vrf-also
+ transport input ssh
+!
+call-home
+ ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+ ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+ contact-email-addr sch-smart-licensing@cisco.com
+ profile "CiscoTAC-1"
+  active
+  destination transport-method http
+ntp server vrf Mgmt-vrf 10.33.64.200
+!
+!
+!
+!
+!
+!
+end

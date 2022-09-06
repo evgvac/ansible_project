@@ -1,0 +1,25 @@
+MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
+------------------  ---------------  ----------  -------------  ----  --------------------
+18:C0:4D:3C:E8:E2   10.71.64.38      675483      dhcp-snooping   64    GigabitEthernet1/0/2
+80:5E:0C:10:CE:CF   10.71.88.56      40853       dhcp-snooping   80    GigabitEthernet1/0/34
+80:5E:C0:7A:DA:50   10.71.88.80      425916      dhcp-snooping   80    GigabitEthernet1/0/9
+1C:1B:0D:2E:AD:69   10.71.68.95      611663      dhcp-snooping   64    GigabitEthernet1/0/18
+B4:2E:99:AE:53:6D   10.71.64.102     587464      dhcp-snooping   64    GigabitEthernet1/0/25
+D8:5E:D3:52:2F:D3   10.71.64.217     677023      dhcp-snooping   64    GigabitEthernet1/0/22
+18:C0:4D:6F:21:0C   10.71.64.129     591734      dhcp-snooping   64    GigabitEthernet1/0/33
+80:5E:0C:13:16:22   10.71.82.137     680347      dhcp-snooping   80    GigabitEthernet1/0/24
+D8:5E:D3:52:70:33   10.71.68.145     345862      dhcp-snooping   64    GigabitEthernet1/0/34
+18:C0:4D:A2:76:4B   10.71.68.60      424286      dhcp-snooping   64    GigabitEthernet1/0/24
+80:5E:C0:D9:15:E5   10.71.88.48      11744       dhcp-snooping   80    GigabitEthernet1/0/1
+B4:2E:99:6B:85:FB   10.71.68.117     600918      dhcp-snooping   64    GigabitEthernet1/0/20
+80:5E:C0:D9:16:63   10.71.80.253     294308      dhcp-snooping   80    GigabitEthernet1/0/2
+84:2A:FD:07:48:28   10.71.104.46     517556      dhcp-snooping   104   GigabitEthernet1/0/11
+C8:84:A1:B1:A0:EC   10.71.254.65     76186       dhcp-snooping   254   GigabitEthernet1/0/48
+D8:5E:D3:5F:50:D9   10.71.64.76      604884      dhcp-snooping   64    GigabitEthernet1/0/9
+80:5E:C0:3B:0F:0B   10.71.82.32      587389      dhcp-snooping   80    GigabitEthernet1/0/25
+18:C0:4D:6C:2F:7A   10.71.68.31      585448      dhcp-snooping   64    GigabitEthernet1/0/7
+80:5E:C0:A4:18:6C   10.71.88.12      417877      dhcp-snooping   80    GigabitEthernet1/0/26
+B4:2E:99:AE:43:16   10.71.64.81      625117      dhcp-snooping   64    GigabitEthernet1/0/26
+1C:1B:0D:F5:83:52   10.71.64.62      605960      dhcp-snooping   64    GigabitEthernet1/0/5
+00:15:65:F2:C8:AA   10.71.81.184     479465      dhcp-snooping   80    GigabitEthernet1/0/7
+Total number of bindings: 22
