@@ -1,15 +1,15 @@
 - name: Enable logging
   hosts: cisco
   gather_facts: false
-  ignore_errors: yes
+#  ignore_errors: yes
   
   tasks:
 
-    - name: Accept ansible get hostname
-      ios_facts:
-        gather_subset: all
-      vars:
-        ansible_command_timeout: 60
+#    - name: Accept ansible get hostname
+#      ios_facts:
+#        gather_subset: all
+#      vars:
+#        ansible_command_timeout: 60
 
     - name: Enable Cisco logging to ELKStack
       cisco.ios.ios_config:
