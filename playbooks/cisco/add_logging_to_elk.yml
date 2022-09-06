@@ -30,14 +30,14 @@
       ios_command:
         commands:
           - write
-        provider: "{{ cli }}"
+#        provider: "{{ cli }}"
       when: cfg.changed
 
     - name: show ntp
       ios_command:
         commands:
                 - show run | incl logging
-        provider: "{{ cli }}"
+#        provider: "{{ cli }}"
       register: out
 
     - name: Debug registered var
