@@ -12,6 +12,7 @@ gitlab
 zabbix
 zabbix-proxy
 haproxy-kwts
+olimpoks
 
 [samba:children]
 sftp
@@ -51,6 +52,9 @@ dbksv-zabbix-proxy
 
 [haproxy-kwts]
 dcksv-haproxy-kwts
+
+[olimpoks]
+dcksv-olimpoks
 
 # ------------------------------------
 [astra:children]
