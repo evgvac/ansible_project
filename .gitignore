@@ -4,3 +4,4 @@ telefon/
 .ssh/
 test-01.yml
 test-02.yml
+.ansible/
