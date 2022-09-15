@@ -61,7 +61,9 @@ dcksv-olimpoks
 idp
 tdp
 #build
+stand-008
 stand-007
+stand-006
 
 [idp]
 dcksv-astra-idp
@@ -72,8 +74,14 @@ dcksv-astra-tdp
 [build]
 vorsv-astra16-build
 
+[stand-008]
+msk-astra-008       ansible_ssh_host=10.71.140.15
+
 [stand-007]
-msk-astra-007
+msk-astra-007       ansible_ssh_host=10.71.140.x
+
+[stand-006]
+msk-astra-006       ansible_ssh_host=10.71.140.13
 # ------------------------------------
 [jenkis:children]
 build

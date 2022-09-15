@@ -1,2 +1,9 @@
 ---
 # vars file for debian_tuning
+    packages:
+        - htop
+        - zabbix-agent
+        - sudo
+        - tree
+        - haproxy
+        
