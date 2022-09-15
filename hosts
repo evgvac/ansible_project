@@ -60,7 +60,7 @@ dcksv-olimpoks
 [astra:children]
 idp
 tdp
-#build
+##build
 stand-008
 stand-007
 stand-006
