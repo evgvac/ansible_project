@@ -13,6 +13,7 @@ zabbix
 zabbix-proxy
 haproxy-kwts
 olimpoks
+build-01
 
 [samba:children]
 sftp
@@ -55,6 +56,9 @@ dcksv-haproxy-kwts
 
 [olimpoks]
 dcksv-olimpoks
+
+[build-01]
+dcksv-build-01
 
 # ------------------------------------
 [astra:children]

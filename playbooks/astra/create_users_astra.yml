@@ -35,4 +35,3 @@
 #      group: sudo
       shell: /bin/bash
       password: "{{ '123' | password_hash('sha512') }}"
-
