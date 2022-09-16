@@ -27,6 +27,7 @@
         - sudo
         - tree
         - haproxy
+        - unzip
       state: latest
 
   - name: Copy SSH config
