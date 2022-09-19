@@ -35,3 +35,10 @@
 #      group: sudo
       shell: /bin/bash
       password: "{{ '123' | password_hash('sha512') }}"
+
+  - name: Add new user
+    user:
+      name: ktuser
+      group: sudo
+      shell: /bin/bash
+      password: "{{ 'kronshtadt' | password_hash('sha512') }}"
