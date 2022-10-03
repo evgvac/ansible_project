@@ -1,11 +1,5 @@
 ---
 # tasks file for install_kaspersky
-- name: Check install kesl
-  command: dpkg-query -W kesl
-  register: pkg_kesl_install
-  failed_when: pkg_kesl_install.rc > 1
-  changed_when: pkg_kesl_install.rc == 1
-
 - name: Check install klnagent
   command: dpkg-query -W klnagent
   register: pkg_klnagent_install
@@ -24,10 +18,16 @@
 
   when: pkg_klnagent_install.rc == 1
 
+- name: Check install kesl
+  command: dpkg-query -W kesl
+  register: pkg_kesl_install
+  failed_when: pkg_kesl_install.rc > 1
+  changed_when: pkg_kesl_install.rc == 1
+
 - block: ##### Block Kesl #####
   - name: Copy Kesl deb files
     copy:
-      src: "{{ kaspersky_agent }}"
+      src: "{{ kaspersky_kesl }}"
       dest: "{{ destination_folder }}"
 
 #  - name: Install Klnagent
