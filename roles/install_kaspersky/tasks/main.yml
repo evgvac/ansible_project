@@ -21,7 +21,7 @@
 
     - name: Install Klnagent
       apt: deb="{{ destination_folder }}/{{ kaspersky_agent }}"
-      sudo: true
+#        sudo: true
 #      when: pkg_klnagent_install.rc
 
   when: pkg_klnagent_install.rc == 1
@@ -35,7 +35,7 @@
 
     - name: Install Klnagent
       apt: deb="{{ destination_folder }}/{{ kaspersky_kesl }}"
-      sudo: true
+#      sudo: true
 #      when: pkg_kesl_install.rc
 
   when: pkg_kesl_install == 1
