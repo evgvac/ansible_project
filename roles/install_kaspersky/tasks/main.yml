@@ -1,2 +1,13 @@
 ---
 # tasks file for install_kaspersky
+- name: Copy deb files
+  copy:
+      src: kesl_11.2.0-4528_amd64.deb
+      dest: /tmp
+      mode: 0644
+
+- name: Copy deb files
+  copy:
+      src: klnagent64_13.2.2-1263_amd64.debb
+      dest: /tmp
+      mode: 0644
