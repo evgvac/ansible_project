@@ -1,2 +1,5 @@
 ---
 # vars file for install_kaspersky
+destination_folder: /tmp
+kaspersky_agent: klnagent64_13.2.2-1263_amd64.deb
+kaspersky_kesl: kesl_11.2.0-4528_amd64.deb
