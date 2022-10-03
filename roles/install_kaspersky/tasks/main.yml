@@ -34,7 +34,7 @@
 #    apt: 
 #      deb: "{{ destination_folder }}/{{ kaspersky_kesl }}"
 
-  when: pkg_kesl_install == 1
+  when: pkg_kesl_install.rc == 1
 
 #  - name: Copy Klnagent deb files
 #    copy:
