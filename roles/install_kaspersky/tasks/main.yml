@@ -15,28 +15,28 @@
 - block: ##### Block Klnagent #####
     - name: Copy Klnagent deb files
       copy:
-          src: "{{ kaspersky_agent }}"
-          dest: "{{ destination_folder }}"
-          mode: 0644
+        src: "{{ kaspersky_agent }}"
+        dest: "{{ destination_folder }}"
+        mode: 0644
 
-    - name: Install Klnagent
-      apt: deb="{{ destination_folder }}/{{ kaspersky_agent }}"
-      sudo: true
-      when: pkg_klnagent_install.rc
+#    - name: Install Klnagent
+#      apt: deb="{{ destination_folder }}/{{ kaspersky_agent }}"
+#      sudo: true
+#      when: pkg_klnagent_install.rc
 
   when: pkg_klnagent_install.rc == 1
 
 - block: ##### Block Kesl #####
     - name: Copy Kesl deb files
       copy:
-          src: "{{ kaspersky_kesl }}"
-          dest: "{{ destination_folder }}"
-          mode: 0644
+        src: "{{ kaspersky_kesl }}"
+        dest: "{{ destination_folder }}"
+        mode: 0644
 
-    - name: Install Klnagent
-      apt: deb="{{ destination_folder }}/{{ kaspersky_kesl }}"
-      sudo: true
-      when: pkg_kesl_install.rc
+#    - name: Install Klnagent
+#      apt: deb="{{ destination_folder }}/{{ kaspersky_kesl }}"
+#      sudo: true
+#      when: pkg_kesl_install.rc
 
   when: pkg_kesl_install == 1
 
