@@ -1,6 +1,6 @@
 # ------------------------------------
 [linux:children]
-asterisk
+#asterisk
 ansible
 #test
 nextcloud
