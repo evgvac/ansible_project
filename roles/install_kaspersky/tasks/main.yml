@@ -27,7 +27,7 @@
 - block: ##### Block Kesl #####
   - name: Copy Kesl deb files
     copy:
-      src: "{{ kaspersky_kesl }}"
+      src: "{{ kaspersky_agent }}"
       dest: "{{ destination_folder }}"
 
 #  - name: Install Klnagent
