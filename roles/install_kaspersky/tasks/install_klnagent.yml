@@ -28,7 +28,7 @@
     file: 
       path: "{{ item }}" 
       state: absent
-    loop:
+    with_items:
       - "{{ dest_distr }}/{{ kaspersky_agent }}"
       - "{{ dest_distr }}/klnagent_autoanswers.conf"
 
