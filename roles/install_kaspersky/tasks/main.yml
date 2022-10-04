@@ -18,9 +18,9 @@
       src: "{{ kaspersky_agent }}"
       dest: "{{ destination_folder }}"
 
-#  - name: Install Klnagent
-#    apt:
-#      deb: "{{ destination_folder }}/{{ kaspersky_agent }}"
+  - name: Install Klnagent
+    apt:
+      deb: "{{ destination_folder }}/{{ kaspersky_agent }}"
 
   when: pkg_klnagent_install.rc == 1
 
@@ -30,9 +30,9 @@
       src: "{{ kaspersky_kesl }}"
       dest: "{{ destination_folder }}"
 
-#  - name: Install Klnagent
-#    apt: 
-#      deb: "{{ destination_folder }}/{{ kaspersky_kesl }}"
+  - name: Install Klnagent
+    apt: 
+      deb: "{{ destination_folder }}/{{ kaspersky_kesl }}"
 
   when: pkg_kesl_install.rc == 1
 
