@@ -21,7 +21,7 @@
 
   - name: Removing klnagent file
     file: 
-      path: "{{ item.kesl }}" 
+      path: "{{ item }}" 
       state: absent
     loop:
       - "{{ dest_distr }}/{{ kaspersky_kesl }}"
