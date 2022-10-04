@@ -23,7 +23,7 @@
     file: 
       path: "{{ item }}" 
       state: absent
-    loop:
+    with_items:
       - "{{ dest_distr }}/{{ kaspersky_kesl }}"
       - "{{ dest_distr }}/kesl_autoanswers.conf"
 
