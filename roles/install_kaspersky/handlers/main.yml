@@ -1,2 +1,11 @@
 ---
 # handlers file for install_kaspersky
+- name: restart kesl 
+  service:
+    name: "kesl-supervisor"
+    state: restarted
+
+- name: reload klnagent 
+  service:
+    name: "klnagent64"
+    state: restarted

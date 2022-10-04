@@ -1,0 +1,35 @@
+---
+- block: ##### Block klnagent #####
+  - name: Copy klnagent deb files
+    copy:
+      src: "{{ kaspersky_agent }}"
+      dest: "{{ dest_distr }}"
+
+  - name: Install klnagent
+    apt:
+      deb: "{{ dest_distr }}/{{ kaspersky_agent }}"
+
+  - name: Copy klnagent autoanswers file
+    copy: 
+      src: klnagent_autoanswers.conf
+      dest: "{{ dest_distr }}"
+
+  - name: Run configuring klnagent
+    become: yes
+    shell: "{{ default_klnagent_bin_path }}/postinstall.pl"
+    args:
+      executable: /bin/bash 
+    environment: 
+      KLAUTOANSWERS: /tmp/klnagent_autoanswers.conf
+    notify: restart klnagent
+    tags: klnagent
+
+  - name: Removing klnagent file
+    file: 
+      path: "{{ item.klnagent }}" 
+      state: absent
+    loop:
+      - "{{ dest_distr }}/{{ kaspersky_agent }}"
+      - "{{ dest_distr }}/klnagent_autoanswers.conf"
+
+  when: pkg_klnagent_install.rc == 1

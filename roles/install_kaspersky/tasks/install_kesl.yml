@@ -1,0 +1,30 @@
+---
+- block: ##### Block Kesl #####
+  - name: Copy kesl files
+    copy:
+      src: "{{ kaspersky_kesl }}"
+      dest: "{{ dest_distr }}"
+
+  - name: Install kesl
+    apt: 
+      deb: "{{ dest_distr }}/{{ kaspersky_kesl }}"
+
+  - name: Copy kesl autoanswers file
+    copy: 
+      src: kesl_autoanswers.conf
+      dest: "{{ dest_distr }}"
+
+  - name: "Kesl postinstall config"
+    shell: "{{ default_kesl_bin_path }}/kesl-setup.pl --autoinstall={{ dest_distr }}/kesl_autoanswers.conf"
+    register: postconfig_result
+    notify:  restart kesl
+
+  - name: Removing klnagent file
+    file: 
+      path: "{{ item.kesl }}" 
+      state: absent
+    loop:
+      - "{{ dest_distr }}/{{ kaspersky_kesl }}"
+      - "{{ dest_distr }}/kesl_autoanswers.conf"
+
+  when: pkg_kesl_install.rc == 1
