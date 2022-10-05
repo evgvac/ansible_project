@@ -1,0 +1,8 @@
+---
+- name: Install Kaspersky
+  hosts: linux
+  become: true
+
+  roles: 
+    - first_setup
+    
