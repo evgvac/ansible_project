@@ -1,6 +1,6 @@
 ---
-packages: 
-- htop
+__packages: 
+  - htop
 #- zabbix-agent
 #- sudo
 #- tree
