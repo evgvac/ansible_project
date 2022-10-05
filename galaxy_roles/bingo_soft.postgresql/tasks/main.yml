@@ -1,0 +1,125 @@
+# file: postgresql/tasks/main.yml
+
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_os_family }}.yml"
+    - "../vars/empty.yml"
+  when: ansible_os_family in ['Debian', 'RedHat', 'Rocky']
+  tags: [always]
+
+#
+# Install the Astra Linux (Orel) 2.12 specific variables
+#
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution_release }}-{{ ansible_distribution_version.split('.')[0:2] | join('.') }}.yml"
+    - "../vars/empty.yml"
+  when: ansible_os_family == "Astra Linux (Orel)" and ansible_distribution_version is version('2.12', '>=') and ansible_distribution_version is version('2.13', '<')
+  tags: [always]
+
+#
+# Install the Astra Linux 1.7 specific variables
+#
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution.split(' ')[0] | lower }}-{{ ansible_distribution_version.split('_')[0:1] | join('.') }}.yml"
+    - "../vars/empty.yml"
+  when: ansible_os_family == "Astra Linux"
+  tags: [always]
+
+#
+# Override defaults/main.yml with PostgreSQL version specific values
+#
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/postgresql_{{ postgresql_version }}.yml"
+    - "../vars/empty.yml"
+  tags: [always]
+
+- include_tasks:
+    file: install_apt.yml
+    apply:
+      tags: [postgresql, postgresql-install]
+  when: ansible_pkg_mgr == "apt"
+  tags: [postgresql, postgresql-install]
+
+- include_tasks:
+    file: install_yum.yml
+    apply:
+      tags: [postgresql, postgresql-install]
+  when: ansible_pkg_mgr == "yum" and (ansible_distribution in ['RedHat', 'CentOS', 'OracleLinux'])
+  tags: [postgresql, postgresql-install]
+
+- include_tasks:
+    file: install_dnf.yml
+    apply:
+      tags: [postgresql, postgresql-install]
+  when: ansible_pkg_mgr == "dnf" and (ansible_distribution in ['Fedora', 'CentOS', 'Rocky'])
+  tags: [postgresql, postgresql-install]
+
+- include_tasks:
+    file: extensions.yml
+    apply:
+      tags: [postgresql, postgresql-extensions]
+  tags: [postgresql, postgresql-extensions]
+
+- include_tasks:
+    file: fdw.yml
+    apply:
+      tags: [postgresql, postgresql-fdw]
+  tags: [postgresql, postgresql-fdw]
+
+- include_tasks:
+    file: configure_RedHat.yml
+    apply:
+      tags: [postgresql, postgresql-configure]
+  when: ansible_os_family in ['RedHat', 'Rocky']
+  tags: [postgresql, postgresql-configure]
+
+- include_tasks:
+    file: configure_Debian.yml
+    apply:
+      tags: [postgresql, postgresql-configure]
+  when: ansible_os_family in ['Debian', 'Astra Linux (Orel)', 'Astra Linux']
+  tags: [postgresql, postgresql-configure]
+
+- include_tasks:
+    file: users.yml
+    apply:
+      tags: [postgresql, postgresql-users]
+  tags: [postgresql, postgresql-users]
+
+- include_tasks:
+    file: databases.yml
+    apply:
+      tags: [postgresql, postgresql-databases]
+  tags: [postgresql, postgresql-databases]
+
+- include_tasks:
+    file: schemas.yml
+    apply:
+      tags: [postgresql, postgresql-schemas]
+  tags: [postgresql, postgresql-schemas]
+
+- include_tasks:
+    file: users_privileges.yml
+    apply:
+      tags: [postgresql, postgresql-users]
+  tags: [postgresql, postgresql-users]
+
+- include_tasks:
+    file: monit.yml
+    apply:
+      tags: [postgresql, postgresql-monit]
+  when: monit_protection is defined and monit_protection == true
+  tags: [postgresql, postgresql-monit]
+
+- include_tasks:
+    file: check_pg_version_mismatch.yml
+    apply:
+      tags: [postgresql, postgresql-version-mismatch]
+  tags: [postgresql, postgresql-version-mismatch]

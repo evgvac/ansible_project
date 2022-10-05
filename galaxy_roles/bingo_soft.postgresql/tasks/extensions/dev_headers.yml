@@ -1,0 +1,49 @@
+# file: postgresql/tasks/extensions/dev_headers.yml
+
+- name: PostgreSQL | Extensions | Make sure the development headers are installed | Debian OS system
+  apt:
+    name: libpq-dev
+    state: present
+    update_cache: yes
+    cache_valid_time: "{{ apt_cache_valid_time | default (3600) }}"
+  when: ansible_os_family in ['Debian', 'Astra Linux (Orel)', 'Astra Linux']
+  notify:
+    - restart postgresql
+
+#- name: PostgreSQL | Extensions | Make sure the development headers are installed | AstraLinux(Orel)
+#  apt:
+#    name: "libpq-dev={{ postgresql_version }}*"
+#    state: present
+#    update_cache: yes
+#    cache_valid_time: "{{ apt_cache_valid_time | default (3600) }}"
+#  when: ansible_distribution == "Astra Linux (Orel)"
+#  notify:
+#    - restart postgresql
+
+- block:
+    - name: "Add repo centos-release-scl-rh for install postgresql{{ postgresql_version }}-devel on CentOS 7"
+      yum:
+        name: centos-release-scl-rh
+        state: present
+      when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+    - name: PostgreSQL | Extensions | Make sure the development headers are installed | RedHat or CentOS
+      yum:
+        name:
+          - "postgresql{{ postgresql_version_terse }}-libs"
+          - "postgresql{{ postgresql_version_terse }}-devel"
+        state: present
+        update_cache: yes
+      when: ansible_pkg_mgr == "yum" and (ansible_distribution in ['RedHat', 'CentOS'])
+      notify:
+        - restart postgresql
+
+- name: PostgreSQL | Extensions | Make sure the development headers are installed | Fedora or Rocky
+  dnf:
+    name:
+      - "postgresql{{ postgresql_version_terse }}-libs"
+      - "postgresql{{ postgresql_version_terse }}-devel"
+    state: present
+  when: ansible_pkg_mgr == "dnf" and (ansible_distribution in ['Fedora', 'Rocky'])
+  notify:
+    - restart postgresql

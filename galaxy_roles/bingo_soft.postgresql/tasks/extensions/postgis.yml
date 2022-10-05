@@ -1,0 +1,92 @@
+---
+# file: postgresql/tasks/extensions/postgis.yml
+
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution_release }}.yml"
+    - "empty.yml"
+  when: ansible_os_family in ['Debian', 'RedHat']
+
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution_release }}-{{ ansible_distribution_version.split('.')[0:2] | join('.') }}.yml"
+    - "empty.yml"
+  when: ansible_os_family == "Astra Linux (Orel)" and ansible_distribution_version is version('2.12', '>=') and ansible_distribution_version is version('2.13', '<')
+
+- name: Include vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution.split(' ')[0] | lower }}-{{ ansible_distribution_version.split('_')[0:1] | join('.') }}.yml"
+    - "../vars/empty.yml"
+  when: ansible_os_family == "Astra Linux"
+
+- name: PostgreSQL | Extensions | Make sure the postgis extensions are installed | Debian OS system
+  apt:
+    name: "{{ postgresql_ext_postgis_deps_debian }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: "{{apt_cache_valid_time | default (3600)}}"
+  when: ansible_os_family in ['Debian', 'Astra Linux (Orel)', 'Astra Linux']
+  notify:
+    - restart postgresql
+
+- name: PostgreSQL | Extensions | Make sure the postgis extensions are installed | Fedora
+  dnf:
+    name: "postgis{{ posgresql_postgis_version }}"
+    state: present
+  when: ansible_pkg_mgr == "dnf" and ansible_distribution == "Fedora"
+  notify:
+    - restart postgresql
+
+- block:
+    - name: PostgreSQL | Install repo pgdg | CentOS 7 | yum
+      yum:
+        name: "{{ postgresql_pgdg_repository_url }}/reporpms/EL-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+        state: present
+      when: (ansible_distribution in ['RedHat', 'CentOS']) and ansible_distribution_major_version == "7"
+
+    - name: PostgreSQL | Extensions | Make sure the postgis extensions are installed | RedHat 7 or CentOS 7
+      yum:
+        name: "postgis{{ postgresql_postgis_version }}"
+        state: present
+      when: (ansible_distribution in ['RedHat', 'CentOS']) and ansible_distribution_major_version == "7"
+      notify:
+        - restart postgresql
+
+- block:
+    - name: PostgreSQL | Install repo pgdg | CentOS 8 or Rocky | dnf
+      dnf:
+        name: "{{ postgresql_pgdg_repository_url }}/reporpms/EL-{{ ansible_distribution_major_version }}-x86_64/pgdg-redhat-repo-latest.noarch.rpm"
+        state: present
+      when: (ansible_distribution in ['RedHat', 'CentOS', 'Rocky']) and ansible_distribution_major_version == "8"
+
+    - name: PostgreSQL | Check if CentOS 8 PowerTools repo enabled
+      command: dnf -y config-manager --set-enabled PowerTools
+      args:
+        warn: false
+      register: check_repo
+      failed_when: check_repo.rc == "0"
+      changed_when: false
+      when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "8"
+
+    - name: PostgreSQL | Fix | Check if CentOS 8 powertools repo enabled
+      command: dnf -y config-manager --set-enabled powertools
+      args:
+        warn: false
+      register: check_repo
+      failed_when: check_repo.rc == "0"
+      changed_when: false
+      when: (ansible_distribution in ['CentOS', 'Rocky']) and ansible_distribution_major_version == "8"
+
+    - name: PostgreSQL | Extensions | Make sure the postgis extensions are installed | RedHat 8 or CentOS 8 or Rocky 8
+      dnf:
+        name: "postgis{{ postgresql_postgis_version }}"
+        state: present
+        nobest: true
+      when: (ansible_distribution in ['RedHat', 'CentOS', 'Rocky']) and ansible_distribution_major_version == "8"
+      notify:
+        - restart postgresql
+
+...

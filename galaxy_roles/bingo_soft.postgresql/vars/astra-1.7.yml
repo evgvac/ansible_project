@@ -1,0 +1,23 @@
+---
+# PostgreSQL vars for Astra Linux 1.7 based distributions
+
+postgresql_apt_repository: "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main {{ postgresql_version }}"
+postgresql_default_release: buster-pgdg
+# Pin-Priority of PGDG repository
+postgresql_apt_pin_priority: 990
+
+#postgresql_apt_py3_dependencies: ["python3-psycopg2", "locales", "libpq5={{ postgresql_version }}*"]
+
+postgresql_service_name: "postgresql"
+
+postgresql_bin_directory: /usr/bin
+
+postgresql_fdw_mysql_packages: "postgresql-{{ postgresql_version }}-mysql-fdw"
+postgresql_fdw_ogr_packages: "postgresql-{{ postgresql_version }}-ogr-fdw"
+
+postgresql_ext_postgis_deps_debian:
+  - libgeos-c1v5
+  - "postgresql-{{ postgresql_version }}-postgis-{{ postgresql_ext_postgis_version_debian }}"
+  - "postgresql-{{ postgresql_version }}-postgis-{{ postgresql_ext_postgis_version_debian }}-scripts"
+
+...

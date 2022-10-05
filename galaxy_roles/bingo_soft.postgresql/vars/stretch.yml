@@ -1,0 +1,6 @@
+---
+postgresql_ext_postgis_deps_debian:
+  - libgeos-c1v5
+  - "postgresql-{{ postgresql_version }}-postgis-{{ postgresql_ext_postgis_version_debian }}"
+  - "postgresql-{{ postgresql_version }}-postgis-{{ postgresql_ext_postgis_version_debian }}-scripts"
+...

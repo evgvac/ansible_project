@@ -1,0 +1,9 @@
+---
+postgresql_ext_postgis_deps_debian:
+  - libgeos-c1v5
+  - "postgresql-{{postgresql_version}}-postgis-{{postgresql_ext_postgis_version_debian}}"
+  - "postgresql-{{postgresql_version}}-postgis-{{postgresql_ext_postgis_version_debian}}-scripts"
+
+postgresql_fdw_mysql_packages: "postgresql-{{ postgresql_version }}-mysql-fdw"
+postgresql_fdw_ogr_packages: "postgresql-{{ postgresql_version }}-ogr-fdw"
+...
