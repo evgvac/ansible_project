@@ -2,7 +2,7 @@
 [linux:children]
 #asterisk
 ansible
-#test
+test
 nextcloud
 repo
 sftp
