@@ -1,8 +1,8 @@
 ---
 packages: 
 - htop
-- zabbix-agent
-- sudo
-- tree
-- haproxy
-- unzip
+#- zabbix-agent
+#- sudo
+#- tree
+#- haproxy
+#- unzip
