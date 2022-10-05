@@ -1,5 +1,5 @@
 ---
-- name: Install Kaspersky
+- name: Install first_setup
   hosts: linux
   become: true
 
