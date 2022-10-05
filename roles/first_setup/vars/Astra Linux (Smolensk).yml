@@ -1,8 +1,0 @@
----
-packages:
-- htop
-#- sudo
-#- apt-transport-https
-#- ca-certificates
-#- python-apt
-#- open-vm-tools

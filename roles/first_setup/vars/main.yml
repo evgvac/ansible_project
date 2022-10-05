@@ -1,2 +1,16 @@
 ---
 # vars file for first_setup
+debian_packages:
+  - htop
+#  - zabbix-agent
+#  - sudo
+#  - tree
+#  - unzip
+
+astra_packages:
+  - htop
+#  - sudo
+#  - apt-transport-https
+#  - ca-certificates
+#  - python-apt
+#  - open-vm-tools

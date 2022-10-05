@@ -1,8 +1,2 @@
 ---
-# tasks file for first_setup
-#- name: Include vars for os family
-#  include_vars:
-#    file: "{{ ansible_os_family }}.yml"
-
-- include_tasks: install_pkg_Debian.yml
-#- include_tasks: "install_pkg_{{ ansible_os_family }}.yml"
+- include: install_pkg.yml
