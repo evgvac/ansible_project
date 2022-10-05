@@ -5,6 +5,6 @@
   when: (ansible_os_family == "Debian")
 
 - name: install Astra Linux packages
-  yum: pkg={{ item }}
+  apt: pkg={{ item }}
   with_items: "{{astra_packages}}"
   when: (ansible_os_family == "Astra Linux (Smolensk)")
