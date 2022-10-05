@@ -1,0 +1,8 @@
+---
+packages: 
+- htop
+- zabbix-agent
+- sudo
+- tree
+- haproxy
+- unzip

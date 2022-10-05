@@ -7,7 +7,7 @@ nextcloud
 repo
 sftp
 elkstack
-#astra
+astra
 gitlab
 zabbix
 zabbix-proxy
