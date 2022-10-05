@@ -1,0 +1,106 @@
+---
+
+# Kubernetes namespace to run in
+openzaak_namespace: open-zaak
+openzaak_manage_namespace: true
+openzaak_instance: prod
+
+# Ingress/routing details
+openzaak_domain: open-zaak.gemeente.nl
+openzaak_extra_hosts: []
+openzaak_extra_allowed_hosts:
+  - openzaak  # service name that nginx proxies to
+openzaak_use_x_forwarded_host: false
+openzaak_use_traefik_crd: false
+openzaak_setup_ingress: "{{ openzaak_use_traefik_crd }}"  # backwards compatible
+
+# uncomment to provide custom ingress template, defaults to 'ingress.yml.j2'
+# openzaak_ingress_tpl:
+
+# provide ingress_annotations
+openzaak_ingress_annotations: ''
+
+# Django config parameters
+openzaak_secret_key: override-me
+
+openzaak_db_name: open-zaak
+openzaak_db_host: localhost
+openzaak_db_port: 5432
+openzaak_db_username: open-zaak
+openzaak_db_password: open-zaak
+
+openzaak_sentry_dsn: null
+
+openzaak_cache_db: 0
+openzaak_cache_limits:
+  memory: "200Mi"
+  cpu: "250m"
+
+openzaak_redis_resource_requests:
+  memory: "100Mi"
+  cpu: "100m"
+
+openzaak_redis_resource_limits:
+  memory: "500Mi"
+  cpu: "500m"
+
+openzaak_extra_env: []
+
+openzaak_version: latest
+openzaak_image: openzaak/open-zaak:{{ openzaak_version }}
+openzaak_replicas: 3
+
+# required if you're using the documents API (without CMIS adapter)
+openzaak_provision_storage: true
+openzaak_storage: 10Gi
+openzaak_storage_name: openzaak-files
+openzaak_storage_class_name: ''
+
+openzaak_resource_limits:
+  memory: "1Gi"
+  cpu: "1000m"
+
+openzaak_nginx_version: "stable"
+openzaak_nginx_replicas: 2
+openzaak_nginx_resource_limits:
+  cpu: "500m"
+  memory: "500Mi"
+
+openzaak_nginx_resource_requests:
+  memory: "100Mi"
+  cpu: "250m"
+
+
+# Use TLS
+openzaak_use_tls: false
+# Provide tls secrets when openzaak_use_tls is set to true
+openzaak_tls_secrets:
+  crt: ''
+  key: ''
+
+# Pod security
+openzaak_service_account: ''
+openzaak_create_service_account: false
+openzaak_pod_security_context:
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  fsGroup: 1000
+
+openzaak_redis_config_name: redis-config
+
+# migration because 1.5.0 dropped privileges
+openzaak_init_containers:
+  - name: volume-perms
+    image: busybox:latest
+    command: ['chown', '-R', '1000:1000', '/app/private-media']
+    volumeMounts:
+      - name: private-storage
+        mountPath: /app/private-media
+        subPath: openzaak/{{ openzaak_instance }}/private-media
+
+# Define extra pod labels
+openzaak_extra_openzaak_labels: []
+
+openzaak_extra_nginx_labels: []
+
+openzaak_extra_redis_labels: []

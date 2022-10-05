@@ -1,0 +1,75 @@
+---
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  labels:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/instance: "{{ openzaak_instance }}"
+    app.kubernetes.io/version: "{{ openzaak_nginx_version }}"
+    app.kubernetes.io/component: webserver
+    app.kubernetes.io/part-of: open-zaak
+    app.kubernetes.io/managed-by: Ansible
+spec:
+  replicas: {{ openzaak_nginx_replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nginx
+      app.kubernetes.io/instance: "{{ openzaak_instance }}"
+      app.kubernetes.io/part-of: open-zaak
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app.kubernetes.io/name: nginx
+        app.kubernetes.io/instance: "{{ openzaak_instance }}"
+        app.kubernetes.io/version: "{{ openzaak_nginx_version }}"
+        app.kubernetes.io/component: webserver
+        app.kubernetes.io/part-of: open-zaak
+        app.kubernetes.io/managed-by: Ansible
+{% for label in openzaak_extra_nginx_labels %}
+        {{ label }}: {{ openzaak_extra_nginx_labels[label] }}
+{% endfor %}
+      annotations:
+        config-version: "{{ config_version }}"
+    spec:
+      volumes:
+
+{% if openzaak_provision_storage %}
+        - name: private-storage
+          persistentVolumeClaim:
+            claimName: {{ openzaak_storage_name }}
+{% endif %}
+
+        - name: nginx-config
+          configMap:
+            name: openzaak-nginx
+      containers:
+      - name: nginx
+        image: nginxinc/nginx-unprivileged:{{ openzaak_nginx_version }}
+
+        resources:
+          requests: {{ openzaak_nginx_resource_requests }}
+          limits: {{ openzaak_nginx_resource_limits }}
+
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /
+
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /_health/
+
+        volumeMounts:
+          - name: nginx-config
+            mountPath: /etc/nginx/conf.d/
+
+{% if openzaak_provision_storage %}
+          - name: private-storage
+            mountPath: /app/private-media
+            subPath: openzaak/{{ openzaak_instance }}/private-media
+{% endif %}
+      serviceAccountName: "{{ openzaak_service_account| default('default') }}"
+      securityContext: {{ openzaak_pod_security_context }}

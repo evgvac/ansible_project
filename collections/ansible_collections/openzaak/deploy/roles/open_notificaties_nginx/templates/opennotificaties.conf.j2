@@ -1,0 +1,104 @@
+upstream opennotificaties {
+    {% for replica in opennotificaties_replicas %}
+        server 127.0.0.1:{{ replica.port }};
+    {% endfor %}
+}
+
+{% if opennotificaties_ssl %}
+server {
+    server_tokens off;
+    listen 80;
+    server_name {{ opennotificaties_nginx_server_names | join(' ') }} default_server;
+    rewrite ^ https://{{ opennotificaties_domain }}$request_uri?;
+}
+{% endif %}
+
+server {
+    server_tokens off;
+    listen {% if opennotificaties_ssl %}443 ssl http2{% else %}80{% endif %};
+    server_name {{ opennotificaties_nginx_server_names | join(' ') }};
+
+    # Enable Gzip, from html5-boilerplate-server-configs
+    gzip  on;
+    gzip_http_version 1.0;
+    gzip_comp_level 2;
+    gzip_min_length 1100;
+    gzip_buffers     4 8k;
+    gzip_proxied any;
+    gzip_types
+
+      # text/html is always compressed by HttpGzipModule
+      text/css
+      text/javascript
+      text/xml
+      text/plain
+      text/x-component
+      application/javascript
+      application/json
+      application/xml
+      application/rss+xml
+      font/truetype
+      font/opentype
+      application/vnd.ms-fontobject
+      image/svg+xml;
+
+    gzip_static on;
+
+    gzip_proxied        expired no-cache no-store private auth;
+    gzip_disable        "MSIE [1-6]\.";
+    gzip_vary           on;
+
+    {% if opennotificaties_ssl %}
+
+    ssl_protocols {{ opennotificaties_ssl_protocols }};
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_tickets off;
+
+    ssl_ciphers {{ opennotificaties_ssl_ciphers }};
+    ssl_prefer_server_ciphers {{ opennotificaties_ssl_prefer_server_ciphers }};
+
+{% if opennotificaties_generate_dhparam %}
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+{% endif %}
+
+{% if opennotificaties_csp %}
+    add_header Content-Security-Policy "{{ opennotificaties_csp }}";
+{% endif %}
+    add_header Feature-Policy "autoplay 'none'; camera 'none'" always;
+    add_header Referrer-Policy "same-origin";
+    add_header Strict-Transport-Security "{{ opennotificaties_ssl_hsts }}" always;
+    add_header X-Content-Type-Options "nosniff";
+    add_header X-XSS-Protection "1; mode=block";
+
+    # Note: If using a certificate bundle ensure that the _first_ certificate
+    # in the bundle corresponds with the private key.
+    ssl_certificate {{ opennotificaties_nginx_ssl_certificate | mandatory }};
+    ssl_certificate_key {{ opennotificaties_nginx_ssl_key | mandatory }};
+
+    # OCSP stapling
+    ssl_stapling on;
+    ssl_stapling_verify on;
+
+    {% endif %}
+
+    location {{ lookup('template', 'location_prefix.j2') | trim }} {
+        proxy_pass_header Server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto {{ opennotificaties_nginx_proto_value }};
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Scheme $scheme;
+        proxy_connect_timeout 300s;
+        proxy_read_timeout 300s;
+
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        proxy_pass_request_headers on;
+        proxy_pass http://opennotificaties;
+    }
+
+    error_page  404              /404.html;
+    error_page  413              /413.json;
+    error_page  500 502 503 504  /500.json;
+}

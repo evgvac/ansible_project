@@ -1,0 +1,118 @@
+---
+
+# Kubernetes namespace to run in
+opennotificaties_namespace: open-notificaties
+opennotificaties_manage_namespace: true
+opennotificaties_instance: prod
+
+# Ingress/routing details
+opennotificaties_domain: open-notificaties.gemeente.nl
+opennotificaties_use_traefik_crd: true
+opennotificaties_setup_ingress: "{{ opennotificaties_use_traefik_crd }}"
+# uncomment to provide custom ingress template, defaults to 'ingress.yml.j2'
+# opennotificaties_ingress_tpl:
+
+# provide ingress_annotations
+opennotificaties_ingress_annotations: ''
+
+# Django config parameters
+opennotificaties_secret_key: override-me
+
+opennotificaties_db_name: open-notificaties
+opennotificaties_db_host: localhost
+opennotificaties_db_port: 5432
+opennotificaties_db_username: open-notificaties
+opennotificaties_db_password: open-notificaties
+
+opennotificaties_sentry_dsn: null
+
+opennotificaties_cache_db: 0
+opennotificaties_cache_resource_limits:
+  memory: "200Mi"
+  cpu: "250m"
+
+opennotificaties_extra_env: []
+
+opennotificaties_version: latest
+opennotificaties_image: openzaak/open-notificaties:{{ opennotificaties_version }}
+opennotificaties_replicas: 3
+opennotificaties_worker_replicas: 3
+
+opennotificaties_resource_limits:
+  memory: "1Gi"
+  cpu: "500m"
+
+opennotificaties_celery_resource_limits:
+  memory: "1Gi"
+  cpu: "500m"
+
+opennotificaties_celery_resource_requests:
+  memory: "500Mi"
+  cpu: "100m"
+
+opennotificaties_flower_resource_limits:
+  memory: "500Mi"
+  cpu: "500m"
+
+opennotificaties_flower_resource_requests:
+  memory: "100Mi"
+  cpu: "100m"  
+
+opennotificaties_redis_resource_limits:
+  memory: "1Gi"
+  cpu: "500m"
+
+opennotificaties_redis_resource_requests:
+  memory: "100Mi"
+  cpu: "100m"
+
+opennotificaties_rabbitmq:
+  user: "opennotificaties-{{ opennotificaties_instance }}"
+  password: "opennotificaties-{{ opennotificaties_instance }}"
+  rabbitmq_host: opennotificaties-rabbitmq
+  rabbitmq_port: 5672
+
+opennotificaties_publish_broker_url: "amqp://{{ opennotificaties_rabbitmq.user }}:{{ opennotificaties_rabbitmq.password }}@opennotificaties-rabbitmq:5672/%2F"
+opennotificaties_celery_broker_url: "amqp://{{ opennotificaties_rabbitmq.user }}:{{ opennotificaties_rabbitmq.password }}@opennotificaties-rabbitmq:5672//"
+opennotificaties_celery_result_backend: "redis://opennotificaties-cache:6379/1"
+
+opennotificaties_flower_user: flower
+opennotificaties_flower_password: flower
+opennotificaties_flower_basic_auth: "{{ opennotificaties_flower_user }}:{{ opennotificaties_flower_password }}"
+
+# https://www.rabbitmq.com/production-checklist.html#resource-limits-ram
+# rabbitmq needs AT LEAST 256MB
+opennotificaties_rabbitmq_resource_limits:
+  memory: "500Mi"
+  cpu: "250m"
+
+opennotificaties_rabbitmq_resource_requests:
+  memory: "300Mi"
+  cpu: "100m"
+
+# Use TLS
+opennotificaties_use_tls: false
+# Provide tls secrets when opennotificaties_use_tls is set to true
+opennotificaties_tls_secrets:
+  crt: ''
+  key: ''
+
+# Pod security
+opennotificaties_service_account: ''
+opennotificaties_create_service_account: false
+opennotificaties_pod_security_context:
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  fsGroup: 1000
+
+opennotificaties_redis_config_name: redis-config
+
+opennotificaties_extra_opennotificaties_labels: []
+
+opennotificaties_extra_celery_labels: []
+
+opennotificaties_extra_flower_labels: []
+
+opennotificaties_extra_redis_labels: []
+
+opennotificaties_extra_rabbitmq_labels: []

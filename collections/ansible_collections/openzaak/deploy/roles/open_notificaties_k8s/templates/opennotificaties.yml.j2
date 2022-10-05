@@ -1,0 +1,69 @@
+---
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  labels:
+    app.kubernetes.io/name: django
+    app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+    app.kubernetes.io/version: "{{ opennotificaties_version }}"
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: open-notificaties
+    app.kubernetes.io/managed-by: Ansible
+spec:
+  replicas: {{ opennotificaties_replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: django
+      app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+      app.kubernetes.io/part-of: open-notificaties
+  template:
+    metadata:
+      name: opennotificaties
+      labels:
+        app.kubernetes.io/name: django
+        app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+        app.kubernetes.io/version: "{{ opennotificaties_version }}"
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: open-notificaties
+        app.kubernetes.io/managed-by: Ansible
+{% for label in opennotificaties_extra_opennotificaties_labels %}
+        {{ label }}: {{ opennotificaties_extra_opennotificaties_labels[label] }}
+{% endfor %}
+      annotations:
+        opennotificaties/secrets-version: "{{ secrets_version }}"
+    spec:
+      containers:
+      - name: opennotificaties
+        image: {{ opennotificaties_image }}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "100m"
+          limits: {{ opennotificaties_resource_limits }}
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 10
+          periodSeconds: 30
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 10
+          periodSeconds: 30
+
+        env: {{ lookup('template', 'env.yml.j2') | from_yaml }}
+
+      serviceAccountName: "{{ opennotificaties_service_account| default('default') }}"
+      securityContext: {{ opennotificaties_pod_security_context }}

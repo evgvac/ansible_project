@@ -1,0 +1,10 @@
+{% if not opennotificaties_db_bind_mount and not opennotificaties_extra_volumes %}
+[]
+{% else %}
+{% if opennotificaties_db_bind_mount %}
+- {{ opennotificaties_db_bind_mount }}:/var/run/postgresql
+{% endif %}
+{% for extra_volume in opennotificaties_extra_volumes %}
+- "{{ extra_volume }}"
+{% endfor %}
+{% endif %}

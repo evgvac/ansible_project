@@ -1,0 +1,26 @@
+---
+
+# Reference: https://en.opensuse.org/SDB:PostgreSQL
+# - name: Add PostgreSQL package repository
+#   zypper_repository:
+#     repo: "{{ postgresql_repository }}"
+#     state: present
+
+- name: DB | Add geo package repositories
+  zypper_repository:
+    name: "{{ item.name }}"
+    repo: "{{ item.repo }}"
+    state: present
+    runrefresh: yes
+    auto_import_keys: yes
+  with_items: "{{ postgresql_postgis_repositories }}"
+
+- name: Install PostgreSQL
+  zypper:
+    name:
+      - "postgresql{{ postgresql_version }}"
+      - "postgresql{{ postgresql_version }}-server"
+      - "postgresql{{ postgresql_version }}-contrib"
+      - "postgresql{{ postgresql_version }}-postgis"
+      - python3-psycopg2
+    update_cache: yes

@@ -1,0 +1,52 @@
+---
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  labels:
+    app.kubernetes.io/name: celery
+    app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+    app.kubernetes.io/version: "{{ opennotificaties_version }}"
+    app.kubernetes.io/component: async-workers
+    app.kubernetes.io/part-of: open-notificaties
+    app.kubernetes.io/managed-by: Ansible
+spec:
+  replicas: {{ opennotificaties_worker_replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: celery
+      app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+      app.kubernetes.io/part-of: open-notificaties
+  template:
+    metadata:
+      name: opennotificaties-worker
+      labels:
+        app.kubernetes.io/name: celery
+        app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+        app.kubernetes.io/version: "{{ opennotificaties_version }}"
+        app.kubernetes.io/component: async-workers
+        app.kubernetes.io/part-of: open-notificaties
+        app.kubernetes.io/managed-by: Ansible
+{% for label in opennotificaties_extra_celery_labels %}
+        {{ label }}: {{ opennotificaties_extra_celery_labels[label] }}
+{% endfor %}           
+      annotations:
+        opennotificaties/secrets-version: "{{ secrets_version }}"
+    spec:
+      containers:
+      - name: opennotificaties-worker
+        image: {{ opennotificaties_image }}
+        imagePullPolicy: Always
+        resources:
+          requests: {{ opennotificaties_celery_resource_requests }}
+          limits: {{ opennotificaties_celery_resource_limits }}
+
+        # TODO
+        # readinessProbe:
+        # livenessProbe:
+
+        command: ["/celery_worker.sh"]
+
+        env: {{ lookup('template', 'env.yml.j2') | from_yaml }}
+      serviceAccountName: "{{ opennotificaties_service_account| default('default') }}"
+      securityContext: {{ opennotificaties_pod_security_context }}

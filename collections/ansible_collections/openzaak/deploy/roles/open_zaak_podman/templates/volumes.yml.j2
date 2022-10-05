@@ -1,0 +1,7 @@
+- openzaak-private-media:/app/private-media
+{% if openzaak_db_bind_mount %}
+- {{ openzaak_db_bind_mount }}:/var/run/postgresql
+{% endif %}
+{% for extra_volume in openzaak_extra_volumes %}
+- "{{ extra_volume }}"
+{% endfor %}

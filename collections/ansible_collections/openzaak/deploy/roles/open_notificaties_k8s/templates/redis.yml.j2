@@ -1,0 +1,66 @@
+---
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+    app.kubernetes.io/version: "5.0"
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/part-of: open-notificaties
+    app.kubernetes.io/managed-by: Ansible
+spec:
+  # single replica because objects are kept in memory
+  # TODO: share cache/storage?
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+      app.kubernetes.io/part-of: open-notificaties
+  template:
+    metadata:
+      name: cache
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/instance: "{{ opennotificaties_instance }}"
+        app.kubernetes.io/version: "5.0"
+        app.kubernetes.io/component: cache
+        app.kubernetes.io/part-of: open-notificaties
+        app.kubernetes.io/managed-by: Ansible
+{% for label in opennotificaties_extra_redis_labels %}
+        {{ label }}: {{ opennotificaties_extra_redis_labels[label] }}
+{% endfor %}
+    spec:
+      containers:
+      - name: cache
+        image: redis:6.0
+        command:
+          - redis-server
+          - "/redis-config/redis.conf"
+          
+        resources:
+          requests: {{ opennotificaties_redis_resource_requests }}
+          limits: {{ opennotificaties_redis_resource_limits }}
+
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+        volumeMounts:
+        - mountPath: /redis-config
+          name: config
+      volumes:
+        - name: config
+          configMap:
+            name: {{ opennotificaties_redis_config_name }}
+            items:
+            - key: redis-config
+              path: redis.conf
+
+      serviceAccountName: "{{ openzaak_service_account| default('default') }}"
+      securityContext: {{ opennotificaties_pod_security_context }}            

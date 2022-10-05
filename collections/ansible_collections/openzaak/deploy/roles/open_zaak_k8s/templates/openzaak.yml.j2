@@ -1,0 +1,131 @@
+---
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  labels:
+    app.kubernetes.io/name: django
+    app.kubernetes.io/instance: "{{ openzaak_instance }}"
+    app.kubernetes.io/version: "{{ openzaak_version }}"
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: open-zaak
+    app.kubernetes.io/managed-by: Ansible
+spec:
+  replicas: {{ openzaak_replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: django
+      app.kubernetes.io/instance: "{{ openzaak_instance }}"
+      app.kubernetes.io/part-of: open-zaak
+  template:
+    metadata:
+      name: openzaak
+      labels:
+        app.kubernetes.io/name: django
+        app.kubernetes.io/instance: "{{ openzaak_instance }}"
+        app.kubernetes.io/version: "{{ openzaak_version }}"
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: open-zaak
+        app.kubernetes.io/managed-by: Ansible
+{% for label in openzaak_extra_openzaak_labels %}
+        {{ label }}: {{ openzaak_extra_openzaak_labels[label] }}
+{% endfor %}        
+    spec:
+
+{% if openzaak_provision_storage %}
+      volumes:
+        - name: private-storage
+          persistentVolumeClaim:
+            claimName: "{{ openzaak_storage_name }}"
+
+      initContainers: {{ openzaak_init_containers }}
+{% endif %}
+
+      containers:
+      - name: openzaak
+        image: {{ openzaak_image }}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "200m"
+          limits: {{ openzaak_resource_limits }}
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 15
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+            httpHeaders:
+              - name: Host
+                value: localhost
+          initialDelaySeconds: 15
+
+{% if openzaak_provision_storage %}
+        volumeMounts:
+          - name: private-storage
+            mountPath: /app/private-media
+            subPath: openzaak/{{ openzaak_instance }}/private-media
+{% endif %}
+
+        env:
+          # General Django settings
+          - name: DJANGO_SETTINGS_MODULE
+            value: openzaak.conf.docker
+          - name: ALLOWED_HOSTS
+            value: "localhost,{{ openzaak_domain }}{% if openzaak_extra_allowed_hosts %},{{ openzaak_extra_allowed_hosts | join(',') }}{% endif %}{% if openzaak_extra_hosts %},{{ openzaak_extra_hosts | join(',') }}{% endif %}"
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: openzaak-secrets
+                key: SECRET_KEY
+
+          # Database settings
+          - name: DB_HOST
+            value: "{{ openzaak_db_host }}"
+          - name: DB_NAME
+            value: "{{ openzaak_db_name }}"
+          - name: DB_PORT
+            value: "{{ openzaak_db_port }}"
+          - name: DB_USER
+            value: "{{ openzaak_db_username }}"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: openzaak-secrets
+                key: DB_PASSWORD
+
+          # Caches
+          - name: CACHE_DEFAULT
+            value: "openzaak-cache:6379/{{ openzaak_cache_db }}"
+          - name: CACHE_AXES
+            value: "openzaak-cache:6379/{{ openzaak_cache_db }}"
+
+
+{% if openzaak_sentry_dsn %}
+          - name: SENTRY_DSN
+            valueFrom:
+              secretKeyRef:
+                name: openzaak-secrets
+                key: SENTRY_DSN
+{% endif %}
+
+{% if openzaak_use_x_forwarded_host %}
+          - name: USE_X_FORWARDED_HOST
+            value: "yes"
+{% endif %}
+
+{% for envvar in openzaak_extra_env %}
+          - name: "{{ envvar.name }}"
+            value: "{{ envvar.value }}"
+{% endfor %}
+      serviceAccountName: "{{ openzaak_service_account| default('default') }}"
+      securityContext: {{ openzaak_pod_security_context }}
