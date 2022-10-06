@@ -1,2 +1,4 @@
 ---
 # vars file for roles/first_setup
+debian_pkg:
+  - htop
