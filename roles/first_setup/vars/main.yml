@@ -1,8 +1,0 @@
----
-# vars file for first_setup
-debian_packages:
-  - htop
-#  - zabbix-agent
-#  - sudo
-#  - tree
-#  - unzip

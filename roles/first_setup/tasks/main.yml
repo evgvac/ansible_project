@@ -1,6 +1,0 @@
----
-- name: Check server for Debian
-  import_tasks: install_pkg_debian.yml
-  when: ansible_facts['os_family']|lower == 'debian'
-
-#- include: install_pkg_debian.yml
