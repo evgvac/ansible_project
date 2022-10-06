@@ -2,3 +2,6 @@
 # vars file for roles/first_setup
 debian_pkg:
   - htop
+
+astra_pkg:
+  - htop
