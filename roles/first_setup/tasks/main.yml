@@ -8,5 +8,5 @@
 
 - block: #### if Astra ####
   - include_tasks: install_pkg_astra.yml
-#  - include_tasks: copy_files_debian.yml
+#  - include_tasks: copy_files_astra.yml
   when: ansible_os_family == 'RedHat'
