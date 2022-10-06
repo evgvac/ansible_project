@@ -1,10 +1,12 @@
 ---
-- name: installing Debian pkgs
-  apt: pkg={{ item }} update_cache=yes
-  with_items: "{{debian_packages}}"
+- block: #### If OS Debian ####
+  - name: installing Debian pkgs
+    apt: pkg={{ item }} update_cache=yes
+    with_items: "{{debian_packages}}"
+  
   when: (ansible_os_family == "Debian")
 
-- name: install Astra Linux packages
-  apt: pkg={{ item }}
-  with_items: "{{astra_packages}}"
-  when: (ansible_os_family == "Astra Linux (Smolensk)")
+#- name: install Astra Linux packages
+#  apt: pkg={{ item }}
+#  with_items: "{{astra_packages}}"
+#  when: (ansible_os_family == "Astra Linux (Smolensk)")

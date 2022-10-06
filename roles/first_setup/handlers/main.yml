@@ -1,2 +1,7 @@
 ---
 # handlers file for first_setup
+- name: restart debian pkg
+  service:
+    name: "{{ debian_packages }}"
+    state: restarted
+    enabled: yes
