@@ -1,8 +1,7 @@
 ---
-#- name: Update apt cache.
-#  apt: update_cache=yes cache_valid_time=86400
 
 - name: Install packeges
   apt:
+    update_cache: yes
+    cache_valid_time: 86400
     name: "{{ debian_pkg  }}"
-#    update_cache: yes
