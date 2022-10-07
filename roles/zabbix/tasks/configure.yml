@@ -7,8 +7,6 @@
   register: copy
   notify: Restart service zabbix-agent
 
-#- debug:
-#  var: copy
 - block: ### If change config file ###
 
   - name: Set hostname on conf file
@@ -24,4 +22,4 @@
       insertafter="^ListenPort=10050" 
       line="ListenIP={{ ansible_default_ipv4.address }}"
 
-  when: copy.changed == false
+  when: copy.changed == true
