@@ -2,6 +2,13 @@
 # vars file for roles/first_setup
 debian_pkg:
   - htop
+  - sudo
+  - tree
+  - unzip
 
 astra_pkg:
   - htop
+  - apt-transport-https
+  - ca-certificates
+  - python-apt
+  - open-vm-tools
