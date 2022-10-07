@@ -16,7 +16,8 @@
     src: debian/sshd_config
     dest: /etc/ssh/sshd_config
     mode: 0644
-  
+  notify: Restart service SSH
+
 - name: Copy .bashrc config
   copy:
     src: debian/.bashrc
@@ -46,3 +47,4 @@
     src: debian/timesyncd.conf
     dest: /etc/systemd/timesyncd.conf
     mode: 0644
+  notify: Restart service systemd-timesyncd
