@@ -5,3 +5,8 @@
     cache_valid_time: 86400
     name: "{{ astra_pkg  }}"
     state: present
+
+- name: Enable service ssh
+  ansible.builtin.service:
+    name: ssh
+    enabled: yes
