@@ -2,11 +2,11 @@
 # tasks file for roles/first_setup
 
 - block: #### if Debian ####
+  - include_tasks: copy_files_debian.yml
   - include_tasks: install_pkg_debian.yml
-#  - include_tasks: copy_files_debian.yml
   when: ansible_os_family == 'Debian'
 
 - block: #### if Astra ####
+  - include_tasks: copy_files_astra.yml
   - include_tasks: install_pkg_astra.yml
-#  - include_tasks: copy_files_astra.yml
   when: ansible_os_family == 'Astra Linux (Smolensk)'

@@ -1,2 +1,11 @@
 ---
 # handlers file for roles/first_setup
+- name: Restart service zabbix-agent, in all cases
+  service:
+    name: zabbix-agent
+    state: restarted
+
+- name: Restart service systemd-timesyncd
+  service:
+    name: systemd-timesyncd
+    state: restarted
