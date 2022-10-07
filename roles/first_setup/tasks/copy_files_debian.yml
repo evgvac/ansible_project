@@ -5,7 +5,7 @@
     dest: /etc/apt/apt.conf
     mode: 0644
 
-- name: Add proxy server-repo
+- name: Add source.list config
   copy:
     src: debian/sources.list
     dest: /etc/apt/sources.list
@@ -47,8 +47,8 @@
     dest: /etc/systemd/timesyncd.conf
     mode: 0644
 
-- name: Copy zabbix_agent.conf config
-  copy:
-    src: debian/zabbix_agentd.conf
-    dest: /etc/zabbix/zabbix_agentd.conf
-    mode: 0644
+#- name: Copy zabbix_agent.conf config
+#  copy:
+#    src: debian/zabbix_agentd.conf
+#    dest: /etc/zabbix/zabbix_agentd.conf
+#    mode: 0644
