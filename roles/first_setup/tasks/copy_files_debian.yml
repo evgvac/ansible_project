@@ -5,6 +5,12 @@
     dest: /etc/apt/apt.conf
     mode: 0644
 
+- name: Add proxy server-repo
+  copy:
+    src: debian/sources.list
+    dest: /etc/apt/sources.list
+    mode: 0644
+
 - name: Copy SSH config
   copy:
     src: debian/sshd_config
