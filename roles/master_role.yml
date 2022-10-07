@@ -1,5 +1,5 @@
 ---
-- name: Install first_setup
+- name: Install master roles
   hosts: linux
   become: true
 
