@@ -1,5 +1,5 @@
 ---
-- block: #### Change conf files #####
+#- block: #### Change conf files #####
   - name: Copy and modify config files
     copy:
       src: zabbix_agentd.conf
@@ -19,4 +19,4 @@
 #      insertafter="^ListenPort=10050" 
 #      line="ListenIP={{ ansible_default_ipv4.address }}"
 
-  when: Restart service zabbix-agent
+#  when: Restart service zabbix-agent
