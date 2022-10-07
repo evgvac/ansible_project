@@ -22,4 +22,4 @@
       dest=/etc/zabbix/zabbix_agentd.conf
       insertafter="^ListenPort=10050" 
       line="ListenIP={{ ansible_default_ipv4.address }}"
-  when: copy == true
+  when: "'true' copy.stdout[0]"
