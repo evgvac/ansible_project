@@ -4,20 +4,22 @@
     src: zabbix_agentd.conf
     dest: /etc/zabbix/zabbix_agentd.conf
     mode: 0644
+  register: copy
   notify: Restart service zabbix-agent
-#  tags: copy
 
-#- name: Set hostname on conf file
-#  lineinfile:
-#    dest: /etc/zabbix/zabbix_agentd.conf
-#    regexp: ^Hostname=.*
-#    insertafter: ^# Hostname=
-#    line: Hostname=Server Linux {{ ansible_hostname }}
-#  tags: [copy]
+- block: ### If change config file ###
 
-#- name: insert line in file
-#  lineinfile: 
-#    dest=/etc/zabbix/zabbix_agentd.conf
-#    insertafter="^ListenPort=10050" 
-#    line="ListenIP={{ ansible_default_ipv4.address }}"
-#  tags: [copy]
+  - name: Set hostname on conf file
+    lineinfile:
+      dest: /etc/zabbix/zabbix_agentd.conf
+      regexp: ^Hostname=.*
+      insertafter: ^# Hostname=
+      line: Hostname=Server Linux {{ ansible_hostname }}
+    tags: [copy]
+
+  - name: insert line in file
+    lineinfile: 
+      dest=/etc/zabbix/zabbix_agentd.conf
+      insertafter="^ListenPort=10050" 
+      line="ListenIP={{ ansible_default_ipv4.address }}"
+  when: copy == true
