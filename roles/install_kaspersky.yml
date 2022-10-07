@@ -1,8 +1,0 @@
----
-- name: Install Kaspersky
-  hosts: linux
-  become: true
-
-  roles: 
-    - install_kaspersky
-    

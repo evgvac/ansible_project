@@ -4,5 +4,6 @@
   become: true
 
   roles: 
-    - first_setup
-    
+#    - first_setup
+#    - install_kaspersky
+    - zabbix

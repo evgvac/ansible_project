@@ -1,0 +1,7 @@
+---
+- name: Install zabbix-agent
+  apt:
+    update_cache: yes
+    cache_valid_time: 86400
+    name: zabbix-agent
+    state: present
