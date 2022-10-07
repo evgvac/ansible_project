@@ -37,7 +37,7 @@
 
 - name: Copy inputrc config
   copy:
-    src: astrag/sysctl.conf
+    src: astra/sysctl.conf
     dest: /etc/sysctl.conf
     mode: 0644
 
