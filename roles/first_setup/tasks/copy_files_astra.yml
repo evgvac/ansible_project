@@ -2,7 +2,7 @@
 - name: Copy Repo file
   copy:
     src: astra/sours_astra.list
-    dest: /etc/apt/sources.list.d/sours_astra.list
+    dest: /etc/apt/sources.list
     mode: 0644
 
 - name: Add proxy server-repo
