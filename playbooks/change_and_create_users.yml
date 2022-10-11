@@ -3,31 +3,12 @@
 
   tasks:
 
-  - name: Change password root
-    user:
-      name: root
-      update_password: always
-      password: "{{ 'test' | password_hash('sha512') }}"
-      
-  - name: Change password srvadmin
-    user:
-      name: srvadmin
-      update_password: always
-      password: "{{ 'test' | password_hash('sha512') }}"
-
   - name: Add new user
     user:
-      name: adminevgvac
+      name: adminss1
       group: sudo
       shell: /bin/bash
-      password: "{{ 'test' | password_hash('sha512') }}"
-
-#  - name: Add new user
-#    user:
-#      name: admingeofai
-#      group: sudo
-#      shell: /bin/bash
-#      password: "{{ 'test' | password_hash('sha512') }}"
+      password: "{{ 'JfIlZt5Wy<)1E7y]' | password_hash('sha512') }}"
 
 #  - name: Add new user
 #    user:
