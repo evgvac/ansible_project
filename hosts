@@ -11,7 +11,8 @@ astra
 gitlab
 zabbix
 zabbix-proxy
-haproxy-kwts
+haproxy-kwts-1
+haproxy-kwts-2
 olimpoks
 build-01
 
@@ -51,8 +52,11 @@ dcksv-zabbix
 [zabbix-proxy]
 dbksv-zabbix-proxy
 
-[haproxy-kwts]
+[haproxy-kwts-1]
 dcksv-haproxy-kwts
+
+[haproxy-kwts-2]
+dcdsv-haproxy-kwts
 
 [olimpoks]
 dcksv-olimpoks
