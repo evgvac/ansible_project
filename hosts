@@ -15,6 +15,7 @@ haproxy-kwts-1
 haproxy-kwts-2
 olimpoks
 build-01
+ntp1
 
 [samba:children]
 sftp
@@ -63,6 +64,9 @@ dcksv-olimpoks
 
 [build-01]
 dcksv-build-01
+
+[ntp1]
+dcksv-ntp1
 
 # ------------------------------------
 [astra:children]
