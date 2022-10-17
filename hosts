@@ -69,9 +69,9 @@ dcksv-build-01
 idp
 tdp
 #build
-stand-008
-stand-007
-stand-006
+#stand-008
+#stand-007
+#stand-006
 test-astra
 
 [idp]
@@ -87,7 +87,7 @@ vorsv-astra16-build
 msk-astra-008       ansible_ssh_host=10.71.140.15
 
 [stand-007]
-№msk-astra-007       ansible_ssh_host=10.71.140.x
+msk-astra-007       ansible_ssh_host=10.71.140.x
 
 [stand-006]
 msk-astra-006       ansible_ssh_host=10.71.140.13
