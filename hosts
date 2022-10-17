@@ -87,7 +87,7 @@ vorsv-astra16-build
 msk-astra-008       ansible_ssh_host=10.71.140.15
 
 [stand-007]
-msk-astra-007       ansible_ssh_host=10.71.140.x
+№msk-astra-007       ansible_ssh_host=10.71.140.x
 
 [stand-006]
 msk-astra-006       ansible_ssh_host=10.71.140.13
