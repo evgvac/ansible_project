@@ -15,6 +15,9 @@ haproxy-kwts-1
 haproxy-kwts-2
 olimpoks
 build-01
+ntp
+
+[ntp:children]
 ntp1
 ntp2
 
