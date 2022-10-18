@@ -3,4 +3,3 @@
   service:
     name: systemd-timesyncd
     state: stopped
-  notify: Disable service systemd-timesyncd
