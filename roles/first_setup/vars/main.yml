@@ -5,6 +5,7 @@ debian_pkg:
   - sudo
   - tree
   - unzip
+  - open-vm-tools
 
 astra_pkg:
   - htop

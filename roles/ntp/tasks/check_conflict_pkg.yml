@@ -1,0 +1,6 @@
+---
+- name: Check install and run service systemd-timesyncd
+  service:
+    name: systemd-timesyncd
+    state: stopped
+  notify: Disable service systemd-timesyncd

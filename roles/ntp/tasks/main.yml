@@ -1,2 +1,5 @@
 ---
 # tasks file for roles/ntp
+- include_tasks: check_conflict_pkg.yml
+- include_tasks: install_pkg_debian.yml
+- include_tasks: copy_files_debian.yml

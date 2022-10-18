@@ -1,2 +1,6 @@
 ---
 # handlers file for roles/ntp
+- name: Disable service systemd-timesyncd
+  service: 
+    name: systemd-timesyncd
+    enabled: no
