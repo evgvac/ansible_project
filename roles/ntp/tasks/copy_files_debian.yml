@@ -5,8 +5,8 @@
     dest: /etc/ntp.conf
     mode: 0644
     backup: yes
-  notify: Restart service ntp
   when: ansible_hostname == 'dcksv-ntp1'
+  notify: Restart service ntp
 
 - name: Copy ntp.conf config for ntp2 server
   copy:
