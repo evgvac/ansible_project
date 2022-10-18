@@ -14,5 +14,5 @@
     dest: /etc/ntp.conf
     mode: 0644
     backup: yes
+    when: ansible_hostname == 'dcksv-ntp2'
   notify: Restart service ntp
-  when: ansible_hostname == 'dcksv-ntp2'
