@@ -1,7 +1,7 @@
 ---
 - name: Copy timesyncd.conf config
   copy:
-    src: debian/ntp.conf
+    src: ntp.conf
     dest: /etc/ntp.conf
     mode: 0644
     backup: yes
