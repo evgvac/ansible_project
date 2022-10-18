@@ -4,3 +4,8 @@
   service: 
     name: systemd-timesyncd
     enabled: no
+
+- name: Restart service ntp
+  service:
+    name: ntp
+    state: restarted
