@@ -5,5 +5,5 @@
 
   roles: 
     - first_setup
-#    - install_kaspersky
-#    - zabbix
+    - install_kaspersky
+    - zabbix
