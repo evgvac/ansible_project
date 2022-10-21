@@ -1,9 +1,11 @@
 ---
 - name: Copy Repo file
   copy:
-    src: astra/sours_astra.list
-    dest: /etc/apt/sources.list
+    src: "{{ item }}"
+    dest: "/etc/apt/sources.list.d/"
     mode: 0644
+  with_fileglob:
+    - "astra/repo/*"
 
 - name: Add proxy server-repo
   copy:

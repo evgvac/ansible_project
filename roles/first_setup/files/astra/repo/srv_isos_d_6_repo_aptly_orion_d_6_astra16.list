@@ -1,0 +1,1 @@
+deb [arch=amd64 trusted=yes] file:///srv/isos/d-6/repo/aptly/orion/d-6/astra16 astra16 main nvidia

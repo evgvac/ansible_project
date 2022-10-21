@@ -1,0 +1,1 @@
+deb [arch=amd64 trusted=yes allow-insecure=yes] file:///srv/isos/d-6/vorsv-build-nexus/repository/apt-po-ppa smolensk15 main
