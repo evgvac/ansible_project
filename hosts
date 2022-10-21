@@ -84,6 +84,7 @@ tdp
 #stand-007
 #stand-006
 test-astra
+astra-1.6
 
 [idp]
 dcksv-astra-idp
@@ -105,6 +106,10 @@ msk-astra-006       ansible_ssh_host=10.71.140.13
 
 [test-astra]
 dcksv-evgvac-test-astra
+
+[astra-1.6]
+dcksv-astra-1-6
+
 # ------------------------------------
 [jenkis:children]
 build
