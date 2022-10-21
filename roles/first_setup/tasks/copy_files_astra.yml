@@ -7,6 +7,12 @@
   with_fileglob:
     - "astra/repo/*"
 
+- name: # Repo file
+  copy:
+    src: astra/sours_astra.list
+    dest: /etc/apt/sours_astra.list
+    mode: 0644
+
 - name: Add proxy server-repo
   copy:
     src: astra/apt.conf
