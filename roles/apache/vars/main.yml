@@ -1,4 +1,4 @@
 ---
 # vars file for roles/apache
-- debian_pkg:
+debian_pkg:
   - apache2
