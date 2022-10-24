@@ -4,4 +4,4 @@
     src: apache.j2
     dest: /etc/apache2/sites-available/site.con
     mode: 0644
-  notify: Restart service zabbix-agent
+  notify: Restart service apache2
