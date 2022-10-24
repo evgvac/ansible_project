@@ -7,7 +7,7 @@
 
 - name: Copy Resolv
   copy:
-    src: resolv.conf
+    src: astra/resolv.conf
     dest: /etc/resolv.conf
     mode: 644
 
