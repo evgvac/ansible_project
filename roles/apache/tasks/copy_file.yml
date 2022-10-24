@@ -2,6 +2,6 @@
 - name: Copy and modify config files
   template: 
     src: apache.j2
-    dest: /etc/apache2/sites-available/site.con
+    dest: /etc/apache2/sites-available/site.conf
     mode: 0644
   notify: Restart service apache2
