@@ -1,0 +1,7 @@
+---
+- name: Install ntp roles
+  hosts: ntp
+  become: true
+
+  roles: 
+    - apache
