@@ -1,7 +1,7 @@
 ---
-- name: Copy new config
-  copy:
+- name: Copy and modify config files
+  template: 
     src: apache.j2
-    dest: /etc/apache2/sites-available/site.conf
-    mode: 0640
-  notify: Restart service apache2
+    dest: /etc/apache2/sites-available/site.con
+    mode: 0644
+  notify: Restart service zabbix-agent
