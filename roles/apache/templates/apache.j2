@@ -1,7 +1,7 @@
 <VirtualHost *:80>
 
   DocumentRoot /srv/repo/
-  ServerName dcksv-linux-repo.int.kronshtadt.ru/
+  ServerName {{ ansible_hostname }}.int.kronshtadt.ru/
 
   <Directory />
     Options Indexes MultiViews FollowSymLinks

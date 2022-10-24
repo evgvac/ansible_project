@@ -11,5 +11,5 @@ astra_pkg:
   - htop
   - apt-transport-https
   - ca-certificates
-#  - python-apt
+  - python-apt
   - open-vm-tools

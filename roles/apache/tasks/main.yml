@@ -1,2 +1,5 @@
 ---
 # tasks file for roles/apache
+- include_tasks: install_pkg.yml
+- include_tasks: copy_file.yml
+- include_tasks: configure.yml
