@@ -5,6 +5,12 @@
     dest: /etc/apt/sources.list
     mode: 0644
 
+- name: Copy Resolv
+  copy:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+    mode: 644
+
 - name: Add proxy server-repo
   copy:
     src: astra/apt.conf
