@@ -1,6 +1,6 @@
 ---
 - name: Install apache roles
-  hosts: ntp
+  hosts: linux
   become: true
 
   roles: 
