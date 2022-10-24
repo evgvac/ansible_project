@@ -38,9 +38,9 @@
       fstype: ext4
       dev: /dev/data-vg/data
   
-#  - name: Mount up device by /mnt
+#  - name: Mount up device by /...
 #    ansible.posix.mount:
-#      path: /mnt
+#      path: /srv/repo
 #      src: /dev/data-vg/data
 #      fstype: ext4
 #      state: mounted
