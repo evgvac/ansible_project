@@ -1,0 +1,14 @@
+# Основной репозиторий disk1
+deb http://dcksv-linux-repo.int.kronshtadt.ru/disk1 smolensk main contrib non-free
+ 
+# Основной репозиторий disk2
+deb http://dcksv-linux-repo.int.kronshtadt.ru/disk2 smolensk main contrib non-free
+ 
+# Драйвер nvidia
+deb http://dcksv-linux-repo.int.kronshtadt.ru/nvidia smolensk non-free
+ 
+# Обновления
+deb http://dcksv-linux-repo.int.kronshtadt.ru/updates smolensk main contrib non-free
+
+# Обновления dev
+deb http://dcksv-linux-repo.int.kronshtadt.ru/updates_dev smolensk main contrib non-free

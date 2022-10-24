@@ -1,15 +1,7 @@
 ---
-- name: Copy Repo file
-  copy:
-    src: "{{ item }}"
-    dest: "/etc/apt/sources.list.d/"
-    mode: 0644
-  with_fileglob:
-    - "astra/repo/*"
-
 - name: # Repo file
   copy:
-    src: astra/sours_astra.list
+    src: astra/sources.list_astra
     dest: /etc/apt/sources.list
     mode: 0644
 
