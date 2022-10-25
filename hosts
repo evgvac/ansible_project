@@ -3,6 +3,7 @@
 #asterisk
 ansible
 test
+test-astra
 nextcloud
 repo
 sftp
