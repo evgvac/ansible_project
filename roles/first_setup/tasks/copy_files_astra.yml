@@ -1,5 +1,5 @@
 ---
-- name: # Repo file
+- name: Copy Repo file
   copy:
     src: astra/sources.list_astra
     dest: /etc/apt/sources.list
