@@ -17,4 +17,4 @@ deb http://dcksv-linux-repo.int.kronshtadt.ru/updates_dev smolensk main contrib 
 deb [arch=amd64 trusted=yes allow-insecure=yes] http://dcksv-linux-repo.int.kronshtadt.ru/d-6/vorsv-build-nexus/repository/apt-smolensk16 smolensk16 main
 
 # Nexus-smolensk15
-deb [arch=amd64 trusted=yes allow-insecure=yes] http://dcksv-linux-repo.int.kronshtadt.ru/d-6/vorsv-build-nexus/repository/apt-po-ppa smolensk15 main
+#deb [arch=amd64 trusted=yes allow-insecure=yes] http://dcksv-linux-repo.int.kronshtadt.ru/d-6/vorsv-build-nexus/repository/apt-po-ppa smolensk15 main
