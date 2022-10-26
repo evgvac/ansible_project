@@ -1,0 +1,7 @@
+---
+- name: Install master roles
+  hosts: linux
+  become: true
+
+  roles: 
+    - install_kaspersky
