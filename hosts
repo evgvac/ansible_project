@@ -201,12 +201,14 @@ RLITN-2960X-KDP2	    ansible_ssh_host=10.69.255.4
 RLITN-2960X-KDP3	    ansible_ssh_host=10.69.255.5
 RLITN-2960X-TECH    	ansible_ssh_host=10.69.255.12
 RLITN-2960X-TECH2	    ansible_ssh_host=10.69.255.13
+
 #
 KDITN-C3750		        ansible_ssh_host=10.0.0.70
 #
 DMZ-C95k-ATC-STACK  	ansible_ssh_host=10.1.255.11
 DMZ-C95k-SRV1-STACK	    ansible_ssh_host=10.1.255.12
 DMZ-C95k-SRV2-STACK	    ansible_ssh_host=10.1.255.13
+DMZN-C3560X-12P-LC14    ansible_ssh_host=10.1.255.47
 #
 DMZN-C95k-WAN	    	ansible_ssh_host=10.1.255.23
 DMZN-C95k-AGGR		    ansible_ssh_host=10.1.255.22

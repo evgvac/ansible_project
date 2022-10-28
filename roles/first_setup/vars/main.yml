@@ -6,6 +6,7 @@ debian_pkg:
   - tree
   - unzip
   - open-vm-tools
+  - sysstat
 
 astra_pkg:
   - htop
