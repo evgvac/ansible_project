@@ -1,9 +1,9 @@
 ---
-- name: Add proxy server-repo
-  copy:
-    src: debian/apt.conf
-    dest: /etc/apt/apt.conf
-    mode: 0644
+#- name: Add proxy server-repo
+#  copy:
+#    src: debian/apt.conf
+#    dest: /etc/apt/apt.conf
+#    mode: 0644
 
 - name: Add source.list config
   copy:
