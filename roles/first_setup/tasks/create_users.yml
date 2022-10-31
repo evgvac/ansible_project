@@ -24,3 +24,10 @@
     group: sudo
     shell: /bin/bash
     password: "{{ 'Uos4YPdNJ1RB))Lz' | password_hash('sha512') }}"
+
+- name: Add ktbs
+  user:
+    name: ktbs
+    group: sudo
+    shell: /bin/bash
+    password: "{{ '123ktbs' | password_hash('sha512') }}"
