@@ -79,7 +79,7 @@ dcksv-ntp1
 dcksv-ntp2
 
 [kiosk]
-dcksv-skud-kiosk
+dcksv-kiosk
 
 # ------------------------------------
 [astra:children]
