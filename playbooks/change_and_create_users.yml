@@ -5,10 +5,10 @@
 
   - name: Add new user
     user:
-      name: adminss1
+      name: admindmisyc
       group: sudo
       shell: /bin/bash
-      password: "{{ 'JfIlZt5Wy<)1E7y]' | password_hash('sha512') }}"
+      password: "{{ 'ULeSLlFAb47jlDy1' | password_hash('sha512') }}"
 
 #  - name: Add new user
 #    user:
