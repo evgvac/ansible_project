@@ -18,7 +18,7 @@ olimpoks
 build-01
 ntp
 kiosk
-
+k8s
 
 [ntp:children]
 ntp1
@@ -80,6 +80,24 @@ dcksv-ntp2
 
 [kiosk]
 dcksv-kiosk
+
+[k8s:children]
+master-01
+master-02
+worker-01
+worker-02
+
+[master-01]
+dcksv-kub-master-01
+
+[master-02]
+dcksv-kub-master-02
+
+[master-01]
+dcksv-kub-worker-01
+
+[worker-02]
+dcksv-kub-worker-02
 
 # ------------------------------------
 [astra:children]
