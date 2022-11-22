@@ -1,2 +1,5 @@
 ---
 # vars file for roles/loadbalancer
+debian_pkg:
+  - haproxy
+  - keepalived

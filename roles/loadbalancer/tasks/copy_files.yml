@@ -1,0 +1,11 @@
+- name: Add proxy server-repo
+  copy:
+    src: keepalived.conf
+    dest: /etc/keepalived/keepalived.conf
+    mode: 0644
+
+- name: Add source.list config
+  copy:
+    src: debian/sources.list
+    dest: /etc/apt/sources.list
+    mode: 0644

@@ -1,2 +1,4 @@
 ---
 # tasks file for roles/loadbalancer
+- include_tasks: install_pkg.yml
+- include_tasks: copy_files.yml
