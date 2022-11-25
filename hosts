@@ -97,7 +97,7 @@ dcksv-kub-master-02
 [master-03]
 dcksv-kub-master-03
 
-[master-01]
+[worker-01]
 dcksv-kub-worker-01
 
 [worker-02]
