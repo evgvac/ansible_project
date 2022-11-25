@@ -19,7 +19,6 @@ build-01
 ntp
 kiosk
 k8s
-loadbalancer-01
 
 [ntp:children]
 ntp1
@@ -103,9 +102,6 @@ dcksv-kub-worker-01
 
 [worker-02]
 dcksv-kub-worker-02
-
-[loadbalancer-01]
-dcksv-kub-loadbalancer-01
 
 # ------------------------------------
 [astra:children]
