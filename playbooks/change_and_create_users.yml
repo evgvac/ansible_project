@@ -8,7 +8,7 @@
       name: adminvalbid
       group: sudo
       shell: /bin/bash
-      password: "{{ 'Z8yIFDsOWk<dDZDJ' | password_hash('sha512') }}"
+      password: "{{ 'test' | password_hash('sha512') }}"
 
 #  - name: Add new user
 #    user:
