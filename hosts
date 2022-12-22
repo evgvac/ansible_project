@@ -87,7 +87,7 @@ master-02
 master-03
 worker-01
 worker-02
-ingress-01
+#ingress-01
 
 [master-01]
 dcksv-kub-master-01
@@ -104,8 +104,8 @@ dcksv-kub-worker-01
 [worker-02]
 dcksv-kub-worker-02
 
-[ingress-01]
-dcksv-kub-ingress-01
+#[ingress-01]
+#dcksv-kub-ingress-01
 
 # ------------------------------------
 [astra:children]
