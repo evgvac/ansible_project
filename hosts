@@ -107,6 +107,11 @@ dcksv-kub-worker-02
 [worker-03]
 dcksv-kub-worker-03
 
+[ceph:children]
+worker-01
+worker-02
+worker-03
+
 # ------------------------------------
 [astra:children]
 idp
