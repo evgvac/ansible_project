@@ -23,7 +23,7 @@
 
   - name: Create a volume group on top of /dev/sda1 with physical extent size = 32MB
     community.general.lvg:
-      vg: data-vg
+      vg: data-vgr
       pvs: /dev/sdc1
       pesize: 32
 
