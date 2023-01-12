@@ -15,7 +15,7 @@
 
   - name: Create a new primary partition for LVM
     community.general.parted:
-      device: /dev/sdb
+      device: /dev/sdc
       number: 2
       flags: [ lvm ]
       state: present
@@ -24,7 +24,7 @@
   - name: Create a volume group on top of /dev/sda1 with physical extent size = 32MB
     community.general.lvg:
       vg: data-vg
-      pvs: /dev/sdb1
+      pvs: /dev/sdc1
       pesize: 32
 
   - name: Create a logical volume the size of all remaining space in the volume group
@@ -38,10 +38,10 @@
       fstype: ext4
       dev: /dev/data-vg/data
   
-#  - name: Mount up device by /...
-#    ansible.posix.mount:
-#      path: /srv/repo
-#      src: /dev/data-vg/data
-#      fstype: ext4
-#      state: mounted
+  - name: Mount up device by /...
+    ansible.posix.mount:
+      path: /srv/docker-registry
+      src: /dev/data-vg/data
+      fstype: ext4
+      state: mounted
 
