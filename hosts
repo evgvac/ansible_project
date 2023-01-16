@@ -112,6 +112,11 @@ worker-01
 worker-02
 worker-03
 
+[atc:children]
+dcksv-freepbx-beeline   ansible_ssh_host=10.33.80.27
+dcksv-freepbx-mks       ansible_ssh_host=10.33.80.26
+dcksv-freepbx-megafon   ansible_ssh_host=10.33.80.25
+
 # ------------------------------------
 [astra:children]
 idp
