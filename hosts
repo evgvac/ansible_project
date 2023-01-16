@@ -31,9 +31,6 @@ sftp
 [apache:children]
 sftp
 
-[asterisk]
-dcksv-asterisk-beeline
-
 [ansible]
 dcksv-ansible
 
@@ -114,9 +111,9 @@ worker-02
 worker-03
 
 [atc:children]
-dcksv-freepbx-beeline   ansible_ssh_host=10.33.80.27
-dcksv-freepbx-mks       ansible_ssh_host=10.33.80.26
-dcksv-freepbx-megafon   ansible_ssh_host=10.33.80.25
+dcksv-freepbx-beeline   
+dcksv-freepbx-mks       
+dcksv-freepbx-megafon   
 
 # ------------------------------------
 [astra:children]
