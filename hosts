@@ -113,7 +113,7 @@ worker-03
 [atc]
 dcksv-freepbx-beeline   
 dcksv-freepbx-mks       
-dcksv-freepbx-megafon   
+dcksv-freepbx-megaphone   
 
 # ------------------------------------
 [astra:children]
