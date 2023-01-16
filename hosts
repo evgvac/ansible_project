@@ -110,7 +110,7 @@ worker-01
 worker-02
 worker-03
 
-[atc:children]
+[atc]
 dcksv-freepbx-beeline   
 dcksv-freepbx-mks       
 dcksv-freepbx-megafon   
