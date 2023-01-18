@@ -202,6 +202,7 @@ SPB-BP-2960-5FL         ansible_ssh_host=10.75.255.5
 SPB-BP-3850-STACK-6     ansible_ssh_host=10.75.255.6
 SPB-BP-2960-1FL         ansible_ssh_host=10.75.255.7
 VOITN-3850-48T-2FL      ansible_ssh_host=10.75.255.9
+SPB-BP-3850-3FL         ansible_ssh_host=10.75.255.15
 #
 MV128-C3850-CORE        ansible_ssh_host=10.68.255.1
 MV128-2960X-48          ansible_ssh_host=10.68.255.4
