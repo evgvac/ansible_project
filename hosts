@@ -145,7 +145,7 @@ msk-astra-007       ansible_ssh_host=10.71.140.x
 msk-astra-006       ansible_ssh_host=10.71.140.13
 
 [test-astra]
-dcksv-evgvac-test-astra ansible_ssh_host=10.33.64.239
+dcksv-build-astra16 ansible_ssh_host=10.33.64.239
 
 [astra-1.6]
 dcksv-astra-1-6
