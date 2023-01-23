@@ -167,6 +167,9 @@ cisco-monitor
 [fabric:children]
 cisco-fabric
 
+[aca:children]
+cisco-asa
+
 [mskdia:children]
 cisco-mskdia
 
@@ -274,6 +277,9 @@ DMZN-DC-N9k2	    	ansible_ssh_host=10.1.255.21
 [cisco-fabric]
 MSK-LA-DC1-BL-101       ansible_ssh_host=10.33.255.31
 MSK-LA-DC1-BL-102       ansible_ssh_host=10.33.255.32
+
+[cisco-asa]
+MSKCOD-ASA-5525X        ansible_ssh_host=10.33.255.4
 
 [cisco-monitor]
 MSKDIA-9300-48T-CORE    ansible_ssh_host=10.71.255.3
