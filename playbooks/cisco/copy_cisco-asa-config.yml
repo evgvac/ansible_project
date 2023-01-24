@@ -15,12 +15,12 @@
       local_action: command date +%d-%b-%Y
       register: date
 
-    - name: ASA CONFIG
+    - name: Get running-config
       asa_command:
         commands: show running-config
       register: output
 
-    - name: Get running-config and save it
+    - name: Save running-config
       copy:
         content: "{{ output.stdout[0] }}"
         dest: /etc/ansible/backups/{{ date.stdout }}/{{ MSKCOD-ASA-5525X }}
@@ -37,10 +37,10 @@
 #        commands: show running-config view full
 #      register: ios_run_cmd
 
-    - name: copy startup-config to backup folder
-      copy:
-        content: "{{ output.stdout[0] }}"
-        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ MSKCOD-ASA-5525X }}/{{ MSKCOD-ASA-5525X }}_{{ MSKCOD-ASA-5525X }}_running-config"
+#    - name: copy startup-config to backup folder
+#      copy:
+#        content: "{{ output.stdout[0] }}"
+#        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ MSKCOD-ASA-5525X }}/{{ MSKCOD-ASA-5525X }}_{{ MSKCOD-ASA-5525X }}_running-config"
 
 #    - name: Get show startup-config
 #      ios_command:
