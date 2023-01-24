@@ -27,10 +27,10 @@
           filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_running-config"
           dir_path: /etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}
 
-    - name: Save running-config
-      copy:
-        content: "{{ output.stdout[0] }}"
-        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}_running-config"
+#    - name: Save running-config
+#      copy:
+#        content: "{{ output.stdout[0] }}"
+#        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}_running-config"
 
 #    - name: Get running-config show
 #      ios_command:
