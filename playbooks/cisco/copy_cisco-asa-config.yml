@@ -15,10 +15,15 @@
       local_action: command date +%d-%b-%Y
       register: date
 
-    - name: Get running-config
+#    - name: Get running-config
+#      asa_command:
+#        commands: show running-config
+#      register: output-run
+
+    - name: Get startup-config
       asa_command:
-        commands: show running-config
-      register: output
+        commands: show startup-config
+      register: output-start
 
     - name: Create folder for backup
       ios_config:
@@ -29,7 +34,7 @@
 
 #    - name: Save running-config
 #      copy:
-#        content: "{{ output.stdout[0] }}"
+#        content: "{{ output-start.stdout[0] }}"
 #        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}_running-config"
 
 #    - name: Get running-config show
@@ -47,8 +52,7 @@
 #        commands: show startup-config
 #      register: ios_start_cmd
 
-#    - name: copy startup-config to backup folder
-#      copy:
-#        content: "{{ ios_start_cmd.stdout[0] }}"
-#        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_startup-config"
-
+    - name: copy startup-config to backup folder
+      copy:
+        content: "{{ output-start.stdout[0] }}"
+        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_startup-config"
