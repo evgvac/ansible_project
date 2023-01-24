@@ -167,7 +167,7 @@ cisco-monitor
 [fabric:children]
 cisco-fabric
 
-[aca:children]
+[asa:children]
 cisco-asa
 
 [mskdia:children]
