@@ -270,6 +270,8 @@ FEAK-C9200-48P-CORE	    ansible_ssh_host=10.73.255.1
 #
 FEGK-9200-48P-1         ansible_ssh_host=10.78.255.1
 #
+MSK-LA-WLC9k.1          ansible_ssh_host=10.33.254.6
+#
 [cisco-nxos]
 DMZN-DC-N9k1	    	ansible_ssh_host=10.1.255.20
 DMZN-DC-N9k2	    	ansible_ssh_host=10.1.255.21
