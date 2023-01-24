@@ -23,7 +23,7 @@
     - name: Get startup-config
       asa_command:
         commands: show startup-config
-      register: output-start
+      register: output
 
     - name: Create folder for backup
       ios_config:
@@ -54,5 +54,5 @@
 
     - name: copy startup-config to backup folder
       copy:
-        content: "{{ output-start.stdout[0] }}"
+        content: "{{ output.stdout[0] }}"
         dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}/{{ ansible_net_hostname }}_{{ ansible_host }}_startup-config"
