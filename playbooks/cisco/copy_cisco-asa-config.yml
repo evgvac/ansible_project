@@ -20,17 +20,17 @@
         commands: show running-config
       register: output
 
+    - name: Create folder for backup
+      ios_config:
+        backup: yes
+        backup_options:
+          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_running-config"
+          dir_path: /etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}
+
     - name: Save running-config
       copy:
         content: "{{ output.stdout[0] }}"
-        dest: /etc/ansible/backups/{{ date.stdout }}/{{ MSKCOD-ASA-5525X }}
-
-#    - name: Get running-config and save it
-#      ios_config:
-#        backup: yes
-#        backup_options:
-#          filename: "{{ ansible_net_hostname }}_{{ ansible_host }}_running-config"
-#          dir_path: /etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}
+        dest: "/etc/ansible/backups/{{ date.stdout }}/{{ ansible_net_hostname }}_running-config"
 
 #    - name: Get running-config show
 #      ios_command:
