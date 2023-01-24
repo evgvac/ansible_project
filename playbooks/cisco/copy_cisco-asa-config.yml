@@ -1,5 +1,5 @@
-- name: Backup Cisco Router or Switch
-  hosts: asa
+- name: Backup Cisco Router
+  hosts: ciscoasa
   gather_facts: false
   ignore_errors: yes
 
