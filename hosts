@@ -20,6 +20,7 @@ ntp
 kiosk
 k8s
 atc
+upexpro
 
 [ntp:children]
 ntp1
@@ -78,6 +79,9 @@ dcksv-ntp2
 
 [kiosk]
 dcksv-kiosk
+
+[upexpro]
+dcksv-upexpro
 
 [k8s:children]
 master-01
