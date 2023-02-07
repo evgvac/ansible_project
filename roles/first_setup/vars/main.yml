@@ -7,6 +7,7 @@ debian_pkg:
   - unzip
   - open-vm-tools
   - sysstat
+  - tcpdump
 
 astra_pkg:
   - htop
