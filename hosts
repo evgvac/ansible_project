@@ -23,8 +23,8 @@ atc
 upexpro
 docker
 
-[docker:children]
-docker ansible_ssh_host=10.71.68.195
+#[docker:children]
+#docker ansible_ssh_host=10.71.68.195
 
 [ntp:children]
 ntp1
