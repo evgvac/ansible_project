@@ -5,7 +5,7 @@
   - include_tasks: copy_files_debian.yml
   - include_tasks: install_pkg_debian.yml
 #  - include_tasks: create_users.yml
-  - include_tasks: optimisation_adminevgvac.yml
+#  - include_tasks: optimisation_adminevgvac.yml
   when: ansible_os_family == 'Debian'
 
 - block: #### if Astra ####
