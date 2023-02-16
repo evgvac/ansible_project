@@ -28,6 +28,7 @@
         - tree
         - haproxy
         - unzip
+        - tcpdump
       state: latest
 
   - name: Copy SSH config
