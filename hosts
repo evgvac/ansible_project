@@ -24,7 +24,7 @@ upexpro
 docker
 
 [docker:children]
-docker-my-pc      ansible_ssh_host=10.71.68.195
+docker      ansible_ssh_host=10.71.68.195
 
 [ntp:children]
 ntp1
