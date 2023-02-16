@@ -21,7 +21,7 @@ kiosk
 k8s
 atc
 upexpro
-docker
+#docker
 
 #[docker:children]
 #docker ansible_ssh_host=10.71.68.195
