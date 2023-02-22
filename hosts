@@ -22,6 +22,10 @@ k8s
 atc
 upexpro
 docker
+scada
+
+[scada]
+dcksv-scada
 
 [docker]
 docker_my ansible_ssh_host=10.71.68.195

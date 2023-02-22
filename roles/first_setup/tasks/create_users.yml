@@ -25,3 +25,10 @@
     shell: /bin/bash
     password: "{{ 'Uos4YPdNJ1RB))Lz' | password_hash('sha512') }}"
 
+
+- name: Add new user
+  user:
+    name: admindmisyc
+    group: sudo
+    shell: /bin/bash
+    password: "{{ '0os4YP9!J1RB#Lz' | password_hash('sha512') }}"
